@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">الصف الثاني بكالوريا - جدول الطالب</title>
+    <title>الصف الثاني بكالوريا - جدول الطالب المباشر</title>
+    <!-- استدعاء مكتبة Supabase الحقيقية -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -283,7 +284,6 @@
             border: 1px solid var(--border-color); min-height: 32px; display: flex; align-items: center; justify-content: center; text-align: center;
         }
         .hadith-text { font-size: 11px; color: #38bdf8; font-weight: bold; transition: opacity 0.8s ease-in-out; }
-        .hadith-text.fade-out { opacity: 0; }
     </style>
 </head>
 <body>
@@ -292,7 +292,7 @@
         <div class="utility-group">
             <button class="nav-btn" id="openProfileModalBtn" style="background: #0284c7; color: #fff;">⚙️ اسمي وتخصيص</button>
             <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff;">🗓️ مواعيد دروسي</button>
-            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف</button>
+            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف أونلاين</button>
         </div>
         <div class="utility-group">
             <button class="nav-btn" id="quranToggle">📖 القرآن</button>
@@ -302,7 +302,7 @@
 
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
-            <h3>⚙️ اسمك الحقيقي في لوحة الشرف</h3>
+            <h3>⚙️ اسمك الحقيقي لتظهر للمنافسين</h3>
             <label>اكتب اسمك الحقيقي:</label>
             <input type="text" id="inputName" placeholder="مثال: زياد أسامة">
             <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث</button>
@@ -327,7 +327,7 @@
 
     <div class="modal" id="leaderboardModal">
         <div class="modal-content">
-            <h3>🏆 لوحة الشرف (الطلاب الحقيقيين فقط)</h3>
+            <h3>🏆 لوحة الشرف الجماعية (أونلاين 100%)</h3>
             <div style="max-height: 200px; overflow-y: auto;">
                 <table class="global-table">
                     <thead>
@@ -339,7 +339,7 @@
                         </tr>
                     </thead>
                     <tbody id="globalLeaderboardBody">
-                        <tr><td colspan="4">لا يوجد طلاب مسجلين بعد، ابدأ وسجل ستريكك!</td></tr>
+                        <tr><td colspan="4">جاري تحميل بيانات الأبطال من السيرفر...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -352,7 +352,7 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00</div>
-            <div style="font-size: 10px; font-weight: bold; color: #f472b6;">"جدولك على مقاسك ومحفوظ بالكامل"</div>
+            <div style="font-size: 10px; font-weight: bold; color: #f472b6;">"نافس أصحابك وكن الأول دائماً"</div>
             <div class="streak-badge" id="streakBadge">🔥 الالتزام: 1 يوم</div>
         </div>
 
@@ -390,6 +390,11 @@
     </div>
 
     <script>
+        // إعدادات الاتصال بـ Supabase الحقيقي
+        const SUPABASE_URL = "https://qqbnwmbaumyplzbkowxv.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxYm53bWJhdW15cGx6Ymtvd3h2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMzgxNjMsImV4cCI6MjEwNDkxNDE2M30.ngkwTXa_doBAu7FhAZb0Nc37HANKpQ5PaeYakuTZ_6c";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         const glow = document.getElementById('cursorGlow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
@@ -402,34 +407,49 @@
             localStorage.setItem('zeyad_user_uuid', myId);
         }
 
-        let myName = localStorage.getItem('zeyad_name') || 'زائر جديد';
+        let myName = localStorage.getItem('zeyad_name') || 'طالب جديد';
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
 
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
         document.getElementById('footerSignature').innerText = myName;
 
+        // دالة الرفع الحقيقي للسيرفر السحابي
+        async function syncToCloud() {
+            let hours = parseFloat((totalSeconds / 3600).toFixed(1));
+            try {
+                // نتحقق إذا المستخدم مسجل قبل كده في الجدول ولا لسه
+                let { data: existing } = await supabaseClient
+                    .from('students')
+                    .select('*')
+                    .eq('name', myName);
+
+                if (existing && existing.length > 0) {
+                    // تحديث بياناته
+                    await supabaseClient
+                        .from('students')
+                        .update({ streak: streak, hours: hours })
+                        .eq('name', myName);
+                } else {
+                    // إضافة جديد
+                    await supabaseClient
+                        .from('students')
+                        .insert([{ name: myName, streak: streak, hours: hours }]);
+                }
+            } catch (err) {
+                console.error("خطأ في المزامنة:", err);
+            }
+        }
+
         setInterval(() => {
             totalSeconds++;
             localStorage.setItem('zeyad_total_seconds', totalSeconds);
-            syncToCloudGlobal();
+            if (totalSeconds % 10 === 0) { // يزامن كل 10 ثواني عشان السيرفر
+                syncToCloud();
+            }
         }, 1000);
 
-        function syncToCloudGlobal() {
-            try {
-                let sharedDB = JSON.parse(localStorage.getItem('shared_cloud_students_db') || '[]');
-                let hours = parseFloat((totalSeconds / 3600).toFixed(1));
-                let userIndex = sharedDB.findIndex(u => u.id === myId);
-
-                if(userIndex >= 0) {
-                    sharedDB[userIndex] = { id: myId, name: myName, hours: hours, streak: streak };
-                } else {
-                    sharedDB.push({ id: myId, name: myName, hours: hours, streak: streak });
-                }
-                localStorage.setItem('shared_cloud_students_db', JSON.stringify(sharedDB));
-            } catch(e) {}
-        }
-        syncToCloudGlobal();
+        syncToCloud();
 
         const defaultSchedule = {
             Sat: "درس تاريخ وعربي",
@@ -485,18 +505,18 @@
         const profileModal = document.getElementById('profileModal');
         document.getElementById('openProfileModalBtn').addEventListener('click', () => {
             profileModal.style.display = 'flex';
-            document.getElementById('inputName').value = myName === 'زائر جديد' ? '' : myName;
+            document.getElementById('inputName').value = myName === 'طالب جديد' ? '' : myName;
         });
         document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
-        document.getElementById('saveProfileBtn').addEventListener('click', () => {
+        document.getElementById('saveProfileBtn').addEventListener('click', async () => {
             const val = document.getElementById('inputName').value.trim();
             if(val) {
                 myName = val;
                 localStorage.setItem('zeyad_name', myName);
                 document.getElementById('footerSignature').innerText = myName;
-                syncToCloudGlobal();
+                await syncToCloud();
                 profileModal.style.display = 'none';
-                alert("تم حفظ اسمك بنجاح!");
+                alert("تم حفظ اسمك وتحديثه أونلاين!");
             }
         });
 
@@ -519,34 +539,38 @@
         });
 
         const leaderboardModal = document.getElementById('leaderboardModal');
-        document.getElementById('openLeaderboardBtn').addEventListener('click', () => {
+        document.getElementById('openLeaderboardBtn').addEventListener('click', async () => {
             leaderboardModal.style.display = 'flex';
             const tbody = document.getElementById('globalLeaderboardBody');
-            tbody.innerHTML = '';
+            tbody.innerHTML = `<tr><td colspan="4">جاري جلب المنافسين من السيرفر...</td></tr>`;
 
-            let sharedDB = JSON.parse(localStorage.getItem('shared_cloud_students_db') || '[]');
-            
-            // فلترة وحذف أي بيانات قديمة وهمية إن وجدت لضمان النظافة
-            sharedDB = sharedDB.filter(u => u.name && u.name !== 'مريم أحمد' && u.name !== 'سون سعيد');
+            try {
+                // سحب البيانات الحقيقية من قاعدة بيانات Supabase
+                let { data: students, error } = await supabaseClient
+                    .from('students')
+                    .select('*')
+                    .order('streak', { ascending: false });
 
-            if(sharedDB.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="color: #94a3b8;">لسه مفيش غيرك، شد حيلك واعمل ستريك!</td></tr>`;
-                return;
+                if (error || !students || students.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" style="color: #94a3b8;">لسه مفيش منافسين، اطلب من أصحابك يدخلوا الموقع!</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                students.forEach((user, index) => {
+                    const tr = document.createElement('tr');
+                    let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
+                    tr.innerHTML = `
+                        <td><b>${medal}</b></td>
+                        <td>${user.name}</td>
+                        <td>${user.hours || 0} س</td>
+                        <td>🔥 ${user.streak || 1}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color: #f43f5e;">حدث خطأ في الاتصال بالبث الأونلاين.</td></tr>`;
             }
-
-            sharedDB.sort((a, b) => b.streak - a.streak || b.hours - a.hours);
-
-            sharedDB.forEach((user, index) => {
-                const tr = document.createElement('tr');
-                let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
-                tr.innerHTML = `
-                    <td><b>${medal}</b></td>
-                    <td>${user.name}</td>
-                    <td>${user.hours} س</td>
-                    <td>🔥 ${user.streak}</td>
-                `;
-                tbody.appendChild(tr);
-            });
         });
         document.getElementById('closeLeaderboardBtn').addEventListener('click', () => { leaderboardModal.style.display = 'none'; });
 
@@ -592,7 +616,7 @@
 
             checkboxes.forEach(chk => {
                 const taskDay = chk.getAttribute('data-day');
-                chk.addEventListener('change', () => {
+                chk.addEventListener('change', async () => {
                     if (taskDay !== currentDayKey) return;
                     let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
                     if(chk.checked) {
@@ -601,11 +625,11 @@
                         streak++;
                         localStorage.setItem('zeyad_streak', streak);
                         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
-                        syncToCloudGlobal();
+                        await syncToCloud();
                     } else {
                         localStorage.setItem(taskStateKey, 'false');
                         chk.closest('label').classList.remove('completed-task');
-                        syncToCloudGlobal();
+                        await syncToCloud();
                     }
                 });
             });
