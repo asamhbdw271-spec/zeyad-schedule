@@ -418,7 +418,7 @@
             <label>اكتب اسمك الحقيقي:</label>
             <input type="text" id="inputName" placeholder="مثال: Zeyad Osama">
             
-            <label style="margin-top: 10px; color: #f43f5e;">🔐 مفتاح الأدمن السري (للمالك فقط):</label>
+            <label style="margin-top: 10px; color: #f43f5e;">🔐 مفتاح الأدمن السري (يُطلب أول مرة فقط):</label>
             <input type="password" id="inputAdminPass" placeholder="اكتب باسورد الأدمن إن كنت زياد...">
 
             <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث</button>
@@ -535,7 +535,7 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // 🛡️ حماية صارمة تعتمد حصرياً على مفتاح سري لا يعرفه غيرك (مثال الباسورد السري هنا هو: zeyad_master_2026)
+        // 🛡️ مفتاح الأدمن السري
         const ADMIN_SECRET_PASSWORD = "zeyad_master_2026";
 
         let myName = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
@@ -607,7 +607,6 @@
                         div.className = 'chat-message';
 
                         let authorDisplay = msg.name;
-                        // التاج يظهر بالاعتماد على الاسم وبشرط تفعيل بصمة الأدمن الحقيقية من جهازك
                         let adminBadgeHtml = (msg.name.toLowerCase() === 'zeyad osama' && isAdminHere) ? '<span class="admin-tag">Admin</span>' : '';
                         let deleteBtnHtml = isAdminHere ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display: inline-block;">حذف</button>` : '';
 
@@ -714,7 +713,7 @@
         document.getElementById('openProfileModalBtn').addEventListener('click', () => {
             profileModal.style.display = 'flex';
             document.getElementById('inputName').value = myName;
-            document.getElementById('inputAdminPass').value = '';
+            document.getElementById('inputAdminPass').value = ''; // ترك خانة الباسورد فارغة افتراضياً لعدم الإزعاج
         });
         document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
         
@@ -723,16 +722,21 @@
             const passVal = document.getElementById('inputAdminPass').value.trim();
 
             if(val) {
+                // لو المتصفح غير اسمه، بنلغي الصلاحية القديمة عشان التأمين
+                if (val !== myName) {
+                    isUserAdmin = false;
+                    localStorage.setItem('zeyad_is_admin', 'false');
+                }
+
                 myName = val;
                 localStorage.setItem('zeyad_name', myName);
                 
-                // فحص كلمة مرور الأدمن السرية
+                // فحص كلمة المرور أو الاعتماد على الحفظ السابق لو هو كتبها صح قبل كده
                 if (passVal === ADMIN_SECRET_PASSWORD && myName.toLowerCase() === 'zeyad osama') {
                     isUserAdmin = true;
                     localStorage.setItem('zeyad_is_admin', 'true');
-                    alert("مرحباً بك يا زياد، تم تفعيل صلاحيات الأدمن بنجاح! 🔥");
                 } else if (passVal !== "") {
-                    alert("كلمة المرور السرية خاطئة! تم تسجيلك كمستخدم عادي.");
+                    alert("كلمة المرور السرية خاطئة!");
                     isUserAdmin = false;
                     localStorage.setItem('zeyad_is_admin', 'false');
                 }
