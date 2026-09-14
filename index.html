@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">الصف الثاني بكالوريا - جدول الطالب</title>
-    <!-- مكتبة Supabase الحقيقية للربط السحابي -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -293,7 +292,7 @@
         <div class="utility-group">
             <button class="nav-btn" id="openProfileModalBtn" style="background: #0284c7; color: #fff;">⚙️ اسمي وتخصيص</button>
             <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff;">🗓️ مواعيد دروسي</button>
-            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف السحابية</button>
+            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف</button>
         </div>
         <div class="utility-group">
             <button class="nav-btn" id="quranToggle">📖 القرآن</button>
@@ -301,18 +300,16 @@
         </div>
     </div>
 
-    <!-- نافذة إعدادات الملف الشخصي واسم الطالب -->
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
-            <h3>⚙️ تخصيص هويتك في لوحة الشرف</h3>
-            <label>اسمك الكامل أو اللقب:</label>
-            <input type="text" id="inputName" placeholder="مثال: سون سعيد أو زياد أسامة">
-            <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث السيرفر</button>
+            <h3>⚙️ اسمك الحقيقي في لوحة الشرف</h3>
+            <label>اكتب اسمك الحقيقي:</label>
+            <input type="text" id="inputName" placeholder="مثال: زياد أسامة">
+            <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث</button>
             <button class="close-modal" id="closeProfileModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
     </div>
 
-    <!-- نافذة إدخال جدول الدروس الحقيقية -->
     <div class="modal" id="customScheduleModal">
         <div class="modal-content profile-form">
             <h3>🗓️ جدول دروسك الأسبوعي المخصص</h3>
@@ -328,11 +325,9 @@
         </div>
     </div>
 
-    <!-- نافذة لوحة الشرف العامة السحابية الحقيقية -->
     <div class="modal" id="leaderboardModal">
         <div class="modal-content">
-            <h3>🏆 لوحة الشرف العامة لكل الطلاب</h3>
-            <p style="font-size: 10px; color: #94a3b8; text-align: center; margin-bottom: 6px;">بيانات حية متزامنة من السيرفر السحابي:</p>
+            <h3>🏆 لوحة الشرف (الطلاب الحقيقيين فقط)</h3>
             <div style="max-height: 200px; overflow-y: auto;">
                 <table class="global-table">
                     <thead>
@@ -344,7 +339,7 @@
                         </tr>
                     </thead>
                     <tbody id="globalLeaderboardBody">
-                        <tr><td colspan="4">جاري جلب البيانات من السيرفر السحابي... ⏳</td></tr>
+                        <tr><td colspan="4">لا يوجد طلاب مسجلين بعد، ابدأ وسجل ستريكك!</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -357,15 +352,15 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00</div>
-            <div style="font-size: 10px; font-weight: bold; color: #f472b6;" id="quoteBox">"بياناتك محفوظة سحابياً وبأمان تام"</div>
+            <div style="font-size: 10px; font-weight: bold; color: #f472b6;">"جدولك على مقاسك ومحفوظ بالكامل"</div>
             <div class="streak-badge" id="streakBadge">🔥 الالتزام: 1 يوم</div>
         </div>
 
         <header>
             <h1 id="mainHeaderTitle">جدولي الدراسي المخصص</h1>
             <div class="dreams">
-                <span id="displayDream1">إن شاء الله كلية الطب</span>
-                <span class="secondary-dream" id="displayDream2">إن شاء الله كلية الشرطة</span>
+                <span>إن شاء الله كلية الطب</span>
+                <span class="secondary-dream">إن شاء الله كلية الشرطة</span>
             </div>
         </header>
 
@@ -389,34 +384,31 @@
         </div>
 
         <footer>
-            <div class="signature" id="footerSignature">Zeyad Osama</div>
+            <div class="signature" id="footerSignature">طالب متميز</div>
             <div class="quote" style="font-size: 10px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتحقق أحلامها."</div>
         </footer>
     </div>
 
     <script>
-        // إعدادات اتصال Supabase السحابي الحقيقي (يستخدم LocalStorage كطبقة مزامنة سحابية عامة مشتركة لضمان عدم ضياع الداتا لأي مستخدم والتحديث اللحظي)
         const glow = document.getElementById('cursorGlow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
 
-        // هويّة الطالب الثابتة لمنع تكراره وضياع ستريكه
         let myId = localStorage.getItem('zeyad_user_uuid');
         if(!myId) {
             myId = 'user_' + Math.random().toString(36).substring(2, 9);
             localStorage.setItem('zeyad_user_uuid', myId);
         }
 
-        let myName = localStorage.getItem('zeyad_name') || 'طالب جديد';
+        let myName = localStorage.getItem('zeyad_name') || 'زائر جديد';
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
 
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
         document.getElementById('footerSignature').innerText = myName;
 
-        // حساب ساعات الموقع ورفعها للسيرفر المشترك
         setInterval(() => {
             totalSeconds++;
             localStorage.setItem('zeyad_total_seconds', totalSeconds);
@@ -439,7 +431,6 @@
         }
         syncToCloudGlobal();
 
-        // جداول الدروس
         const defaultSchedule = {
             Sat: "درس تاريخ وعربي",
             Sun: "درس إنجليزي ومذاكرة فيزياء",
@@ -491,11 +482,10 @@
             attachCheckboxEvents();
         }
 
-        // نوافذ التخصيص
         const profileModal = document.getElementById('profileModal');
         document.getElementById('openProfileModalBtn').addEventListener('click', () => {
             profileModal.style.display = 'flex';
-            document.getElementById('inputName').value = myName;
+            document.getElementById('inputName').value = myName === 'زائر جديد' ? '' : myName;
         });
         document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
         document.getElementById('saveProfileBtn').addEventListener('click', () => {
@@ -506,7 +496,7 @@
                 document.getElementById('footerSignature').innerText = myName;
                 syncToCloudGlobal();
                 profileModal.style.display = 'none';
-                alert("تم تحديث اسمك وحفظه في السيرفر بنجاح!");
+                alert("تم حفظ اسمك بنجاح!");
             }
         });
 
@@ -528,7 +518,6 @@
             alert("تم حفظ جدول دروسك!");
         });
 
-        // لوحة الشرف السحابية المشتركة
         const leaderboardModal = document.getElementById('leaderboardModal');
         document.getElementById('openLeaderboardBtn').addEventListener('click', () => {
             leaderboardModal.style.display = 'flex';
@@ -536,12 +525,13 @@
             tbody.innerHTML = '';
 
             let sharedDB = JSON.parse(localStorage.getItem('shared_cloud_students_db') || '[]');
-            // إضافة طلاب افتراضيين للتأكد من مظهر اللوحة الحية
-            if(!sharedDB.some(u => u.name === 'مريم أحمد')) {
-                sharedDB.push({ id: 'm1', name: 'مريم أحمد', hours: 5.2, streak: 7 });
-            }
-            if(!sharedDB.some(u => u.name === 'سون سعيد')) {
-                sharedDB.push({ id: 's1', name: 'سون سعيد', hours: 4.1, streak: 5 });
+            
+            // فلترة وحذف أي بيانات قديمة وهمية إن وجدت لضمان النظافة
+            sharedDB = sharedDB.filter(u => u.name && u.name !== 'مريم أحمد' && u.name !== 'سون سعيد');
+
+            if(sharedDB.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color: #94a3b8;">لسه مفيش غيرك، شد حيلك واعمل ستريك!</td></tr>`;
+                return;
             }
 
             sharedDB.sort((a, b) => b.streak - a.streak || b.hours - a.hours);
@@ -560,7 +550,6 @@
         });
         document.getElementById('closeLeaderboardBtn').addEventListener('click', () => { leaderboardModal.style.display = 'none'; });
 
-        // الساعة والأذان
         function updateClock() {
             const now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
@@ -581,16 +570,16 @@
         if(localStorage.getItem('zeyad_theme') === 'light') { document.body.classList.add('light-theme'); }
 
         let quranAudio = null;
-        const quranBtn = document.getElementById('quranToggle');
+        const quranButton = document.getElementById('quranToggle');
         let isQuranPlaying = false;
-        quranBtn.addEventListener('click', () => {
+        quranButton.addEventListener('click', () => {
             if (!isQuranPlaying) {
                 quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv');
-                quranAudio.play().then(() => { isQuranPlaying = true; quranBtn.innerText = "🔇 إيقاف"; }).catch(() => {});
+                quranAudio.play().then(() => { isQuranPlaying = true; quranButton.innerText = "🔇 إيقاف"; }).catch(() => {});
             } else {
                 if(quranAudio) quranAudio.pause();
                 isQuranPlaying = false;
-                quranBtn.innerText = "📖 القرآن";
+                quranButton.innerText = "📖 القرآن";
             }
         });
 
