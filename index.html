@@ -115,6 +115,8 @@
             align-items: center;
             margin-bottom: 6px;
             font-size: 11px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
 
         .live-clock {
@@ -124,6 +126,15 @@
             padding: 2px 8px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
+        }
+
+        .online-counter-badge {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.15);
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            font-weight: bold;
         }
 
         .streak-badge {
@@ -431,7 +442,7 @@
             <label>الحلم الثاني (الثانوي):</label>
             <input type="text" id="inputDream2" placeholder="مثال: إن شاء الله كلية الشرطة">
 
-            <label style="margin-top: 6px; color: #f43f5e;">🔐 كلمة المرور:</label>
+            <label style="margin-top: 6px; color: #f43f5e;">🔐 كلمة المرور (للأدمن فقط):</label>
             <input type="password" id="inputAdminPass" placeholder="اكتب كلمة المرور هنا...">
 
             <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث التغييرات</button>
@@ -483,6 +494,7 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00</div>
+            <div class="online-counter-badge" id="onlineCounterBadge">🟢 المتصلون الآن: 1</div>
             <div style="font-size: 10px; font-weight: bold; color: #f472b6;">"نافس أصحابك وكن الأول دائماً"</div>
             <div class="streak-badge" id="streakBadge">🔥 الالتزام: 1 يوم</div>
         </div>
@@ -581,6 +593,23 @@
 
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
         document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
+
+        // نظام عداد المتصلين الحقيقيين الآن عبر Supabase Presence
+        const presenceChannel = supabaseClient.channel('online-users-room');
+        presenceChannel
+            .on('presence', { event: 'sync' }, () => {
+                const state = presenceChannel.presenceState();
+                let totalOnline = 0;
+                for (let id in state) {
+                    totalOnline += state[id].length;
+                }
+                document.getElementById('onlineCounterBadge').innerText = `🟢 المتصلون الآن: ${totalOnline}`;
+            })
+            .subscribe(async (status) => {
+                if (status === 'SUBSCRIBED') {
+                    await presenceChannel.track({ name: myName, online_at: new Date().toISOString() });
+                }
+            });
 
         async function syncToCloud() {
             let hours = parseFloat((totalSeconds / 3600).toFixed(1));
