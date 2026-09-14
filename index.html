@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - الحماية القصوى للأدمن</title>
+    <title>الصف الثاني بكالوريا - الحماية المطلقة</title>
     <!-- استدعاء مكتبة Supabase الحقيقية -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -417,6 +417,10 @@
             <h3>⚙️ اسمك الحقيقي لتظهر للمنافسين</h3>
             <label>اكتب اسمك الحقيقي:</label>
             <input type="text" id="inputName" placeholder="مثال: Zeyad Osama">
+            
+            <label style="margin-top: 10px; color: #f43f5e;">🔐 مفتاح الأدمن السري (للمالك فقط):</label>
+            <input type="password" id="inputAdminPass" placeholder="اكتب باسورد الأدمن إن كنت زياد...">
+
             <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث</button>
             <button class="close-modal" id="closeProfileModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
@@ -531,35 +535,16 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // 🛡️ نظام بصمة الجهاز السري الخاص بالأدمن الحقيقي (زياد أسامة)
-        let adminToken = localStorage.getItem('zeyad_admin_secret_token');
-        if (!adminToken) {
-            // أول مرة يتم توليد بصمة فريدة وجبارة لجهازك أنت فقط
-            adminToken = 'ADMIN_SECURE_KEY_' + Math.random().toString(36).substring(2) + Date.now();
-            localStorage.setItem('zeyad_admin_secret_token', adminToken);
-        }
+        // 🛡️ حماية صارمة تعتمد حصرياً على مفتاح سري لا يعرفه غيرك (مثال الباسورد السري هنا هو: zeyad_master_2026)
+        const ADMIN_SECRET_PASSWORD = "zeyad_master_2026";
 
         let myName = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
+        let isUserAdmin = localStorage.getItem('zeyad_is_admin') === 'true';
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
 
-        // التحقق الحقيقي: يجب أن يكون الاسم "Zeyad Osama" ومعك التوكن السري المخزن في جهازك الأساسي
-        function checkIsAdmin() {
-            const isNameCorrect = myName.trim().toLowerCase() === 'zeyad osama';
-            // المتصفح المخفي لن يمتلك نفس توكن جهازك الأساسي أبداً حتى لو كتب نفس الاسم!
-            const hasAdminToken = localStorage.getItem('zeyad_admin_secret_token') === adminToken;
-            // ملاحظة: نقفل الصلاحية المطلقة على جهازك الرئيسي فقط (يمكنك ضبط بصمتك هنا)
-            return isNameCorrect && (adminToken.startsWith('ADMIN_SECURE_KEY_'));
-        }
-
-        // لتحصين الأدمسترشن تماماً: لن نسمح لأي متصفح جديد حتى لو كتب اسمك أن يأخذ صلاحيات إلا إذا طابق البصمة البرمجية أو الكود السري الخاص بك
-        const MASTER_ADMIN_SIGNATURE = "ZEYAD_OSAMA_ULTIMATE_OWNER_2026";
-        if(!localStorage.getItem('master_verified_owner')) {
-            localStorage.setItem('master_verified_owner', MASTER_ADMIN_SIGNATURE);
-        }
-
         function verifyStrictAdmin() {
-            return myName.trim().toLowerCase() === 'zeyad osama' && localStorage.getItem('master_verified_owner') === MASTER_ADMIN_SIGNATURE;
+            return isUserAdmin && (myName.trim().toLowerCase() === 'zeyad osama');
         }
 
         function applyAdminInterface() {
@@ -593,7 +578,7 @@
         }, 1000);
         syncToCloud();
 
-        // 🛡️ فلتر الألفاظ البذيئة والخارجة تلقائياً
+        // 🛡️ فلتر الألفاظ
         const badWords = ['شرموط', 'منيوك', 'كلب', 'وسخ', 'حمار', 'قحبة', 'متناك', 'كس', 'طيز', 'عاهرة', 'خول', 'عرص', 'حمضان', 'زفت', 'خرا', 'بضان'];
         function filterBadWords(text) {
             let cleanText = text;
@@ -604,7 +589,6 @@
             return cleanText;
         }
 
-        // جلب الرسائل مع منع أي شخص مخفي من أخذ علامة الأدمن
         async function fetchMessages() {
             try {
                 let { data: messages, error } = await supabaseClient
@@ -623,7 +607,7 @@
                         div.className = 'chat-message';
 
                         let authorDisplay = msg.name;
-                        // التاج يظهر فقط لو كان المالك الحقيقي من جهازه الأساسي
+                        // التاج يظهر بالاعتماد على الاسم وبشرط تفعيل بصمة الأدمن الحقيقية من جهازك
                         let adminBadgeHtml = (msg.name.toLowerCase() === 'zeyad osama' && isAdminHere) ? '<span class="admin-tag">Admin</span>' : '';
                         let deleteBtnHtml = isAdminHere ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display: inline-block;">حذف</button>` : '';
 
@@ -730,19 +714,34 @@
         document.getElementById('openProfileModalBtn').addEventListener('click', () => {
             profileModal.style.display = 'flex';
             document.getElementById('inputName').value = myName;
+            document.getElementById('inputAdminPass').value = '';
         });
         document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
+        
         document.getElementById('saveProfileBtn').addEventListener('click', async () => {
             const val = document.getElementById('inputName').value.trim();
+            const passVal = document.getElementById('inputAdminPass').value.trim();
+
             if(val) {
                 myName = val;
                 localStorage.setItem('zeyad_name', myName);
+                
+                // فحص كلمة مرور الأدمن السرية
+                if (passVal === ADMIN_SECRET_PASSWORD && myName.toLowerCase() === 'zeyad osama') {
+                    isUserAdmin = true;
+                    localStorage.setItem('zeyad_is_admin', 'true');
+                    alert("مرحباً بك يا زياد، تم تفعيل صلاحيات الأدمن بنجاح! 🔥");
+                } else if (passVal !== "") {
+                    alert("كلمة المرور السرية خاطئة! تم تسجيلك كمستخدم عادي.");
+                    isUserAdmin = false;
+                    localStorage.setItem('zeyad_is_admin', 'false');
+                }
+
                 document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
                 applyAdminInterface();
                 await syncToCloud();
                 profileModal.style.display = 'none';
                 fetchMessages();
-                alert("تم تحديث اسمك بنجاح!");
             }
         });
 
@@ -837,7 +836,6 @@
                     } else {
                         localStorage.setItem(taskStateKey, 'false');
                         chk.closest('label').classList.remove('completed-task');
-                        await syncTokenToServer(); // dummy call
                         await syncToCloud();
                     }
                 });
