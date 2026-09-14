@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني الثانوي - جدول زياد أسامة</title>
+    <title>الصف الثاني بكالوريا - جدول زياد أسامة</title>
     <style>
         * {
             box-sizing: border-box;
@@ -64,20 +64,20 @@
 
         .top-utilities {
             position: fixed;
-            top: 15px;
-            left: 15px;
-            right: 15px;
+            top: 12px;
+            left: 12px;
+            right: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 10;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 6px;
         }
 
         .utility-group {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
@@ -85,14 +85,14 @@
             background: rgba(15, 23, 42, 0.85);
             border: 1px solid var(--accent-blue);
             color: var(--accent-blue);
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(8px);
             transition: 0.3s;
-            font-size: 12px;
+            font-size: 11px;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -108,12 +108,12 @@
             position: relative;
             z-index: 2;
             width: 94%;
-            max-width: 880px;
+            max-width: 860px;
             text-align: center;
             background: var(--container-bg);
             backdrop-filter: blur(14px);
             border: 1px solid var(--border-color);
-            padding: 16px;
+            padding: 12px;
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
             transition: background 0.4s ease, border 0.4s ease;
@@ -124,30 +124,30 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
-            font-size: 12px;
+            margin-bottom: 4px;
+            font-size: 11px;
         }
 
         .live-clock {
             color: var(--accent-blue);
             font-weight: 600;
             background: rgba(56, 189, 248, 0.1);
-            padding: 3px 10px;
-            border-radius: 15px;
+            padding: 2px 8px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
         }
 
         .streak-badge {
             color: #f59e0b;
             background: rgba(245, 158, 11, 0.15);
-            padding: 3px 10px;
-            border-radius: 15px;
+            padding: 2px 8px;
+            border-radius: 12px;
             border: 1px solid rgba(245, 158, 11, 0.3);
             font-weight: bold;
         }
 
         h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 900;
             background: linear-gradient(to right, #38bdf8, #818cf8, #f472b6);
             -webkit-background-clip: text;
@@ -156,19 +156,19 @@
         }
 
         .dreams {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-color);
             font-weight: 600;
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 6px;
+            gap: 8px;
+            margin-bottom: 4px;
             opacity: 0.9;
         }
 
         .dreams span {
             background: rgba(56, 189, 248, 0.15);
-            padding: 2px 8px;
+            padding: 2px 6px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             color: var(--accent-blue);
@@ -180,31 +180,34 @@
             color: #fb7185;
         }
 
-        .countdown-banner {
+        /* شريط مواقيت الصلاة المصغر */
+        .prayer-times-bar {
             background: rgba(30, 41, 59, 0.6);
-            padding: 4px 12px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            font-size: 11px;
-            color: var(--accent-blue);
+            padding: 3px 10px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            font-size: 10px;
+            color: #38bdf8;
             border: 1px solid var(--border-color);
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
             font-weight: bold;
+            flex-wrap: wrap;
         }
+        .prayer-item { color: #f1f5f9; font-weight: normal; }
 
         table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0 4px;
+            border-spacing: 0 3px;
         }
 
         th {
             background: rgba(30, 41, 59, 0.95);
             color: var(--accent-blue);
-            padding: 5px;
-            font-size: 11px;
+            padding: 4px;
+            font-size: 10px;
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
         }
@@ -214,8 +217,8 @@
 
         td {
             background: var(--row-bg);
-            padding: 5px;
-            font-size: 11px;
+            padding: 4px;
+            font-size: 10px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -233,7 +236,7 @@
 
         td:nth-child(2) {
             text-align: right;
-            padding-right: 12px;
+            padding-right: 10px;
         }
 
         td:last-child { 
@@ -249,8 +252,8 @@
         .task-checkbox {
             cursor: pointer;
             accent-color: var(--accent-blue);
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             margin-left: 6px;
             vertical-align: middle;
         }
@@ -274,10 +277,10 @@
         .modal-content {
             background: #0f172a;
             border: 1px solid #38bdf8;
-            padding: 18px;
+            padding: 16px;
             border-radius: 15px;
             width: 94%;
-            max-width: 650px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             text-align: right;
@@ -286,8 +289,8 @@
         }
         .modal-content h3 {
             color: #38bdf8;
-            margin-bottom: 10px;
-            font-size: 16px;
+            margin-bottom: 8px;
+            font-size: 15px;
             text-align: center;
         }
 
@@ -295,82 +298,78 @@
             background: rgba(30, 41, 59, 0.6);
             border: 1px solid rgba(56, 189, 248, 0.2);
             border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
+            padding: 6px;
+            margin-bottom: 6px;
         }
-        .path-card h4 { color: #fb7185; margin-bottom: 3px; font-size: 13px; }
-        .path-card p { color: #cbd5e1; font-size: 11px; line-height: 1.4; margin-bottom: 2px; }
+        .path-card h4 { color: #fb7185; margin-bottom: 2px; font-size: 12px; }
+        .path-card p { color: #cbd5e1; font-size: 10px; line-height: 1.4; margin-bottom: 2px; }
 
         .close-modal {
             background: #f43f5e;
             color: white;
             border: none;
-            padding: 6px 15px;
+            padding: 5px 12px;
             border-radius: 6px;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 6px;
             font-weight: bold;
             display: block;
             width: 100%;
             transition: 0.3s;
-            font-size: 12px;
+            font-size: 11px;
         }
         .close-modal:hover { background: #e11d48; }
 
-        /* ستايل الآلة الحاسبة الكاسيو العلمية المتقدمة */
+        /* ستايل الآلة الحاسبة الكاسيو العلمية */
         .casio-body {
             background: #1e293b;
             border: 2px solid #334155;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: inset 0 2px 5px rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 10px;
         }
         .calc-screen {
             background: #94a3b8;
             border: 2px inset #475569;
-            padding: 8px;
-            font-size: 16px;
+            padding: 6px;
+            font-size: 14px;
             color: #0f172a;
             text-align: left;
             border-radius: 4px;
             font-family: monospace;
-            min-height: 50px;
+            min-height: 40px;
             word-break: break-all;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: bold;
         }
         .calc-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 5px;
+            gap: 4px;
         }
         .calc-btn {
             background: #334155;
             color: white;
             border: 1px solid #475569;
-            padding: 8px 4px;
-            font-size: 12px;
+            padding: 6px 2px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
-            transition: 0.1s;
         }
-        .calc-btn:hover { background: #475569; }
         .calc-btn.shift { background: #d97706; color: white; }
-        .calc-btn.alpha { background: #dc2626; color: white; }
         .calc-btn.op { background: #0284c7; color: white; }
         .calc-btn.eq { background: #059669; color: white; grid-column: span 2; }
         .calc-btn.clr { background: #e11d48; color: white; }
 
         /* الملاحظات */
-        .notes-box { display: flex; gap: 6px; margin-top: 8px; }
-        .notes-input { flex: 1; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; }
-        .notes-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 6px 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; }
-        .notes-list { margin-top: 8px; max-height: 100px; overflow-y: auto; text-align: right; }
-        .note-item { background: rgba(30, 41, 59, 0.5); padding: 5px 8px; border-radius: 6px; margin-bottom: 4px; font-size: 11px; border-right: 3px solid #38bdf8; }
+        .notes-box { display: flex; gap: 6px; margin-top: 6px; }
+        .notes-input { flex: 1; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 5px; color: white; border-radius: 6px; font-size: 10px; }
+        .notes-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 5px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 10px; }
+        .notes-list { margin-top: 6px; max-height: 90px; overflow-y: auto; text-align: right; }
+        .note-item { background: rgba(30, 41, 59, 0.5); padding: 4px 6px; border-radius: 6px; margin-bottom: 3px; font-size: 10px; border-right: 3px solid #38bdf8; }
 
         footer {
-            margin-top: 8px;
+            margin-top: 6px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -379,28 +378,29 @@
         }
 
         .signature {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             background: linear-gradient(to right, #f43f5e, #fb7185);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        /* شريط الآيات والأحاديث المتحرك (مستقل) */
         .ticker-wrap {
-            margin-top: 6px;
+            margin-top: 5px;
             width: 100%;
             overflow: hidden;
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.85);
             border-radius: 6px;
-            padding: 5px 0;
+            padding: 4px 0;
             border: 1px solid var(--border-color);
         }
 
         .ticker {
             display: inline-block;
             white-space: nowrap;
-            animation: tickerAnim 22s linear infinite;
-            font-size: 12px;
+            animation: tickerAnim 24s linear infinite;
+            font-size: 11px;
             color: #38bdf8;
             font-weight: bold;
         }
@@ -429,32 +429,32 @@
     <!-- نافذة مسارات البكالوريا -->
     <div class="modal" id="pathModal">
         <div class="modal-content">
-            <h3>دليل مسارات مرحلة البكالوريا (الثانوية العامة المصرية)</h3>
+            <h3>دليل مسارات مرحلة البكالوريا (الثانوية العامة)</h3>
             <div class="path-card">
                 <h4>🧬 1. مسار الطب وعلوم الحياة</h4>
                 <p><b>المواد:</b> تركز على العلوم الطبية والأحياء والكيمياء والفيزياء.</p>
-                <p><b>الكليات:</b> الطب البشري، أسنان، صيدلة، علاج طبيعي، تكنولوجيا العلوم الصحية، العلوم، الزراعة، والتربية (قسم علوم).</p>
+                <p><b>الكليات:</b> الطب البشري، أسنان، صيدلة، علاج طبيعي، تكنولوجيا العلوم الصحية، العلوم.</p>
             </div>
             <div class="path-card">
                 <h4>⚙️ 2. مسار الهندسة وعلوم الحاسب</h4>
                 <p><b>المواد:</b> تركز على الرياضيات البحتة والتطبيقية والفيزياء وعلوم الحاسب.</p>
-                <p><b>الكليات:</b> الهندسة، التخطيط العمراني، حاسبات ومعلومات وذكاء اصطناعي، الفنون الجميلة (عمارة)، العلوم (رياضة)، والمعاهد الهندسية.</p>
+                <p><b>الكليات:</b> الهندسة، حاسبات ومعلومات وذكاء اصطناعي، الفنون الجميلة.</p>
             </div>
             <div class="path-card">
                 <h4>📊 3. مسار إدارة الأعمال</h4>
-                <p><b>المواد:</b> تركز على الرياضيات المالية، الاقتصاد، الإدارة، والعلوم الاجتماعية.</p>
-                <p><b>الكليات:</b> التجارة، إدارة الأعمال, الاقتصاد والعلوم السياسية، الحقوق، الآداب، نظم المعلومات الإدارية.</p>
+                <p><b>المواد:</b> تركز على الرياضيات المالية، الاقتصاد، الإدارة.</p>
+                <p><b>الكليات:</b> التجارة، إدارة الأعمال، الاقتصاد والعلوم السياسية.</p>
             </div>
             <div class="path-card">
                 <h4>🎨 4. مسار الآداب والفنون</h4>
-                <p><b>المواد:</b> تركز على اللغات، الفنون، العلوم الإنسانية، والجغرافيا وعلم النفس.</p>
-                <p><b>الكليات:</b> الآداب، الألسن، الإعلام، الآثار، السياحة والفنادق، الفنون الجميلة (فنون).</p>
+                <p><b>المواد:</b> تركز على اللغات، الفنون، العلوم الإنسانية.</p>
+                <p><b>الكليات:</b> الآداب، الألسن، الإعلام، الآثار.</p>
             </div>
             <button class="close-modal" id="closeModalBtn">إغلاق القائمة</button>
         </div>
     </div>
 
-    <!-- نافذة الآلة الحاسبة الكاسيو العلمية المتقدمة -->
+    <!-- نافذة الآلة الحاسبة الكاسيو -->
     <div class="modal" id="calcModal">
         <div class="modal-content">
             <h3>🧮 Casio fx-991ES Plus (إصدار الثانوية)</h3>
@@ -496,7 +496,7 @@
                     <button class="calc-btn eq" onclick="calculateResult()">=</button>
                 </div>
             </div>
-            <button class="close-modal" id="closeCalcBtn" style="margin-top:10px;">إغلاق الحاسبة</button>
+            <button class="close-modal" id="closeCalcBtn" style="margin-top:8px;">إغلاق الحاسبة</button>
         </div>
     </div>
 
@@ -518,20 +518,26 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00</div>
-            <div style="font-size: 11px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم"</div>
+            <div style="font-size: 10px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم"</div>
             <div class="streak-badge" id="streakBadge">🔥 التزام: 1 يوم</div>
         </div>
 
         <header>
-            <h1>جدول المذاكرة الأسبوعي (تانية ثانوي)</h1>
+            <h1>جدول المذاكرة الأسبوعي (ثاني بكالوريا)</h1>
             <div class="dreams">
                 <span>إن شاء الله كليه الطب</span>
                 <span class="police">إن شاء الله كليه الشرطة</span>
             </div>
         </header>
 
-        <div class="countdown-banner">
-            <span>⏳ تانية ثانوي هي أساس التأسيس للثانوية العامة • شد حيلك يا بطل</span>
+        <!-- مواقيت الصلاة -->
+        <div class="prayer-times-bar">
+            <span>🕌 مواقيت الصلاة:</span>
+            <span>الفجر: <span class="prayer-item">04:20 ص</span></span>
+            <span>الظهر: <span class="prayer-item">11:58 ص</span></span>
+            <span>العصر: <span class="prayer-item">03:32 م</span></span>
+            <span>المغرب: <span class="prayer-item">06:15 م</span></span>
+            <span>العشاء: <span class="prayer-item">07:35 م</span></span>
         </div>
 
         <table>
@@ -573,21 +579,20 @@
             </tbody>
         </table>
 
-        <!-- شريط الآيات والأحاديث المتحرك -->
+        <!-- شريط الآيات والأحاديث المتحرك (مستقل تماماً) -->
         <div class="ticker-wrap">
             <div class="ticker">
                 ﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
                 قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»  &nbsp;&nbsp;•&nbsp;&nbsp; 
                 ﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
                 قال ﷺ: «احْرِصْ عَلَى ما يَنْفَعُكَ، وَاسْتَعِين باللهِ وَلا تَعْجِزْ»  &nbsp;&nbsp;•&nbsp;&nbsp; 
-                ﴿ وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لا يَحْتَسِبُ ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
-                صلى على النبي ﷺ  •  لا اله الا الله محمد رسول الله  •  استغفر الله العظيم واتوب إليه
+                ﴿ وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لا يَحْتَسِبُ ﴾
             </div>
         </div>
 
         <footer>
             <div class="signature">Zeyad Osama</div>
-            <div class="quote" style="font-size: 11px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتحقق أحلامها."</div>
+            <div class="quote" style="font-size: 10px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتحقق أحلامها."</div>
         </footer>
     </div>
 
@@ -612,22 +617,22 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // صوت النقر
+        // صوت الماوس الحقيقي والناعم جداً (صوت كليك ميكانيكي لطيف غير مزعج)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playClickSound() {
             try {
                 if (audioCtx.state === 'suspended') { audioCtx.resume(); }
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.02);
-                gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.015);
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
-                osc.stop(audioCtx.currentTime + 0.02);
+                osc.stop(audioCtx.currentTime + 0.015);
             } catch(e) {}
         }
 
@@ -777,7 +782,7 @@
             const notes = getNotes();
             notesListContainer.innerHTML = '';
             if(notes.length === 0) {
-                notesListContainer.innerHTML = '<div style="font-size:11px; color:#64748b; text-align:center;">مفيش ملاحظات.</div>';
+                notesListContainer.innerHTML = '<div style="font-size:10px; color:#64748b; text-align:center;">مفيش ملاحظات.</div>';
                 return;
             }
             notes.forEach((note, index) => {
@@ -831,7 +836,7 @@
 
         const quotes = [
             "\"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم\"",
-            "\"شد حيلك يا دكتور ويا ظابط المستقبل\"",
+            "\"الرجالة بتجيب مجموع وتحقق أحلامها\"",
             "\"بالعزيمة والتعب كل المستحيل بيتحقق\"",
             "\"اصنع مستقبلك بيدك ولا تلتفت للمشتتات\""
         ];
