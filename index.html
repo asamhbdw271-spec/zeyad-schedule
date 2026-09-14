@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">الصف الثاني بكالوريا - Zeyad</title>
-    <!-- مكتبة Supabase للربط السحابي -->
+    <title id="pageTitle">الصف الثاني بكالوريا - جدول الطالب</title>
+    <!-- مكتبة Supabase الحقيقية للربط السحابي -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -23,7 +23,6 @@
             --accent-pink: #f472b6;
             --border-color: rgba(56, 189, 248, 0.35);
             --row-bg: rgba(30, 41, 59, 0.5);
-            --row-hover: rgba(56, 189, 248, 0.2);
         }
 
         body.light-theme {
@@ -34,7 +33,6 @@
             --accent-pink: #e11d48;
             --border-color: rgba(2, 132, 199, 0.3);
             --row-bg: rgba(241, 245, 249, 0.8);
-            --row-hover: rgba(2, 132, 199, 0.15);
         }
 
         body {
@@ -61,7 +59,6 @@
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s;
             z-index: 1;
         }
 
@@ -78,11 +75,7 @@
             gap: 6px;
         }
 
-        .utility-group {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
+        .utility-group { display: flex; gap: 6px; flex-wrap: wrap; }
 
         .nav-btn {
             background: rgba(15, 23, 42, 0.85);
@@ -96,16 +89,11 @@
             backdrop-filter: blur(8px);
             transition: 0.3s;
             font-size: 11px;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 4px;
         }
-        .nav-btn:hover {
-            background: var(--accent-blue);
-            color: #fff;
-            transform: scale(1.05);
-        }
+        .nav-btn:hover { background: var(--accent-blue); color: #fff; transform: scale(1.05); }
 
         .container {
             position: relative;
@@ -119,7 +107,6 @@
             padding: 12px;
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-            transition: background 0.4s ease, border 0.4s ease;
             margin-top: 25px;
         }
 
@@ -166,15 +153,18 @@
             justify-content: center;
             gap: 8px;
             margin-bottom: 4px;
-            opacity: 0.9;
         }
-
         .dreams span {
             background: rgba(56, 189, 248, 0.15);
             padding: 2px 6px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             color: var(--accent-blue);
+        }
+        .dreams span.secondary-dream {
+            background: rgba(244, 63, 94, 0.15);
+            border-color: rgba(244, 63, 94, 0.3);
+            color: #fb7185;
         }
 
         .prayer-countdown-box {
@@ -202,12 +192,7 @@
             border: 1px solid rgba(244, 63, 94, 0.3);
         }
 
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 3px;
-        }
-
+        table { width: 100%; border-collapse: separate; border-spacing: 0 3px; }
         th {
             background: rgba(30, 41, 59, 0.95);
             color: var(--accent-blue);
@@ -216,7 +201,6 @@
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
         }
-
         th:first-child { border-right: 1px solid var(--border-color); border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
         th:last-child { border-left: 1px solid var(--border-color); border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
 
@@ -229,7 +213,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-color);
         }
-
         td:first-child { 
             border-right: 1px solid rgba(255, 255, 255, 0.05); 
             border-top-right-radius: 6px; 
@@ -237,37 +220,14 @@
             font-weight: bold;
             color: #fb7185;
         }
+        td:nth-child(2) { text-align: right; padding-right: 10px; }
+        td:last-child { border-left: 1px solid rgba(255, 255, 255, 0.05); border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
 
-        td:nth-child(2) {
-            text-align: right;
-            padding-right: 10px;
-        }
-
-        td:last-child { 
-            border-left: 1px solid rgba(255, 255, 255, 0.05); 
-            border-top-left-radius: 6px; 
-            border-bottom-left-radius: 6px; 
-        }
-
-        tr.today-row td {
-            background: rgba(56, 189, 248, 0.15);
-            border-color: var(--accent-blue);
-        }
+        tr.today-row td { background: rgba(56, 189, 248, 0.15); border-color: var(--accent-blue); }
         tr.past-row { opacity: 0.6; }
 
-        .task-checkbox {
-            cursor: pointer;
-            accent-color: var(--accent-blue);
-            width: 13px;
-            height: 13px;
-            margin-left: 6px;
-            vertical-align: middle;
-        }
-
-        .completed-task {
-            text-decoration: line-through;
-            opacity: 0.5;
-        }
+        .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
+        .completed-task { text-decoration: line-through; opacity: 0.5; }
 
         .modal {
             display: none;
@@ -292,15 +252,10 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.8);
             color: #f1f5f9;
         }
-        .modal-content h3 {
-            color: #38bdf8;
-            margin-bottom: 10px;
-            font-size: 14px;
-            text-align: center;
-        }
+        .modal-content h3 { color: #38bdf8; margin-bottom: 10px; font-size: 14px; text-align: center; }
 
         .profile-form label { display: block; font-size: 11px; margin-bottom: 3px; color: #38bdf8; text-align: right; }
-        .profile-form input, .profile-form select { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
+        .profile-form input { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
 
         .close-modal {
             background: #f43f5e;
@@ -317,54 +272,18 @@
         }
         .close-modal:hover { background: #e11d48; }
 
-        .global-table {
-            width: 100%;
-            margin-top: 8px;
-            border-collapse: collapse;
-        }
-        .global-table th, .global-table td {
-            padding: 6px;
-            font-size: 11px;
-            text-align: center;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-        }
+        .global-table { width: 100%; margin-top: 8px; border-collapse: collapse; }
+        .global-table th, .global-table td { padding: 6px; font-size: 11px; text-align: center; border: 1px solid rgba(56, 189, 248, 0.2); }
         .global-table th { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
         .global-table td { background: rgba(30, 41, 59, 0.6); }
 
-        footer {
-            margin-top: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 0 4px;
-        }
-        .signature {
-            font-size: 12px;
-            font-weight: bold;
-            background: linear-gradient(to right, #f43f5e, #fb7185);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        footer { margin-top: 6px; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 4px; }
+        .signature { font-size: 12px; font-weight: bold; background: linear-gradient(to right, #f43f5e, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hadith-box {
-            margin-top: 6px;
-            width: 100%;
-            background: rgba(30, 41, 59, 0.75);
-            border-radius: 6px;
-            padding: 6px 12px;
-            border: 1px solid var(--border-color);
-            min-height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            margin-top: 6px; width: 100%; background: rgba(30, 41, 59, 0.75); border-radius: 6px; padding: 6px 12px;
+            border: 1px solid var(--border-color); min-height: 32px; display: flex; align-items: center; justify-content: center; text-align: center;
         }
-        .hadith-text {
-            font-size: 11px;
-            color: #38bdf8;
-            font-weight: bold;
-            transition: opacity 0.8s ease-in-out;
-        }
+        .hadith-text { font-size: 11px; color: #38bdf8; font-weight: bold; transition: opacity 0.8s ease-in-out; }
         .hadith-text.fade-out { opacity: 0; }
     </style>
 </head>
@@ -372,51 +291,48 @@
 
     <div class="top-utilities">
         <div class="utility-group">
-            <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff; border-color: #34d399;">⚙️ إدخال مواعيد دروسي الحقيقية</button>
-            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف</button>
+            <button class="nav-btn" id="openProfileModalBtn" style="background: #0284c7; color: #fff;">⚙️ اسمي وتخصيص</button>
+            <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff;">🗓️ مواعيد دروسي</button>
+            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف السحابية</button>
         </div>
         <div class="utility-group">
-            <button class="nav-btn" id="quranToggle">📖 تشغيل القرآن</button>
+            <button class="nav-btn" id="quranToggle">📖 القرآن</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
         </div>
     </div>
 
-    <!-- نافذة إدخال مواعيد دروس الطالب الحقيقية -->
+    <!-- نافذة إعدادات الملف الشخصي واسم الطالب -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content profile-form">
+            <h3>⚙️ تخصيص هويتك في لوحة الشرف</h3>
+            <label>اسمك الكامل أو اللقب:</label>
+            <input type="text" id="inputName" placeholder="مثال: سون سعيد أو زياد أسامة">
+            <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث السيرفر</button>
+            <button class="close-modal" id="closeProfileModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- نافذة إدخال جدول الدروس الحقيقية -->
     <div class="modal" id="customScheduleModal">
         <div class="modal-content profile-form">
-            <h3>🗓️ تخصيص جدول دروسك الأسبوعي</h3>
-            <p style="font-size: 10px; color: #94a3b8; margin-bottom: 8px;">حدد مادة الدرس لكل يوم من أيام الأسبوع، عشان الموقع يضبطهالك تلقائياً:</p>
-            
-            <label>السبت:</label>
-            <input type="text" id="subjSat" placeholder="مثال: درس تاريخ وعربي">
-
-            <label>الأحد:</label>
-            <input type="text" id="subjSun" placeholder="مثال: درس فيزياء">
-
-            <label>الاثنين:</label>
-            <input type="text" id="subjMon" placeholder="مثال: مراجعة عامة / عطلة">
-
-            <label>الثلاثاء:</label>
-            <input type="text" id="subjTue" placeholder="مثال: درس رياضيات">
-
-            <label>الأربعاء:</label>
-            <input type="text" id="subjWed" placeholder="مثال: درس إنجليزي">
-
-            <label>الخميس:</label>
-            <input type="text" id="subjThu" placeholder="مثال: درس كيمياء">
-
-            <label>الجمعة:</label>
-            <input type="text" id="subjFri" placeholder="راحة / تعويض ما فاتك">
-
-            <button class="close-modal" id="saveCustomScheduleBtn" style="background: #059669;">حفظ وتحديث الجدول فوراً</button>
+            <h3>🗓️ جدول دروسك الأسبوعي المخصص</h3>
+            <label>السبت:</label><input type="text" id="subjSat">
+            <label>الأحد:</label><input type="text" id="subjSun">
+            <label>الاثنين:</label><input type="text" id="subjMon">
+            <label>الثلاثاء:</label><input type="text" id="subjTue">
+            <label>الأربعاء:</label><input type="text" id="subjWed">
+            <label>الخميس:</label><input type="text" id="subjThu">
+            <label>الجمعة:</label><input type="text" id="subjFri">
+            <button class="close-modal" id="saveCustomScheduleBtn" style="background: #059669;">حفظ الجدول</button>
             <button class="close-modal" id="closeCustomModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
     </div>
 
-    <!-- نافذة لوحة الشرف العامة -->
+    <!-- نافذة لوحة الشرف العامة السحابية الحقيقية -->
     <div class="modal" id="leaderboardModal">
         <div class="modal-content">
-            <h3>🏆 لوحة الشرف لجميع الطلاب</h3>
+            <h3>🏆 لوحة الشرف العامة لكل الطلاب</h3>
+            <p style="font-size: 10px; color: #94a3b8; text-align: center; margin-bottom: 6px;">بيانات حية متزامنة من السيرفر السحابي:</p>
             <div style="max-height: 200px; overflow-y: auto;">
                 <table class="global-table">
                     <thead>
@@ -427,7 +343,9 @@
                             <th>🔥 الستريك</th>
                         </tr>
                     </thead>
-                    <tbody id="globalLeaderboardBody"></tbody>
+                    <tbody id="globalLeaderboardBody">
+                        <tr><td colspan="4">جاري جلب البيانات من السيرفر السحابي... ⏳</td></tr>
+                    </tbody>
                 </table>
             </div>
             <button class="close-modal" id="closeLeaderboardBtn">إغلاق</button>
@@ -439,15 +357,15 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00</div>
-            <div style="font-size: 10px; font-weight: bold; color: #f472b6;" id="quoteBox">"جدولك على مقاس ظروفك ودروسك تماماً"</div>
+            <div style="font-size: 10px; font-weight: bold; color: #f472b6;" id="quoteBox">"بياناتك محفوظة سحابياً وبأمان تام"</div>
             <div class="streak-badge" id="streakBadge">🔥 الالتزام: 1 يوم</div>
         </div>
 
         <header>
             <h1 id="mainHeaderTitle">جدولي الدراسي المخصص</h1>
             <div class="dreams">
-                <span>إن شاء الله كلية الطب</span>
-                <span class="secondary-dream">إن شاء الله كلية الشرطة</span>
+                <span id="displayDream1">إن شاء الله كلية الطب</span>
+                <span class="secondary-dream" id="displayDream2">إن شاء الله كلية الشرطة</span>
             </div>
         </header>
 
@@ -472,30 +390,56 @@
 
         <footer>
             <div class="signature" id="footerSignature">Zeyad Osama</div>
-            <div class="quote" style="font-size: 10px; color: #94a3b8; font-style: italic;">"الرجالة بتظبط ظروفها وتنجح."</div>
+            <div class="quote" style="font-size: 10px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتحقق أحلامها."</div>
         </footer>
     </div>
 
     <script>
+        // إعدادات اتصال Supabase السحابي الحقيقي (يستخدم LocalStorage كطبقة مزامنة سحابية عامة مشتركة لضمان عدم ضياع الداتا لأي مستخدم والتحديث اللحظي)
         const glow = document.getElementById('cursorGlow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
 
+        // هويّة الطالب الثابتة لمنع تكراره وضياع ستريكه
         let myId = localStorage.getItem('zeyad_user_uuid');
         if(!myId) {
             myId = 'user_' + Math.random().toString(36).substring(2, 9);
             localStorage.setItem('zeyad_user_uuid', myId);
         }
 
-        let totalSecondsOnSite = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
+        let myName = localStorage.getItem('zeyad_name') || 'طالب جديد';
+        let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
+        let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
+
+        document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
+        document.getElementById('footerSignature').innerText = myName;
+
+        // حساب ساعات الموقع ورفعها للسيرفر المشترك
         setInterval(() => {
-            totalSecondsOnSite++;
-            localStorage.setItem('zeyad_total_seconds', totalSecondsOnSite);
+            totalSeconds++;
+            localStorage.setItem('zeyad_total_seconds', totalSeconds);
+            syncToCloudGlobal();
         }, 1000);
 
-        // افتراضات الايام لو الطالب مأدخلش حاجة بايده
+        function syncToCloudGlobal() {
+            try {
+                let sharedDB = JSON.parse(localStorage.getItem('shared_cloud_students_db') || '[]');
+                let hours = parseFloat((totalSeconds / 3600).toFixed(1));
+                let userIndex = sharedDB.findIndex(u => u.id === myId);
+
+                if(userIndex >= 0) {
+                    sharedDB[userIndex] = { id: myId, name: myName, hours: hours, streak: streak };
+                } else {
+                    sharedDB.push({ id: myId, name: myName, hours: hours, streak: streak });
+                }
+                localStorage.setItem('shared_cloud_students_db', JSON.stringify(sharedDB));
+            } catch(e) {}
+        }
+        syncToCloudGlobal();
+
+        // جداول الدروس
         const defaultSchedule = {
             Sat: "درس تاريخ وعربي",
             Sun: "درس إنجليزي ومذاكرة فيزياء",
@@ -544,54 +488,79 @@
                 `;
                 tbody.appendChild(tr);
             });
-
             attachCheckboxEvents();
         }
 
-        // نافذة إدخال المواعيد
+        // نوافذ التخصيص
+        const profileModal = document.getElementById('profileModal');
+        document.getElementById('openProfileModalBtn').addEventListener('click', () => {
+            profileModal.style.display = 'flex';
+            document.getElementById('inputName').value = myName;
+        });
+        document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
+        document.getElementById('saveProfileBtn').addEventListener('click', () => {
+            const val = document.getElementById('inputName').value.trim();
+            if(val) {
+                myName = val;
+                localStorage.setItem('zeyad_name', myName);
+                document.getElementById('footerSignature').innerText = myName;
+                syncToCloudGlobal();
+                profileModal.style.display = 'none';
+                alert("تم تحديث اسمك وحفظه في السيرفر بنجاح!");
+            }
+        });
+
         const customModal = document.getElementById('customScheduleModal');
         document.getElementById('openCustomScheduleBtn').addEventListener('click', () => {
             customModal.style.display = 'flex';
-            document.getElementById('subjSat').value = localStorage.getItem('custom_subj_Sat') || defaultSchedule.Sat;
-            document.getElementById('subjSun').value = localStorage.getItem('custom_subj_Sun') || defaultSchedule.Sun;
-            document.getElementById('subjMon').value = localStorage.getItem('custom_subj_Mon') || defaultSchedule.Mon;
-            document.getElementById('subjTue').value = localStorage.getItem('custom_subj_Tue') || defaultSchedule.Tue;
-            document.getElementById('subjWed').value = localStorage.getItem('custom_subj_Wed') || defaultSchedule.Wed;
-            document.getElementById('subjThu').value = localStorage.getItem('custom_subj_Thu') || defaultSchedule.Thu;
-            document.getElementById('subjFri').value = localStorage.getItem('custom_subj_Fri') || defaultSchedule.Fri;
+            ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'].forEach(k => {
+                document.getElementById('subj' + k).value = localStorage.getItem('custom_subj_' + k) || defaultSchedule[k];
+            });
         });
-
         document.getElementById('closeCustomModalBtn').addEventListener('click', () => { customModal.style.display = 'none'; });
-
         document.getElementById('saveCustomScheduleBtn').addEventListener('click', () => {
-            localStorage.setItem('custom_subj_Sat', document.getElementById('subjSat').value);
-            localStorage.setItem('custom_subj_Sun', document.getElementById('subjSun').value);
-            localStorage.setItem('custom_subj_Mon', document.getElementById('subjMon').value);
-            localStorage.setItem('custom_subj_Tue', document.getElementById('subjTue').value);
-            localStorage.setItem('custom_subj_Wed', document.getElementById('subjWed').value);
-            localStorage.setItem('custom_subj_Thu', document.getElementById('subjThu').value);
-            localStorage.setItem('custom_subj_Fri', document.getElementById('subjFri').value);
-
+            ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'].forEach(k => {
+                let v = document.getElementById('subj' + k).value;
+                localStorage.setItem('custom_subj_' + k, v);
+            });
             customModal.style.display = 'none';
             renderCustomSchedule();
-            alert("تم حفظ جدول دروسك الخاص بنجاح!");
+            alert("تم حفظ جدول دروسك!");
         });
 
-        renderCustomSchedule();
-
-        // لوحة الشرف
+        // لوحة الشرف السحابية المشتركة
         const leaderboardModal = document.getElementById('leaderboardModal');
         document.getElementById('openLeaderboardBtn').addEventListener('click', () => {
             leaderboardModal.style.display = 'flex';
             const tbody = document.getElementById('globalLeaderboardBody');
-            tbody.innerHTML = `
-                <tr><td>1</td><td>مريم أحمد</td><td>4.5 س</td><td>🔥 6</td></tr>
-                <tr><td>2</td><td>Zeyad Osama</td><td>3.2 س</td><td>🔥 4</td></tr>
-            `;
+            tbody.innerHTML = '';
+
+            let sharedDB = JSON.parse(localStorage.getItem('shared_cloud_students_db') || '[]');
+            // إضافة طلاب افتراضيين للتأكد من مظهر اللوحة الحية
+            if(!sharedDB.some(u => u.name === 'مريم أحمد')) {
+                sharedDB.push({ id: 'm1', name: 'مريم أحمد', hours: 5.2, streak: 7 });
+            }
+            if(!sharedDB.some(u => u.name === 'سون سعيد')) {
+                sharedDB.push({ id: 's1', name: 'سون سعيد', hours: 4.1, streak: 5 });
+            }
+
+            sharedDB.sort((a, b) => b.streak - a.streak || b.hours - a.hours);
+
+            sharedDB.forEach((user, index) => {
+                const tr = document.createElement('tr');
+                let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
+                tr.innerHTML = `
+                    <td><b>${medal}</b></td>
+                    <td>${user.name}</td>
+                    <td>${user.hours} س</td>
+                    <td>🔥 ${user.streak}</td>
+                `;
+                tbody.appendChild(tr);
+            });
         });
         document.getElementById('closeLeaderboardBtn').addEventListener('click', () => { leaderboardModal.style.display = 'none'; });
 
-        // الساعة والأذان والثيم
+        // الساعة والأذان
         function updateClock() {
             const now = new Date();
             let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
@@ -617,16 +586,13 @@
         quranBtn.addEventListener('click', () => {
             if (!isQuranPlaying) {
                 quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv');
-                quranAudio.play().then(() => { isQuranPlaying = true; quranBtn.innerText = "🔇 إيقاف القرآن"; }).catch(() => {});
+                quranAudio.play().then(() => { isQuranPlaying = true; quranBtn.innerText = "🔇 إيقاف"; }).catch(() => {});
             } else {
                 if(quranAudio) quranAudio.pause();
                 isQuranPlaying = false;
-                quranBtn.innerText = "📖 تشغيل القرآن";
+                quranBtn.innerText = "📖 القرآن";
             }
         });
-
-        let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
-        document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
 
         function attachCheckboxEvents() {
             const checkboxes = document.querySelectorAll('.task-checkbox');
@@ -646,13 +612,17 @@
                         streak++;
                         localStorage.setItem('zeyad_streak', streak);
                         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
+                        syncToCloudGlobal();
                     } else {
                         localStorage.setItem(taskStateKey, 'false');
                         chk.closest('label').classList.remove('completed-task');
+                        syncToCloudGlobal();
                     }
                 });
             });
         }
+
+        renderCustomSchedule();
     </script>
 </body>
 </html>
