@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - Zeyad</title>
+    <title id="pageTitle">الصف الثاني بكالوريا - Zeyad</title>
     <style>
         * {
             box-sizing: border-box;
@@ -174,7 +174,7 @@
             color: var(--accent-blue);
         }
 
-        .dreams span.police {
+        .dreams span.secondary-dream {
             background: rgba(244, 63, 94, 0.15);
             border-color: rgba(244, 63, 94, 0.3);
             color: #fb7185;
@@ -373,11 +373,16 @@
         .calc-btn.eq { background: #059669; color: white; grid-column: span 2; }
         .calc-btn.clr { background: #e11d48; color: white; }
 
-        .notes-box { display: flex; gap: 6px; margin-top: 6px; }
-        .notes-input { flex: 1; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 5px; color: white; border-radius: 6px; font-size: 10px; }
-        .notes-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 5px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 10px; }
-        .notes-list { margin-top: 6px; max-height: 90px; overflow-y: auto; text-align: right; }
-        .note-item { background: rgba(30, 41, 59, 0.5); padding: 4px 6px; border-radius: 6px; margin-bottom: 3px; font-size: 10px; border-right: 3px solid #38bdf8; }
+        /* تنسيق المساعد الذكي بدلاً من الملاحظات */
+        .ai-chat-box { background: rgba(30, 41, 59, 0.7); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; margin-bottom: 8px; }
+        .ai-msg { background: rgba(56, 189, 248, 0.15); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; font-size: 11px; color: #f1f5f9; line-height: 1.5; margin-bottom: 6px; }
+        .ai-input-row { display: flex; gap: 6px; }
+        .ai-input { flex: 1; background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; }
+        .ai-send-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 6px 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; }
+
+        /* تنسيق نافذة تخصيص الملف الشخصي */
+        .profile-form label { display: block; font-size: 11px; margin-bottom: 3px; color: #38bdf8; text-align: right; }
+        .profile-form input { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
 
         footer {
             margin-top: 6px;
@@ -428,12 +433,45 @@
         <div class="utility-group">
             <button class="nav-btn" id="openModalBtn">🎓 مسارات البكالوريا</button>
             <button class="nav-btn" id="openCalcBtn">🧮 آلة كاسيو</button>
-            <button class="nav-btn" id="openNotesBtn">📝 ملاحظاتي</button>
-            <a href="https://www.youtube.com" target="_blank" class="nav-btn" id="ytBtn">▶️ يوتيوب</a>
+            <button class="nav-btn" id="openAIModalBtn">🤖 المساعد الذكي</button>
+            <button class="nav-btn" id="openProfileModalBtn">⚙️ تخصيص الصفحة</button>
         </div>
         <div class="utility-group">
             <button class="nav-btn" id="quranToggle">📖 تشغيل القرآن</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
+        </div>
+    </div>
+
+    <!-- نافذة تخصيص الصفحة والحلم -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content profile-form">
+            <h3>⚙️ تخصيص بيانات الصفحة (لك أو لدكتورة المستقبل)</h3>
+            <label>اسم الطالب/ة:</label>
+            <input type="text" id="inputName" placeholder="مثال: Zeyad Osama أو دكتورة المستقبل">
+            
+            <label>الحلم الأول (الرئيسي):</label>
+            <input type="text" id="inputDream1" placeholder="مثال: كلية الطب البشري">
+
+            <label>الحلم الثاني (الثانوي):</label>
+            <input type="text" id="inputDream2" placeholder="مثال: كلية الشرطة أو الصيدلة">
+
+            <button class="close-modal" id="saveProfileBtn">حفظ التغييرات وتحديث الصفحة</button>
+            <button class="close-modal" id="closeProfileModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- نافذة المساعد الذكي بدلاً من الملاحظات -->
+    <div class="modal" id="aiModal">
+        <div class="modal-content">
+            <h3>🤖 مساعدك الذكي الشخصي (AI Coach)</h3>
+            <div class="ai-chat-box" id="aiChatBox">
+                <div class="ai-msg" id="aiInitialMsg">أهلاً يا زياد! أنا مساعدك الذكي المرتبط ببيانات شاشتك. شايف إن التزامك (Streak) شغال كويس. محتاج نصيحة في إيه النهاردة؟</div>
+            </div>
+            <div class="ai-input-row">
+                <input type="text" id="aiUserInput" class="ai-input" placeholder="اسأل مساعدك أو اطلب منه تحفيز...">
+                <button id="aiSendBtn" class="ai-send-btn">إرسال</button>
+            </div>
+            <button class="close-modal" id="closeAIModalBtn" style="margin-top:8px;">إغلاق المساعد</button>
         </div>
     </div>
 
@@ -450,16 +488,6 @@
                 <h4>⚙️ 2. مسار الهندسة وعلوم الحاسب</h4>
                 <p><b>المواد:</b> تركز على الرياضيات البحتة والتطبيقية والفيزياء وعلوم الحاسب.</p>
                 <p><b>الكليات:</b> الهندسة، حاسبات ومعلومات وذكاء اصطناعي، الفنون الجميلة.</p>
-            </div>
-            <div class="path-card">
-                <h4>📊 3. مسار إدارة الأعمال</h4>
-                <p><b>المواد:</b> تركز على الرياضيات المالية، الاقتصاد، الإدارة.</p>
-                <p><b>الكليات:</b> التجارة، إدارة الأعمال، الاقتصاد والعلوم السياسية.</p>
-            </div>
-            <div class="path-card">
-                <h4>🎨 4. مسار الآداب والفنون</h4>
-                <p><b>المواد:</b> تركز على اللغات، الفنون، العلوم الإنسانية.</p>
-                <p><b>الكليات:</b> الآداب، الألسن، الإعلام، الآثار.</p>
             </div>
             <button class="close-modal" id="closeModalBtn">إغلاق القائمة</button>
         </div>
@@ -511,19 +539,6 @@
         </div>
     </div>
 
-    <!-- نافذة الملاحظات المحلية -->
-    <div class="modal" id="notesModal">
-        <div class="modal-content">
-            <h3>📝 لوحة ملاحظاتي وأفكاري</h3>
-            <div class="notes-box">
-                <input type="text" id="noteInput" class="notes-input" placeholder="اكتب ملحوظة أو مسألة...">
-                <button id="addNoteBtn" class="notes-btn">إضافة</button>
-            </div>
-            <div class="notes-list" id="notesListContainer"></div>
-            <button class="close-modal" id="closeNotesBtn">إغلاق</button>
-        </div>
-    </div>
-
     <div class="cursor-glow" id="cursorGlow"></div>
 
     <div class="container">
@@ -536,8 +551,8 @@
         <header>
             <h1>جدول المذاكرة الأسبوعي (ثاني بكالوريا)</h1>
             <div class="dreams">
-                <span>إن شاء الله كليه الطب</span>
-                <span class="police">إن شاء الله كليه الشرطة</span>
+                <span id="displayDream1">إن شاء الله كليه الطب</span>
+                <span class="secondary-dream" id="displayDream2">إن شاء الله كليه الشرطة</span>
             </div>
         </header>
 
@@ -590,7 +605,7 @@
         </div>
 
         <footer>
-            <div class="signature">Zeyad Osama</div>
+            <div class="signature" id="footerSignature">Zeyad Osama</div>
             <div class="quote" style="font-size: 10px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتحقق أحلامها."</div>
         </footer>
     </div>
@@ -601,6 +616,42 @@
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
+
+        // ----------------------------------------------------
+        // نظام تخصيص الملف الشخصي والأحلام (فكرة رقم 2)
+        // ----------------------------------------------------
+        const profileModal = document.getElementById('profileModal');
+        document.getElementById('openProfileModalBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileModal.style.display = 'flex';
+            document.getElementById('inputName').value = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
+            document.getElementById('inputDream1').value = localStorage.getItem('zeyad_dream1') || 'كلية الطب البشري';
+            document.getElementById('inputDream2').value = localStorage.getItem('zeyad_dream2') || 'كلية الشرطة';
+        });
+        document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
+
+        document.getElementById('saveProfileBtn').addEventListener('click', () => {
+            const name = document.getElementById('inputName').value.trim();
+            const d1 = document.getElementById('inputDream1').value.trim();
+            const d2 = document.getElementById('inputDream2').value.trim();
+            if(name) localStorage.setItem('zeyad_name', name);
+            if(d1) localStorage.setItem('zeyad_dream1', d1);
+            if(d2) localStorage.setItem('zeyad_dream2', d2);
+            profileModal.style.display = 'none';
+            loadProfileData();
+        });
+
+        function loadProfileData() {
+            const name = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
+            const d1 = localStorage.getItem('zeyad_dream1') || 'كلية الطب البشري';
+            const d2 = localStorage.getItem('zeyad_dream2') || 'كلية الشرطة';
+
+            document.getElementById('footerSignature').innerText = name;
+            document.getElementById('displayDream1').innerText = "إن شاء الله " + d1;
+            document.getElementById('displayDream2').innerText = "إن شاء الله " + d2;
+            document.getElementById('pageTitle').innerText = "الصف الثاني بكالوريا - " + name;
+        }
+        loadProfileData();
 
         function updateClock() {
             const now = new Date();
@@ -680,10 +731,8 @@
                 osc.stop(audioCtx.currentTime + 0.015);
             } catch(e) {}
         }
-
         window.addEventListener('pointerdown', () => { playClickSound(); });
 
-        // تشغيل القرآن الكريم بصوت القارئ (مثل عبدالرحمن مسعد من بث مباشر/إذاعة قرآن كريم أو رابط تلاوة هادئة)
         let quranAudio = null;
         const quranBtn = document.getElementById('quranToggle');
         let isQuranPlaying = false;
@@ -691,26 +740,19 @@
         function toggleQuranSound() {
             if (!isQuranPlaying) {
                 try {
-                    // رابط إذاعة القرآن الكريم أو تلاوة هادئة مباشرة
                     quranAudio = new Audio('https://backup.quran-radio.com:8443/live.mp3'); 
                     quranAudio.volume = 0.5;
                     quranAudio.play().then(() => {
                         isQuranPlaying = true;
                         quranBtn.innerText = "🔇 إيقاف القرآن";
-                    }).catch(err => {
-                        alert("تعذر تشغيل الصوت، تأكد من اتصال الإنترنت.");
-                    });
+                    }).catch(err => { alert("تعذر تشغيل الصوت."); });
                 } catch(e) {}
             } else {
-                if (quranAudio) {
-                    quranAudio.pause();
-                    quranAudio = null;
-                }
+                if (quranAudio) { quranAudio.pause(); quranAudio = null; }
                 isQuranPlaying = false;
                 quranBtn.innerText = "📖 تشغيل القرآن";
             }
         }
-
         quranBtn.addEventListener('click', toggleQuranSound);
 
         const themeBtn = document.getElementById('themeToggle');
@@ -720,105 +762,89 @@
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('zeyad_theme', isLight ? 'light' : 'dark');
         });
-
-        if(localStorage.getItem('zeyad_theme') === 'light') {
-            document.body.classList.add('light-theme');
-        }
+        if(localStorage.getItem('zeyad_theme') === 'light') { document.body.classList.add('light-theme'); }
 
         const modal = document.getElementById('pathModal');
-        document.getElementById('openModalBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            modal.style.display = 'flex';
-        });
-        document.getElementById('closeModalBtn').addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+        document.getElementById('openModalBtn').addEventListener('click', (e) => { e.stopPropagation(); modal.style.display = 'flex'; });
+        document.getElementById('closeModalBtn').addEventListener('click', () => { modal.style.display = 'none'; });
 
         const calcModal = document.getElementById('calcModal');
-        document.getElementById('openCalcBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            calcModal.style.display = 'flex';
-        });
-        document.getElementById('closeCalcBtn').addEventListener('click', () => {
-            calcModal.style.display = 'none';
-        });
+        document.getElementById('openCalcBtn').addEventListener('click', (e) => { e.stopPropagation(); calcModal.style.display = 'flex'; });
+        document.getElementById('closeCalcBtn').addEventListener('click', () => { calcModal.style.display = 'none'; });
 
         const calcScreen = document.getElementById('calcScreen');
         let calcExpression = '';
-
         function appendCalc(val) {
-            if(calcScreen.innerText === '0' || calcScreen.innerText === 'خطأ') {
-                calcExpression = val;
-            } else {
-                calcExpression += val;
-            }
+            if(calcScreen.innerText === '0' || calcScreen.innerText === 'خطأ') { calcExpression = val; } else { calcExpression += val; }
             calcScreen.innerText = calcExpression;
         }
-
-        function clearCalc() {
-            calcExpression = '';
-            calcScreen.innerText = '0';
-        }
-
+        function clearCalc() { calcExpression = ''; calcScreen.innerText = '0'; }
         function calculateResult() {
             try {
                 let evaluated = eval(calcExpression);
-                if (isNaN(evaluated) || !isFinite(evaluated)) {
-                    calcScreen.innerText = 'خطأ';
-                } else {
-                    calcScreen.innerText = evaluated;
-                    calcExpression = evaluated.toString();
+                if (isNaN(evaluated) || !isFinite(evaluated)) { calcScreen.innerText = 'خطأ'; } else { calcScreen.innerText = evaluated; calcExpression = evaluated.toString(); }
+            } catch(e) { calcScreen.innerText = 'خطأ'; }
+        }
+
+        // ----------------------------------------------------
+        // المساعد الذكي المحلي (AI Coach) بدلاً من الملاحظات
+        // ----------------------------------------------------
+        const aiModal = document.getElementById('aiModal');
+        document.getElementById('openAIModalBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            aiModal.style.display = 'flex';
+            updateAICoachGreeting();
+        });
+        document.getElementById('closeAIModalBtn').addEventListener('click', () => { aiModal.style.display = 'none'; });
+
+        function updateAICoachGreeting() {
+            const streak = localStorage.getItem('zeyad_streak') || '1';
+            const name = localStorage.getItem('zeyad_name') || 'زياد';
+            const chatBox = document.getElementById('aiChatBox');
+            chatBox.innerHTML = `<div class="ai-msg">أهلاً يا ${name}! أنا مساعدك الذكي المرتبط ببيانات شاشتك محلياً. التزامك الحالي واصل لـ <b>${streak} أيام</b> مستمرة. إزاي أقدر أساعدك في المذاكرة النهاردة؟</div>`;
+        }
+
+        const aiUserInput = document.getElementById('aiUserInput');
+        const aiSendBtn = document.getElementById('aiSendBtn');
+        const aiChatBox = document.getElementById('aiChatBox');
+
+        aiSendBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const text = aiUserInput.value.trim();
+            if(!text) return;
+
+            // إضافة رسالة المستخدم
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'ai-msg';
+            userMsgDiv.style.background = 'rgba(30, 41, 59, 0.8)';
+            userMsgDiv.style.textAlign = 'left';
+            userMsgDiv.innerText = text;
+            aiChatBox.appendChild(userMsgDiv);
+            aiUserInput.value = '';
+
+            // رد المساعد الذكي بناءً على تحليل محلي
+            setTimeout(() => {
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'ai-msg';
+                let reply = "عاش يا بطل! كمل مذاكرة وركز، الحلم بيستاهل التعب ده كله. 💪";
+                
+                const lower = text.toLowerCase();
+                if(lower.includes('تعبان') || lower.includes('كسل') || lower.includes('ملل')) {
+                    reply = "طبيعي تحس بتعب، لكن افتكر حلم الكلية ومجموعك. قوم اشرب مياه وخد 5 دقائق راحة وارجع أقوى!";
+                } else if(lower.includes('فيزياء') || lower.includes('صعب')) {
+                    reply = "الفيزياء بتحتاج فهم وتركئز مش حفظ. امسك القوانين واكتبها بإيدك وحل أمثال كتير عليها وهتبقى تافهه قدامك.";
+                } else if(lower.includes('اسمك')) {
+                    reply = "أنا مساعدك الذكي الشخصي المبرمج داخل صفحتك لخدمتك ودعمك معنوياً طول طريق البكالوريا!";
                 }
-            } catch(e) {
-                calcScreen.innerText = 'خطأ';
-            }
-        }
 
-        const notesModal = document.getElementById('notesModal');
-        document.getElementById('openNotesBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            notesModal.style.display = 'flex';
-            renderNotes();
-        });
-        document.getElementById('closeNotesBtn').addEventListener('click', () => {
-            notesModal.style.display = 'none';
-        });
-
-        const noteInput = document.getElementById('noteInput');
-        const addNoteBtn = document.getElementById('addNoteBtn');
-        const notesListContainer = document.getElementById('notesListContainer');
-
-        function getNotes() {
-            try { return JSON.parse(localStorage.getItem('zeyad_notes') || '[]'); } catch(e) { return []; }
-        }
-        function renderNotes() {
-            const notes = getNotes();
-            notesListContainer.innerHTML = '';
-            if(notes.length === 0) {
-                notesListContainer.innerHTML = '<div style="font-size:10px; color:#64748b; text-align:center;">مفيش ملاحظات.</div>';
-                return;
-            }
-            notes.forEach((note, index) => {
-                const div = document.createElement('div');
-                div.className = 'note-item';
-                div.innerText = (index + 1) + ". " + note;
-                notesListContainer.appendChild(div);
-            });
-        }
-        addNoteBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const val = noteInput.value.trim();
-            if(val) {
-                const notes = getNotes();
-                notes.push(val);
-                localStorage.setItem('zeyad_notes', JSON.stringify(notes));
-                noteInput.value = '';
-                renderNotes();
-            }
+                botMsgDiv.innerText = reply;
+                aiChatBox.appendChild(botMsgDiv);
+                aiChatBox.scrollTop = aiChatBox.scrollHeight;
+            }, 600);
         });
 
         // ----------------------------------------------------
-        // نظام الـ Streak والمهام المنطقي الجديد (Daily Reality)
+        // نظام الـ Streak والمهام المنطقي (Daily Reality)
         // ----------------------------------------------------
         const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         const todayObj = new Date();
@@ -827,11 +853,7 @@
 
         document.querySelectorAll('tr[data-day]').forEach(tr => {
             const d = tr.getAttribute('data-day');
-            if(d === currentDayKey) {
-                tr.classList.add('today-row');
-            } else {
-                tr.classList.add('past-row');
-            }
+            if(d === currentDayKey) { tr.classList.add('today-row'); } else { tr.classList.add('past-row'); }
         });
 
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
@@ -846,16 +868,12 @@
                 localStorage.setItem('zeyad_streak', streak);
             }
         }
-
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
 
         const checkboxes = document.querySelectorAll('.task-checkbox');
         checkboxes.forEach(chk => {
             const taskDay = chk.getAttribute('data-day');
-            
-            if (taskDay !== currentDayKey) {
-                chk.disabled = true;
-            }
+            if (taskDay !== currentDayKey) { chk.disabled = true; }
 
             let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
             if(localStorage.getItem(taskStateKey) === 'true') {
@@ -890,14 +908,10 @@
             "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
             "قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»",
             "﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴾",
-            "قال ﷺ: «احْرِصْ عَلَى ما يَنْفَعُكَ، وَاسْتَعِين باللهِ وَلا تَعْجِزْ»",
-            "﴿ وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لا يَحْتَسِبُ ﴾",
-            "قال ﷺ: «إنَّ الملائكةَ لتَضَعُ أجنحتَها لطالبِ العلمِ رِضًا بما يَصنعُ»"
+            "قال ﷺ: «احْرِصْ عَلَى ما يَنْفَعُكَ، وَاسْتَعِين باللهِ وَلا تَعْجِزْ»"
         ];
-        
         let hIdx = 0;
         const hadithDisplay = document.getElementById('hadithDisplay');
-        
         setInterval(() => {
             hadithDisplay.classList.add('fade-out');
             setTimeout(() => {
@@ -906,18 +920,6 @@
                 hadithDisplay.classList.remove('fade-out');
             }, 800);
         }, 7000);
-
-        const quotes = [
-            "\"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم\"",
-            "\"الرجالة بتجيب مجموع وتحقق أحلامها\"",
-            "\"بالعزيمة والتعب كل المستحيل بيتحقق\"",
-            "\"اصنع مستقبلك بيدك ولا تلتفت للمشتتات\""
-        ];
-        let qIdx = 0;
-        setInterval(() => {
-            qIdx = (qIdx + 1) % quotes.length;
-            document.getElementById('quoteBox').innerText = quotes[qIdx];
-        }, 6000);
     </script>
 </body>
 </html>
