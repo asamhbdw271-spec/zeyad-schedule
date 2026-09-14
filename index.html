@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - جدول زياد أسامة</title>
+    <title>الصف الثاني بكالوريا - Zeyad</title>
     <style>
         * {
             box-sizing: border-box;
@@ -14,7 +14,7 @@
 
         :root {
             --bg-gradient: linear-gradient(rgba(11, 15, 25, 0.88), rgba(6, 9, 15, 0.92));
-            --container-bg: rgba(15, 23, 42, 0.85);
+            --container-bg: rgba(15, 23, 42, 0.88);
             --text-color: #ffffff;
             --accent-blue: #38bdf8;
             --accent-pink: #f472b6;
@@ -25,7 +25,7 @@
 
         body.light-theme {
             --bg-gradient: linear-gradient(rgba(240, 244, 248, 0.88), rgba(226, 232, 240, 0.92));
-            --container-bg: rgba(255, 255, 255, 0.88);
+            --container-bg: rgba(255, 255, 255, 0.9);
             --text-color: #1e293b;
             --accent-blue: #0284c7;
             --accent-pink: #e11d48;
@@ -180,22 +180,33 @@
             color: #fb7185;
         }
 
-        /* شريط مواقيت الصلاة المصغر */
-        .prayer-times-bar {
-            background: rgba(30, 41, 59, 0.6);
-            padding: 3px 10px;
-            border-radius: 6px;
-            margin-bottom: 4px;
-            font-size: 10px;
-            color: #38bdf8;
+        /* عداد الصلاة التنازلي المنفصل */
+        .prayer-countdown-box {
+            background: rgba(30, 41, 59, 0.65);
+            padding: 4px 12px;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            font-size: 11px;
+            color: #f1f5f9;
             border: 1px solid var(--border-color);
             display: flex;
             justify-content: center;
-            gap: 12px;
+            align-items: center;
+            gap: 8px;
             font-weight: bold;
-            flex-wrap: wrap;
         }
-        .prayer-item { color: #f1f5f9; font-weight: normal; }
+        .prayer-countdown-box span {
+            color: #38bdf8;
+        }
+        .countdown-timer {
+            color: #f43f5e;
+            font-family: monospace;
+            font-size: 12px;
+            background: rgba(244, 63, 94, 0.1);
+            padding: 1px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
 
         table {
             width: 100%;
@@ -385,29 +396,30 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* شريط الآيات والأحاديث المتحرك (مستقل) */
-        .ticker-wrap {
-            margin-top: 5px;
+        /* شريط الآيات والأحاديث الهادئ (عرض و اختفاء ببطء) */
+        .hadith-box {
+            margin-top: 6px;
             width: 100%;
-            overflow: hidden;
-            background: rgba(30, 41, 59, 0.85);
+            background: rgba(30, 41, 59, 0.75);
             border-radius: 6px;
-            padding: 4px 0;
+            padding: 6px 12px;
             border: 1px solid var(--border-color);
+            min-height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        .ticker {
-            display: inline-block;
-            white-space: nowrap;
-            animation: tickerAnim 24s linear infinite;
+        .hadith-text {
             font-size: 11px;
             color: #38bdf8;
             font-weight: bold;
+            opacity: 1;
+            transition: opacity 0.8s ease-in-out;
         }
-
-        @keyframes tickerAnim {
-            0% { transform: translateX(100%); }
-            100% { transform: translateX(-100%); }
+        .hadith-text.fade-out {
+            opacity: 0;
         }
     </style>
 </head>
@@ -530,14 +542,10 @@
             </div>
         </header>
 
-        <!-- مواقيت الصلاة -->
-        <div class="prayer-times-bar">
-            <span>🕌 مواقيت الصلاة:</span>
-            <span>الفجر: <span class="prayer-item">04:20 ص</span></span>
-            <span>الظهر: <span class="prayer-item">11:58 ص</span></span>
-            <span>العصر: <span class="prayer-item">03:32 م</span></span>
-            <span>المغرب: <span class="prayer-item">06:15 م</span></span>
-            <span>العشاء: <span class="prayer-item">07:35 م</span></span>
+        <!-- عداد الصلاة التنازلي المنفصل -->
+        <div class="prayer-countdown-box">
+            <span>🕌 الصلاة القادمة (<span id="nextPrayerName">العشاء</span>):</span>
+            <div class="countdown-timer" id="prayerCountdown">02:15:40</div>
         </div>
 
         <table>
@@ -579,15 +587,9 @@
             </tbody>
         </table>
 
-        <!-- شريط الآيات والأحاديث المتحرك (مستقل تماماً) -->
-        <div class="ticker-wrap">
-            <div class="ticker">
-                ﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
-                قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»  &nbsp;&nbsp;•&nbsp;&nbsp; 
-                ﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
-                قال ﷺ: «احْرِصْ عَلَى ما يَنْفَعُكَ، وَاسْتَعِين باللهِ وَلا تَعْجِزْ»  &nbsp;&nbsp;•&nbsp;&nbsp; 
-                ﴿ وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لا يَحْتَسِبُ ﴾
-            </div>
+        <!-- شريط الآيات والأحاديث الهادئ (بدون جري) -->
+        <div class="hadith-box">
+            <div class="hadith-text" id="hadithDisplay">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
         </div>
 
         <footer>
@@ -603,21 +605,70 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // تحديث الساعة
+        // تحديث الساعة العادية
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
             let minutes = now.getMinutes();
+            let seconds = now.getSeconds();
             let ampm = hours >= 12 ? 'مساءً' : 'صباحاً';
             hours = hours % 12;
             hours = hours ? hours : 12;
             minutes = minutes < 10 ? '0' + minutes : minutes;
-            document.getElementById('liveClock').innerText = hours + ':' + minutes + ' ' + ampm;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            document.getElementById('liveClock').innerText = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // صوت الماوس الحقيقي والناعم جداً (صوت كليك ميكانيكي لطيف غير مزعج)
+        // نظام العداد التنازلي للصلاة (مبني بدقة للوقت الحالي)
+        function updatePrayerCountdown() {
+            const now = new Date();
+            const prayers = [
+                { name: 'الفجر', h: 4, m: 20 },
+                { name: 'الظهر', h: 12, m: 0 },
+                { name: 'العصر', h: 15, m: 35 },
+                { name: 'المغرب', h: 18, m: 10 },
+                { name: 'العشاء', h: 19, m: 35 }
+            ];
+
+            let target = new Date();
+            let found = false;
+
+            for (let p of prayers) {
+                let pTime = new Date();
+                pTime.setHours(p.h, p.m, 0, 0);
+                if (now < pTime) {
+                    target = pTime;
+                    document.getElementById('nextPrayerName').innerText = p.name;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                target.setDate(target.getDate() + 1);
+                target.setHours(4, 20, 0, 0);
+                document.getElementById('nextPrayerName').innerText = 'الفجر (غداً)';
+            }
+
+            let diff = target - now;
+            if (diff < 0) diff = 0;
+
+            let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            let s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+
+            document.getElementById('prayerCountdown').innerText = h + ':' + m + ':' + s;
+        }
+        setInterval(updatePrayerCountdown, 1000);
+        updatePrayerCountdown();
+
+        // صوت الماوس (بيشتغل في أي مكان ف الصفحة عند الضغط)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playClickSound() {
             try {
@@ -636,7 +687,7 @@
             } catch(e) {}
         }
 
-        window.addEventListener('click', () => { playClickSound(); });
+        window.addEventListener('pointerdown', () => { playClickSound(); });
 
         // صوت الرياح
         let windNode = null;
@@ -645,7 +696,6 @@
         let isWindPlaying = false;
 
         function toggleWindSound() {
-            playClickSound();
             if (!isWindPlaying) {
                 try {
                     if (audioCtx.state === 'suspended') { audioCtx.resume(); }
@@ -690,7 +740,6 @@
         const themeBtn = document.getElementById('themeToggle');
         themeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            playClickSound();
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('zeyad_theme', isLight ? 'light' : 'dark');
@@ -704,11 +753,9 @@
         const modal = document.getElementById('pathModal');
         document.getElementById('openModalBtn').addEventListener('click', (e) => {
             e.stopPropagation();
-            playClickSound();
             modal.style.display = 'flex';
         });
         document.getElementById('closeModalBtn').addEventListener('click', () => {
-            playClickSound();
             modal.style.display = 'none';
         });
 
@@ -716,11 +763,9 @@
         const calcModal = document.getElementById('calcModal');
         document.getElementById('openCalcBtn').addEventListener('click', (e) => {
             e.stopPropagation();
-            playClickSound();
             calcModal.style.display = 'flex';
         });
         document.getElementById('closeCalcBtn').addEventListener('click', () => {
-            playClickSound();
             calcModal.style.display = 'none';
         });
 
@@ -728,7 +773,6 @@
         let calcExpression = '';
 
         function appendCalc(val) {
-            playClickSound();
             if(calcScreen.innerText === '0' || calcScreen.innerText === 'خطأ') {
                 calcExpression = val;
             } else {
@@ -738,13 +782,11 @@
         }
 
         function clearCalc() {
-            playClickSound();
             calcExpression = '';
             calcScreen.innerText = '0';
         }
 
         function calculateResult() {
-            playClickSound();
             try {
                 let evaluated = eval(calcExpression);
                 if (isNaN(evaluated) || !isFinite(evaluated)) {
@@ -762,12 +804,10 @@
         const notesModal = document.getElementById('notesModal');
         document.getElementById('openNotesBtn').addEventListener('click', (e) => {
             e.stopPropagation();
-            playClickSound();
             notesModal.style.display = 'flex';
             renderNotes();
         });
         document.getElementById('closeNotesBtn').addEventListener('click', () => {
-            playClickSound();
             notesModal.style.display = 'none';
         });
 
@@ -794,7 +834,6 @@
         }
         addNoteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            playClickSound();
             const val = noteInput.value.trim();
             if(val) {
                 const notes = getNotes();
@@ -819,7 +858,6 @@
 
             chk.addEventListener('change', (e) => {
                 e.stopPropagation();
-                playClickSound();
                 if(chk.checked) {
                     localStorage.setItem('task_' + id, 'true');
                     chk.closest('label').classList.add('completed-task');
@@ -833,6 +871,28 @@
                 document.getElementById('streakBadge').innerText = "🔥 التزام: " + streak + " يوم";
             });
         });
+
+        // نظام تبديل الآيات والأحاديث بهدوء
+        const hadiths = [
+            "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
+            "قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»",
+            "﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴾",
+            "قال ﷺ: «احْرِصْ عَلَى ما يَنْفَعُكَ، وَاسْتَعِين باللهِ وَلا تَعْجِزْ»",
+            "﴿ وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لا يَحْتَسِبُ ﴾",
+            "قال ﷺ: «إنَّ الملائكةَ لتَضَعُ أجنحتَها لطالبِ العلمِ رِضًا بما يَصنعُ»"
+        ];
+        
+        let hIdx = 0;
+        const hadithDisplay = document.getElementById('hadithDisplay');
+        
+        setInterval(() => {
+            hadithDisplay.classList.add('fade-out');
+            setTimeout(() => {
+                hIdx = (hIdx + 1) % hadiths.length;
+                hadithDisplay.innerText = hadiths[hIdx];
+                hadithDisplay.classList.remove('fade-out');
+            }, 800);
+        }, 7000);
 
         const quotes = [
             "\"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم\"",
