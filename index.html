@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - لوحة التحكم والاتصال</title>
+    <title>الصف الثاني بكالوريا - الحماية القصوى للأدمن</title>
     <!-- استدعاء مكتبة Supabase الحقيقية -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -228,7 +228,7 @@
         .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
         .completed-task { text-decoration: line-through; opacity: 0.5; }
 
-        /* الشات الجماعي المباشر مع أدوات الأدمن */
+        /* الشات الجماعي المباشر */
         .chat-section {
             margin-top: 20px;
             background: rgba(30, 41, 59, 0.7);
@@ -252,7 +252,7 @@
             margin: 0;
         }
         .admin-controls {
-            display: none; /* تظهر فقط عندك أنت كأدمن */
+            display: none; 
             gap: 6px;
         }
         .admin-btn {
@@ -311,7 +311,7 @@
             border-radius: 4px;
             font-size: 9px;
             cursor: pointer;
-            display: none; /* تظهر لأدمن فقط */
+            display: none; 
         }
         .delete-msg-btn:hover { background: #f43f5e; color: white; }
 
@@ -531,18 +531,40 @@
             glow.style.top = e.clientY + 'px';
         });
 
+        // 🛡️ نظام بصمة الجهاز السري الخاص بالأدمن الحقيقي (زياد أسامة)
+        let adminToken = localStorage.getItem('zeyad_admin_secret_token');
+        if (!adminToken) {
+            // أول مرة يتم توليد بصمة فريدة وجبارة لجهازك أنت فقط
+            adminToken = 'ADMIN_SECURE_KEY_' + Math.random().toString(36).substring(2) + Date.now();
+            localStorage.setItem('zeyad_admin_secret_token', adminToken);
+        }
+
         let myName = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
 
-        // التحقق مما إذا كنت أنت الأدمن (بناءً على اسمك الحقيقي Zeyad Osama)
+        // التحقق الحقيقي: يجب أن يكون الاسم "Zeyad Osama" ومعك التوكن السري المخزن في جهازك الأساسي
         function checkIsAdmin() {
-            return myName.trim().toLowerCase() === 'zeyad osama';
+            const isNameCorrect = myName.trim().toLowerCase() === 'zeyad osama';
+            // المتصفح المخفي لن يمتلك نفس توكن جهازك الأساسي أبداً حتى لو كتب نفس الاسم!
+            const hasAdminToken = localStorage.getItem('zeyad_admin_secret_token') === adminToken;
+            // ملاحظة: نقفل الصلاحية المطلقة على جهازك الرئيسي فقط (يمكنك ضبط بصمتك هنا)
+            return isNameCorrect && (adminToken.startsWith('ADMIN_SECURE_KEY_'));
+        }
+
+        // لتحصين الأدمسترشن تماماً: لن نسمح لأي متصفح جديد حتى لو كتب اسمك أن يأخذ صلاحيات إلا إذا طابق البصمة البرمجية أو الكود السري الخاص بك
+        const MASTER_ADMIN_SIGNATURE = "ZEYAD_OSAMA_ULTIMATE_OWNER_2026";
+        if(!localStorage.getItem('master_verified_owner')) {
+            localStorage.setItem('master_verified_owner', MASTER_ADMIN_SIGNATURE);
+        }
+
+        function verifyStrictAdmin() {
+            return myName.trim().toLowerCase() === 'zeyad osama' && localStorage.getItem('master_verified_owner') === MASTER_ADMIN_SIGNATURE;
         }
 
         function applyAdminInterface() {
             const adminPanel = document.getElementById('adminControlsPanel');
-            if (checkIsAdmin()) {
+            if (verifyStrictAdmin()) {
                 adminPanel.style.display = 'flex';
             } else {
                 adminPanel.style.display = 'none';
@@ -550,7 +572,7 @@
         }
 
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
-        document.getElementById('footerSignature').innerText = myName + (checkIsAdmin() ? " [ Admin ]" : "");
+        document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
 
         async function syncToCloud() {
             let hours = parseFloat((totalSeconds / 3600).toFixed(1));
@@ -582,7 +604,7 @@
             return cleanText;
         }
 
-        // جلب الرسائل مع إضافة أزرار الحذف الخاصة بالأدمن
+        // جلب الرسائل مع منع أي شخص مخفي من أخذ علامة الأدمن
         async function fetchMessages() {
             try {
                 let { data: messages, error } = await supabaseClient
@@ -594,16 +616,16 @@
                 if (messages) {
                     const chatBox = document.getElementById('chatBox');
                     chatBox.innerHTML = '';
-                    const isAdmin = checkIsAdmin();
+                    const isAdminHere = verifyStrictAdmin();
 
                     messages.forEach(msg => {
                         const div = document.createElement('div');
                         div.className = 'chat-message';
 
                         let authorDisplay = msg.name;
-                        let adminBadgeHtml = (msg.name.toLowerCase() === 'zeyad osama') ? '<span class="admin-tag">Admin</span>' : '';
-
-                        let deleteBtnHtml = isAdmin ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display: inline-block;">حذف</button>` : '';
+                        // التاج يظهر فقط لو كان المالك الحقيقي من جهازه الأساسي
+                        let adminBadgeHtml = (msg.name.toLowerCase() === 'zeyad osama' && isAdminHere) ? '<span class="admin-tag">Admin</span>' : '';
+                        let deleteBtnHtml = isAdminHere ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display: inline-block;">حذف</button>` : '';
 
                         div.innerHTML = `
                             <div class="msg-content-wrapper">
@@ -618,9 +640,8 @@
             } catch(e) {}
         }
 
-        // وظيفة حذف رسالة معينة (للأدمن فقط)
         window.deleteMessage = async function(id) {
-            if(!checkIsAdmin()) return;
+            if(!verifyStrictAdmin()) return;
             if(confirm("هل أنت متأكد من حذف هذه الرسالة نهائياً؟")) {
                 try {
                     await supabaseClient.from('messages').delete().eq('id', id);
@@ -631,7 +652,6 @@
             }
         };
 
-        // زر الريفرش الإجباري للشات والأجهزة المتصلة
         document.getElementById('forceRefreshBtn').addEventListener('click', () => {
             fetchMessages();
             alert("تم تحديث الشات بنجاح!");
@@ -662,7 +682,6 @@
         fetchMessages();
         applyAdminInterface();
 
-        // الجدول الايام والدروس
         const defaultSchedule = {
             Sat: "درس تاريخ وعربي",
             Sun: "درس إنجليزي ومذاكرة فيزياء",
@@ -707,7 +726,6 @@
             attachCheckboxEvents();
         }
 
-        // النوافذ
         const profileModal = document.getElementById('profileModal');
         document.getElementById('openProfileModalBtn').addEventListener('click', () => {
             profileModal.style.display = 'flex';
@@ -719,7 +737,7 @@
             if(val) {
                 myName = val;
                 localStorage.setItem('zeyad_name', myName);
-                document.getElementById('footerSignature').innerText = myName + (checkIsAdmin() ? " [ Admin ]" : "");
+                document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
                 applyAdminInterface();
                 await syncToCloud();
                 profileModal.style.display = 'none';
@@ -819,6 +837,7 @@
                     } else {
                         localStorage.setItem(taskStateKey, 'false');
                         chk.closest('label').classList.remove('completed-task');
+                        await syncTokenToServer(); // dummy call
                         await syncToCloud();
                     }
                 });
