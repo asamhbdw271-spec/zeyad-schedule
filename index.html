@@ -367,7 +367,7 @@
         .modal-content h3 { color: #38bdf8; margin-bottom: 10px; font-size: 14px; text-align: center; }
 
         .profile-form label { display: block; font-size: 11px; margin-bottom: 3px; color: #38bdf8; text-align: right; }
-        .profile-form input { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
+        .profile-form input, .profile-form select { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
 
         .close-modal {
             background: #f43f5e;
@@ -401,7 +401,7 @@
 
     <div class="top-utilities">
         <div class="utility-group">
-            <button class="nav-btn" id="openProfileModalBtn" style="background: #0284c7; color: #fff;">⚙️ اسمي وتخصيص</button>
+            <button class="nav-btn" id="openProfileModalBtn" style="background: #0284c7; color: #fff;">⚙️ اسمي وتخصيص الملف</button>
             <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff;">🗓️ مواعيد دروسي</button>
             <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف أونلاين</button>
         </div>
@@ -411,17 +411,30 @@
         </div>
     </div>
 
-    <!-- نافذة تعديل الاسم -->
+    <!-- نافذة تعديل الاسم والمسار والأحلام -->
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
-            <h3>⚙️ اسمك الحقيقي لتظهر للمنافسين</h3>
+            <h3>⚙️ تخصيص ملفك الشخصي وأحلامك</h3>
             <label>اكتب اسمك الحقيقي:</label>
             <input type="text" id="inputName" placeholder="مثال: Zeyad Osama">
             
-            <label style="margin-top: 10px; color: #f43f5e;">🔐 مفتاح الأدمن السري (رقم تليفونك):</label>
+            <label>اختر مسارك الدراسي:</label>
+            <select id="inputTrack">
+                <option value="علمي علوم (طب وصحة)">مسار علمي علوم (طب)</option>
+                <option value="علمي رياضة (هندسة وعلوم)">مسار علمي رياضة (هندسة)</option>
+                <option value="أدبي وعام">مسار عام / أدبي</option>
+            </select>
+
+            <label>الحلم الأول (الرئيسي):</label>
+            <input type="text" id="inputDream1" placeholder="مثال: إن شاء الله كلية الطب">
+
+            <label>الحلم الثاني (الثانوي):</label>
+            <input type="text" id="inputDream2" placeholder="مثال: إن شاء الله كلية الشرطة">
+
+            <label style="margin-top: 6px; color: #f43f5e;">🔐 مفتاح الأدمن السري (رقم تليفونك):</label>
             <input type="password" id="inputAdminPass" placeholder="اكتب رقم تليفونك السري هنا...">
 
-            <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث</button>
+            <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث التغييرات</button>
             <button class="close-modal" id="closeProfileModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
     </div>
@@ -476,9 +489,9 @@
 
         <header>
             <h1 id="mainHeaderTitle">جدولي الدراسي المخصص</h1>
-            <div class="dreams">
-                <span>إن شاء الله كلية الطب</span>
-                <span class="secondary-dream">إن شاء الله كلية الشرطة</span>
+            <div class="dreams" id="dreamsContainer">
+                <span id="displayDream1">إن شاء الله كلية الطب</span>
+                <span class="secondary-dream" id="displayDream2">إن شاء الله كلية الشرطة</span>
             </div>
         </header>
 
@@ -542,6 +555,17 @@
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
 
+        let userTrack = localStorage.getItem('zeyad_track') || 'علمي علوم (طب وصحة)';
+        let userDream1 = localStorage.getItem('zeyad_dream1') || 'إن شاء الله كلية الطب';
+        let userDream2 = localStorage.getItem('zeyad_dream2') || 'إن شاء الله كلية الشرطة';
+
+        function updateDreamsUI() {
+            document.getElementById('displayDream1').innerText = userDream1;
+            document.getElementById('displayDream2').innerText = userDream2;
+            document.getElementById('mainHeaderTitle').innerText = "جدول " + userTrack + " المخصص";
+        }
+        updateDreamsUI();
+
         function verifyStrictAdmin() {
             return isUserAdmin && (myName.trim().toLowerCase() === 'zeyad osama');
         }
@@ -595,7 +619,6 @@
                     ];
                 }
             } catch(e) {
-                // مواقيت افتراضية لو النت قاطع
                 prayerTimesList = [
                     { name: 'الفجر', time: '04:30' },
                     { name: 'الشروق', time: '06:00' },
@@ -626,7 +649,6 @@
                 }
             }
 
-            // لو كل صلاة اليوم خلصت، تبقى الصلاة القادمة هي فجر اليوم اللي بعده
             if (!nextPrayer) {
                 nextPrayer = prayerTimesList[0];
                 let parts = nextPrayer.time.split(':');
@@ -780,6 +802,9 @@
         document.getElementById('openProfileModalBtn').addEventListener('click', () => {
             profileModal.style.display = 'flex';
             document.getElementById('inputName').value = myName;
+            document.getElementById('inputTrack').value = userTrack;
+            document.getElementById('inputDream1').value = userDream1;
+            document.getElementById('inputDream2').value = userDream2;
             document.getElementById('inputAdminPass').value = '';
         });
         document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
@@ -787,6 +812,9 @@
         document.getElementById('saveProfileBtn').addEventListener('click', async () => {
             const val = document.getElementById('inputName').value.trim();
             const passVal = document.getElementById('inputAdminPass').value.trim();
+            const trackVal = document.getElementById('inputTrack').value;
+            const dream1Val = document.getElementById('inputDream1').value.trim();
+            const dream2Val = document.getElementById('inputDream2').value.trim();
 
             if(val) {
                 if (val !== myName) {
@@ -796,15 +824,31 @@
 
                 myName = val;
                 localStorage.setItem('zeyad_name', myName);
+
+                if (trackVal) {
+                    userTrack = trackVal;
+                    localStorage.setItem('zeyad_track', userTrack);
+                }
+                if (dream1Val) {
+                    userDream1 = dream1Val;
+                    localStorage.setItem('zeyad_dream1', userDream1);
+                }
+                if (dream2Val) {
+                    userDream2 = dream2Val;
+                    localStorage.setItem('zeyad_dream2', userDream2);
+                }
+                updateDreamsUI();
                 
                 if (passVal === ADMIN_SECRET_PASSWORD && myName.toLowerCase() === 'zeyad osama') {
                     isUserAdmin = true;
                     localStorage.setItem('zeyad_is_admin', 'true');
-                    alert("تم تفعيل صلاحيات الأدمن بنجاح يا زياد! 🔥");
+                    alert("تم حفظ الملف وتفعيل صلاحيات الأدمن بنجاح يا زياد! 🔥");
                 } else if (passVal !== "") {
                     alert("كلمة المرور السرية خاطئة!");
                     isUserAdmin = false;
                     localStorage.setItem('zeyad_is_admin', 'false');
+                } else {
+                    alert("تم حفظ التعديلات بنجاح! ✨");
                 }
 
                 document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
@@ -876,8 +920,7 @@
         quranButton.addEventListener('click', () => {
             if (!isQuranPlaying) {
                 quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv');
-                quranAudio.play().then(() => { isQuranPlaying = type = true; quranButton.innerText = "🔇 إيقاف"; }).catch(()=>{});
-                isQuranPlaying = true;
+                quranAudio.play().then(() => { isQuranPlaying = true; quranButton.innerText = "🔇 إيقاف"; }).catch(()=>{});
             } else {
                 if(quranAudio) quranAudio.pause();
                 isQuranPlaying = false;
@@ -899,7 +942,7 @@
                     let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
                     if(chk.checked) {
                         localStorage.setItem(taskStateKey, 'true');
-                        chk.closest('label').classList.add('completed-task');
+                        chk.closest('label').classList.0 ? '' : chk.closest('label').classList.add('completed-task');
                         streak++;
                         localStorage.setItem('zeyad_streak', streak);
                         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
