@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الصف الثاني بكالوريا - الحماية المطلقة</title>
-    <!-- استدعاء مكتبة Supabase وحساب مواقيت الصلاة (Aladhan API) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -239,7 +238,6 @@
         .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
         .completed-task { text-decoration: line-through; opacity: 0.5; }
 
-        /* الشات الجماعي المباشر */
         .chat-section {
             margin-top: 20px;
             background: rgba(30, 41, 59, 0.7);
@@ -262,118 +260,52 @@
             gap: 6px;
             margin: 0;
         }
-        .admin-controls {
-            display: none; 
-            gap: 6px;
-        }
+        .admin-controls { display: none; gap: 6px; }
         .admin-btn {
-            background: #f43f5e;
-            color: #fff;
-            border: none;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 9px;
-            font-weight: bold;
-            cursor: pointer;
+            background: #f43f5e; color: #fff; border: none; padding: 2px 8px;
+            border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer;
         }
         .admin-btn:hover { background: #e11d48; }
 
         .chat-box {
-            height: 160px;
-            overflow-y: auto;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            height: 160px; overflow-y: auto; background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 8px;
+            margin-bottom: 8px; display: flex; flex-direction: column; gap: 6px;
         }
         .chat-message {
-            background: rgba(56, 189, 248, 0.1);
-            border-right: 3px solid var(--accent-blue);
-            padding: 5px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: rgba(56, 189, 248, 0.1); border-right: 3px solid var(--accent-blue);
+            padding: 5px 8px; border-radius: 4px; font-size: 11px; display: flex;
+            justify-content: space-between; align-items: center;
         }
         .msg-content-wrapper { display: flex; align-items: center; gap: 6px; }
-        .chat-message .author {
-            font-weight: bold;
-            color: #f472b6;
-        }
-        .admin-tag {
-            background: #f59e0b;
-            color: #0f172a;
-            font-size: 9px;
-            padding: 1px 4px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-right: 4px;
-        }
+        .chat-message .author { font-weight: bold; color: #f472b6; }
+        .admin-tag { background: #f59e0b; color: #0f172a; font-size: 9px; padding: 1px 4px; border-radius: 4px; font-weight: bold; margin-right: 4px; }
         .delete-msg-btn {
-            background: rgba(244, 63, 94, 0.2);
-            color: #f43f5e;
-            border: 1px solid rgba(244, 63, 94, 0.4);
-            padding: 1px 6px;
-            border-radius: 4px;
-            font-size: 9px;
-            cursor: pointer;
-            display: none; 
+            background: rgba(244, 63, 94, 0.2); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.4);
+            padding: 1px 6px; border-radius: 4px; font-size: 9px; cursor: pointer; display: none; 
         }
         .delete-msg-btn:hover { background: #f43f5e; color: white; }
 
-        .chat-input-area {
-            display: flex;
-            gap: 6px;
-        }
+        .chat-input-area { display: flex; gap: 6px; }
         .chat-input-area input {
-            flex: 1;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border-color);
-            padding: 6px 10px;
-            border-radius: 6px;
-            color: white;
-            font-size: 11px;
+            flex: 1; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color);
+            padding: 6px 10px; border-radius: 6px; color: white; font-size: 11px;
         }
         .chat-input-area button {
-            background: var(--accent-blue);
-            color: #0f172a;
-            border: none;
-            padding: 6px 14px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 11px;
+            background: var(--accent-blue); color: #0f172a; border: none; padding: 6px 14px;
+            font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px;
         }
         .chat-input-area button:hover { background: #0284c7; color: white; }
 
-        /* النوافذ المنبثقة */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.82);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(6px);
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.82); z-index: 100; justify-content: center;
+            align-items: center; backdrop-filter: blur(6px);
         }
         .modal-content {
-            background: #0f172a;
-            border: 1px solid #38bdf8;
-            padding: 16px;
-            border-radius: 15px;
-            width: 94%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            text-align: right;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-            color: #f1f5f9;
+            background: #0f172a; border: 1px solid #38bdf8; padding: 16px; border-radius: 15px;
+            width: 94%; max-width: 500px; max-height: 90vh; overflow-y: auto; text-align: right;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8); color: #f1f5f9;
         }
         .modal-content h3 { color: #38bdf8; margin-bottom: 10px; font-size: 14px; text-align: center; }
 
@@ -381,17 +313,8 @@
         .profile-form input, .profile-form select { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
 
         .close-modal {
-            background: #f43f5e;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 8px;
-            font-weight: bold;
-            display: block;
-            width: 100%;
-            font-size: 11px;
+            background: #f43f5e; color: white; border: none; padding: 5px 12px; border-radius: 6px;
+            cursor: pointer; margin-top: 8px; font-weight: bold; display: block; width: 100%; font-size: 11px;
         }
 
         .global-table { width: 100%; margin-top: 8px; border-collapse: collapse; }
@@ -422,7 +345,6 @@
         </div>
     </div>
 
-    <!-- نافذة تعديل الاسم والمسار والأحلام -->
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
             <h3>⚙️ تخصيص ملفك الشخصي وأحلامك</h3>
@@ -450,7 +372,6 @@
         </div>
     </div>
 
-    <!-- نافذة تعديل الجدول -->
     <div class="modal" id="customScheduleModal">
         <div class="modal-content profile-form">
             <h3>🗓️ جدول دروسك الأسبوعي المخصص</h3>
@@ -466,18 +387,17 @@
         </div>
     </div>
 
-    <!-- لوحة الشرف -->
     <div class="modal" id="leaderboardModal">
         <div class="modal-content">
             <h3>🏆 لوحة الشرف الجماعية (أونلاين 100%)</h3>
-            <div style="max-height: 200px; overflow-y: auto;">
+            <div style="max-height: 220px; overflow-y: auto;">
                 <table class="global-table">
                     <thead>
                         <tr>
                             <th>المرتبة</th>
                             <th>الاسم</th>
                             <th>الساعات</th>
-                            <th>🔥 الستريك</th>
+                            <th>🔥 الستريك واللقب</th>
                         </tr>
                     </thead>
                     <tbody id="globalLeaderboardBody">
@@ -522,7 +442,6 @@
             <tbody id="scheduleTableBody"></tbody>
         </table>
 
-        <!-- قسم الشات الجماعي المباشر -->
         <div class="chat-section">
             <div class="chat-header-flex">
                 <h3>💬 شات المذاكرة الجماعي (مفلتر وآمن)</h3>
@@ -564,12 +483,34 @@
 
         let myName = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
         let isUserAdmin = localStorage.getItem('zeyad_is_admin') === 'true';
-        let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
 
         let userTrack = localStorage.getItem('zeyad_track') || 'علمي علوم (طب وصحة)';
         let userDream1 = localStorage.getItem('zeyad_dream1') || 'إن شاء الله كلية الطب';
         let userDream2 = localStorage.getItem('zeyad_dream2') || 'إن شاء الله كلية الشرطة';
+
+        // نظام التحقق من الستريك ومنع التلاعب (مره واحدة فقط لكل يوم)
+        let streak = parseInt(localStorage.getItem('zeyad_streak') || '0');
+        let lastCompletedDate = localStorage.getItem('zeyad_last_date') || '';
+        
+        const todayString = new Date().toISOString().slice(0, 10);
+        let yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        let yesterdayString = yesterday.toISOString().slice(0, 10);
+
+        // إذا مر يوم كامل بدون ضغط (فاتت الساعة 12 ومكملش)، الستريك يصفر لوحده!
+        if (lastCompletedDate !== todayString && lastCompletedDate !== yesterdayString && lastCompletedDate !== '') {
+            streak = 0;
+            localStorage.setItem('zeyad_streak', 0);
+        }
+
+        function getRankTitle(s) {
+            if (s >= 20) return '👑 الوزير هيتعشي عندهم';
+            if (s >= 15) return '🥇 ملك البكالوريا';
+            if (s >= 10) return '🔥 دحيح';
+            if (s >= 5) return '⭐ بيحاول ينجح';
+            return '🌱 مبتدئ';
+        }
 
         function updateDreamsUI() {
             document.getElementById('displayDream1').innerText = userDream1;
@@ -591,10 +532,9 @@
             }
         }
 
-        document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
+        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
         document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
 
-        // نظام عداد المتصلين الحقيقيين الآن عبر Supabase Presence
         const presenceChannel = supabaseClient.channel('online-users-room');
         presenceChannel
             .on('presence', { event: 'sync' }, () => {
@@ -707,7 +647,7 @@
 
         async function fetchMessages() {
             try {
-                let { data: messages, error } = await supabaseClient
+                let { data: messages } = await supabaseClient
                     .from('messages')
                     .select('*')
                     .order('created_at', { ascending: true })
@@ -745,9 +685,7 @@
                 try {
                     await supabaseClient.from('messages').delete().eq('id', id);
                     fetchMessages();
-                } catch(e) {
-                    alert("تعذر حذف الرسالة.");
-                }
+                } catch(e) {}
             }
         };
 
@@ -767,9 +705,7 @@
                 await supabaseClient.from('messages').insert([{ name: myName, message: filteredText }]);
                 input.value = '';
                 fetchMessages();
-            } catch(e) {
-                alert("تعذر إرسال الرسالة، تأكد من الاتصال.");
-            }
+            } catch(e) {}
         }
 
         document.getElementById('sendChatBtn').addEventListener('click', sendChatMessage);
@@ -802,13 +738,13 @@
             const todayObj = new Date();
             const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const currentDayKey = daysMap[todayObj.getDay()];
-            const todayDateStr = todayObj.toISOString().slice(0, 10);
 
             daysOrder.forEach(d => {
                 const tr = document.createElement('tr');
                 if(d.key === currentDayKey) { tr.classList.add('today-row'); } else { tr.classList.add('past-row'); }
                 let savedDayTask = localStorage.getItem('custom_subj_' + d.key) || defaultSchedule[d.key];
-                let taskStateKey = 'task_' + todayDateStr + '_' + d.key;
+                
+                let taskStateKey = 'task_' + todayString + '_' + d.key;
                 let isChecked = localStorage.getItem(taskStateKey) === 'true';
 
                 tr.innerHTML = `
@@ -852,18 +788,9 @@
                 myName = val;
                 localStorage.setItem('zeyad_name', myName);
 
-                if (trackVal) {
-                    userTrack = trackVal;
-                    localStorage.setItem('zeyad_track', userTrack);
-                }
-                if (dream1Val) {
-                    userDream1 = dream1Val;
-                    localStorage.setItem('zeyad_dream1', userDream1);
-                }
-                if (dream2Val) {
-                    userDream2 = dream2Val;
-                    localStorage.setItem('zeyad_dream2', userDream2);
-                }
+                if (trackVal) { userTrack = trackVal; localStorage.setItem('zeyad_track', userTrack); }
+                if (dream1Val) { userDream1 = dream1Val; localStorage.setItem('zeyad_dream1', userDream1); }
+                if (dream2Val) { userDream2 = dream2Val; localStorage.setItem('zeyad_dream2', userDream2); }
                 updateDreamsUI();
                 
                 if (passVal === ADMIN_SECRET_PASSWORD && myName.toLowerCase() === 'zeyad osama') {
@@ -917,7 +844,9 @@
                 students.forEach((user, index) => {
                     const tr = document.createElement('tr');
                     let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
-                    tr.innerHTML = `<td><b>${medal}</b></td><td>${user.name}</td><td>${user.hours || 0} س</td><td>🔥 ${user.streak || 1}</td>`;
+                    let userStreak = user.streak || 0;
+                    let title = getRankTitle(userStreak);
+                    tr.innerHTML = `<td><b>${medal}</b></td><td>${user.name}</td><td>${user.hours || 0} س</td><td>🔥 ${userStreak} (${title})</td>`;
                     tbody.appendChild(tr);
                 });
             } catch(e) {
@@ -960,23 +889,36 @@
             const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const todayObj = new Date();
             const currentDayKey = daysMap[todayObj.getDay()];
-            const todayDateStr = todayObj.toISOString().slice(0, 10);
 
             checkboxes.forEach(chk => {
                 const taskDay = chk.getAttribute('data-day');
                 chk.addEventListener('change', async () => {
                     if (taskDay !== currentDayKey) return;
-                    let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
+                    let taskStateKey = 'task_' + todayString + '_' + taskDay;
+
+                    // حماية تامة ضد التلاعب: الستريك يزيد فقط أول مرة يعلم فيها اليوم، ومينفعش يزوده لو شالها وحطها تاني
                     if(chk.checked) {
+                        if (lastCompletedDate !== todayString) {
+                            streak++;
+                            lastCompletedDate = todayString;
+                            localStorage.setItem('zeyad_streak', streak);
+                            localStorage.setItem('zeyad_last_date', lastCompletedDate);
+                        }
                         localStorage.setItem(taskStateKey, 'true');
                         chk.closest('label').classList.add('completed-task');
-                        streak++;
-                        localStorage.setItem('zeyad_streak', streak);
-                        document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
+                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
                         await syncToCloud();
                     } else {
+                        // لو شال الصح في نفس اليوم (عشان يرجع الخطأ)، بنخلي الستريك يرجع لوراه عشان ميتلاعبش
+                        if (lastCompletedDate === todayString) {
+                            streak = Math.max(0, streak - 1);
+                            lastCompletedDate = '';
+                            localStorage.setItem('zeyad_streak', streak);
+                            localStorage.setItem('zeyad_last_date', '');
+                        }
                         localStorage.setItem(taskStateKey, 'false');
                         chk.closest('label').classList.remove('completed-task');
+                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
                         await syncToCloud();
                     }
                 });
