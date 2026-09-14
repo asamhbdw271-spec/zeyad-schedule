@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - جدول الشات المباشر</title>
+    <title>الصف الثاني بكالوريا - لوحة التحكم والاتصال</title>
     <!-- استدعاء مكتبة Supabase الحقيقية -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -228,7 +228,7 @@
         .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
         .completed-task { text-decoration: line-through; opacity: 0.5; }
 
-        /* الشات الجماعي المباشر */
+        /* الشات الجماعي المباشر مع أدوات الأدمن */
         .chat-section {
             margin-top: 20px;
             background: rgba(30, 41, 59, 0.7);
@@ -237,14 +237,36 @@
             padding: 12px;
             text-align: right;
         }
+        .chat-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
         .chat-section h3 {
             color: var(--accent-blue);
             font-size: 13px;
-            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
+            margin: 0;
         }
+        .admin-controls {
+            display: none; /* تظهر فقط عندك أنت كأدمن */
+            gap: 6px;
+        }
+        .admin-btn {
+            background: #f43f5e;
+            color: #fff;
+            border: none;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .admin-btn:hover { background: #e11d48; }
+
         .chat-box {
             height: 160px;
             overflow-y: auto;
@@ -263,12 +285,36 @@
             padding: 5px 8px;
             border-radius: 4px;
             font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        .msg-content-wrapper { display: flex; align-items: center; gap: 6px; }
         .chat-message .author {
             font-weight: bold;
             color: #f472b6;
-            margin-left: 6px;
         }
+        .admin-tag {
+            background: #f59e0b;
+            color: #0f172a;
+            font-size: 9px;
+            padding: 1px 4px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 4px;
+        }
+        .delete-msg-btn {
+            background: rgba(244, 63, 94, 0.2);
+            color: #f43f5e;
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 9px;
+            cursor: pointer;
+            display: none; /* تظهر لأدمن فقط */
+        }
+        .delete-msg-btn:hover { background: #f43f5e; color: white; }
+
         .chat-input-area {
             display: flex;
             gap: 6px;
@@ -370,7 +416,7 @@
         <div class="modal-content profile-form">
             <h3>⚙️ اسمك الحقيقي لتظهر للمنافسين</h3>
             <label>اكتب اسمك الحقيقي:</label>
-            <input type="text" id="inputName" placeholder="مثال: زياد أسامة">
+            <input type="text" id="inputName" placeholder="مثال: Zeyad Osama">
             <button class="close-modal" id="saveProfileBtn" style="background: #0284c7;">حفظ وتحديث</button>
             <button class="close-modal" id="closeProfileModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
@@ -449,7 +495,12 @@
 
         <!-- قسم الشات الجماعي المباشر -->
         <div class="chat-section">
-            <h3>💬 شات المذاكرة الجماعي (مفلتر وآمن)</h3>
+            <div class="chat-header-flex">
+                <h3>💬 شات المذاكرة الجماعي (مفلتر وآمن)</h3>
+                <div class="admin-controls" id="adminControlsPanel">
+                    <button class="admin-btn" id="forceRefreshBtn">🔄 ريفرش إجباري للشات</button>
+                </div>
+            </div>
             <div class="chat-box" id="chatBox">
                 <div class="chat-message"><span class="author">النظام:</span> أهلاً بجميع الأبطال، شات نظيف للمذاكرة فقط!</div>
             </div>
@@ -480,12 +531,26 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        let myName = localStorage.getItem('zeyad_name') || 'طالب جديد';
+        let myName = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let totalSeconds = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
 
+        // التحقق مما إذا كنت أنت الأدمن (بناءً على اسمك الحقيقي Zeyad Osama)
+        function checkIsAdmin() {
+            return myName.trim().toLowerCase() === 'zeyad osama';
+        }
+
+        function applyAdminInterface() {
+            const adminPanel = document.getElementById('adminControlsPanel');
+            if (checkIsAdmin()) {
+                adminPanel.style.display = 'flex';
+            } else {
+                adminPanel.style.display = 'none';
+            }
+        }
+
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
-        document.getElementById('footerSignature').innerText = myName;
+        document.getElementById('footerSignature').innerText = myName + (checkIsAdmin() ? " [ Admin ]" : "");
 
         async function syncToCloud() {
             let hours = parseFloat((totalSeconds / 3600).toFixed(1));
@@ -517,7 +582,7 @@
             return cleanText;
         }
 
-        // جلب وإرسال رسائل الشات
+        // جلب الرسائل مع إضافة أزرار الحذف الخاصة بالأدمن
         async function fetchMessages() {
             try {
                 let { data: messages, error } = await supabaseClient
@@ -529,10 +594,23 @@
                 if (messages) {
                     const chatBox = document.getElementById('chatBox');
                     chatBox.innerHTML = '';
+                    const isAdmin = checkIsAdmin();
+
                     messages.forEach(msg => {
                         const div = document.createElement('div');
                         div.className = 'chat-message';
-                        div.innerHTML = `<span class="author">${msg.name}:</span> ${msg.message}`;
+
+                        let authorDisplay = msg.name;
+                        let adminBadgeHtml = (msg.name.toLowerCase() === 'zeyad osama') ? '<span class="admin-tag">Admin</span>' : '';
+
+                        let deleteBtnHtml = isAdmin ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display: inline-block;">حذف</button>` : '';
+
+                        div.innerHTML = `
+                            <div class="msg-content-wrapper">
+                                <span class="author">${authorDisplay}:</span> ${adminBadgeHtml} ${msg.message}
+                            </div>
+                            ${deleteBtnHtml}
+                        `;
                         chatBox.appendChild(div);
                     });
                     chatBox.scrollTop = chatBox.scrollHeight;
@@ -540,12 +618,30 @@
             } catch(e) {}
         }
 
+        // وظيفة حذف رسالة معينة (للأدمن فقط)
+        window.deleteMessage = async function(id) {
+            if(!checkIsAdmin()) return;
+            if(confirm("هل أنت متأكد من حذف هذه الرسالة نهائياً؟")) {
+                try {
+                    await supabaseClient.from('messages').delete().eq('id', id);
+                    fetchMessages();
+                } catch(e) {
+                    alert("تعذر حذف الرسالة.");
+                }
+            }
+        };
+
+        // زر الريفرش الإجباري للشات والأجهزة المتصلة
+        document.getElementById('forceRefreshBtn').addEventListener('click', () => {
+            fetchMessages();
+            alert("تم تحديث الشات بنجاح!");
+        });
+
         async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             let rawText = input.value.trim();
             if(!rawText) return;
 
-            // تطبيق الفلتر الصارم
             let filteredText = filterBadWords(rawText);
 
             try {
@@ -562,9 +658,9 @@
             if(e.key === 'Enter') sendChatMessage();
         });
 
-        // تحديث الشات كل 3 ثواني أونلاين
         setInterval(fetchMessages, 3000);
         fetchMessages();
+        applyAdminInterface();
 
         // الجدول الايام والدروس
         const defaultSchedule = {
@@ -615,7 +711,7 @@
         const profileModal = document.getElementById('profileModal');
         document.getElementById('openProfileModalBtn').addEventListener('click', () => {
             profileModal.style.display = 'flex';
-            document.getElementById('inputName').value = myName === 'طالب جديد' ? '' : myName;
+            document.getElementById('inputName').value = myName;
         });
         document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
         document.getElementById('saveProfileBtn').addEventListener('click', async () => {
@@ -623,9 +719,11 @@
             if(val) {
                 myName = val;
                 localStorage.setItem('zeyad_name', myName);
-                document.getElementById('footerSignature').innerText = myName;
+                document.getElementById('footerSignature').innerText = myName + (checkIsAdmin() ? " [ Admin ]" : "");
+                applyAdminInterface();
                 await syncToCloud();
                 profileModal.style.display = 'none';
+                fetchMessages();
                 alert("تم تحديث اسمك بنجاح!");
             }
         });
