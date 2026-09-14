@@ -107,18 +107,6 @@
             transform: scale(1.05);
         }
 
-        .nav-btn.pulse-btn {
-            background: linear-gradient(135deg, #059669, #38bdf8);
-            color: #fff;
-            border: 1.5px solid #fff;
-            animation: pulseGlow 2s infinite;
-        }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.6); }
-            70% { box-shadow: 0 0 0 8px rgba(56, 189, 248, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
-        }
-
         .container {
             position: relative;
             z-index: 2;
@@ -189,36 +177,6 @@
             color: var(--accent-blue);
         }
 
-        .dreams span.secondary-dream {
-            background: rgba(244, 63, 94, 0.15);
-            border-color: rgba(244, 63, 94, 0.3);
-            color: #fb7185;
-        }
-
-        .elective-box {
-            background: rgba(30, 41, 59, 0.85);
-            border: 1px solid var(--accent-blue);
-            padding: 5px 10px;
-            border-radius: 8px;
-            margin-bottom: 6px;
-            font-size: 10.5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            color: #f1f5f9;
-        }
-        .elective-box select {
-            background: #0f172a;
-            color: #38bdf8;
-            border: 1px solid var(--border-color);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
         .prayer-countdown-box {
             background: rgba(30, 41, 59, 0.65);
             padding: 4px 12px;
@@ -264,12 +222,11 @@
 
         td {
             background: var(--row-bg);
-            padding: 4px;
+            padding: 6px;
             font-size: 10px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
             color: var(--text-color);
         }
 
@@ -284,9 +241,6 @@
         td:nth-child(2) {
             text-align: right;
             padding-right: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         td:last-child { 
@@ -315,19 +269,6 @@
             opacity: 0.5;
         }
 
-        .details-btn {
-            background: rgba(56, 189, 248, 0.2);
-            border: 1px solid var(--accent-blue);
-            color: var(--accent-blue);
-            padding: 2px 6px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 9px;
-            font-weight: bold;
-            transition: 0.2s;
-        }
-        .details-btn:hover { background: var(--accent-blue); color: #fff; }
-
         .modal {
             display: none;
             position: fixed;
@@ -344,7 +285,7 @@
             padding: 16px;
             border-radius: 15px;
             width: 94%;
-            max-width: 600px;
+            max-width: 500px;
             max-height: 90vh;
             overflow-y: auto;
             text-align: right;
@@ -353,12 +294,29 @@
         }
         .modal-content h3 {
             color: #38bdf8;
-            margin-bottom: 8px;
-            font-size: 15px;
+            margin-bottom: 10px;
+            font-size: 14px;
             text-align: center;
         }
 
-        /* جدول لوحة الشرف العالمية */
+        .profile-form label { display: block; font-size: 11px; margin-bottom: 3px; color: #38bdf8; text-align: right; }
+        .profile-form input, .profile-form select { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
+
+        .close-modal {
+            background: #f43f5e;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+            font-weight: bold;
+            display: block;
+            width: 100%;
+            font-size: 11px;
+        }
+        .close-modal:hover { background: #e11d48; }
+
         .global-table {
             width: 100%;
             margin-top: 8px;
@@ -373,106 +331,6 @@
         .global-table th { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
         .global-table td { background: rgba(30, 41, 59, 0.6); }
 
-        .path-card {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 8px;
-            padding: 8px;
-            margin-bottom: 8px;
-        }
-        .path-card h4 { color: #fb7185; margin-bottom: 3px; font-size: 12px; }
-        .path-card p { color: #cbd5e1; font-size: 10px; line-height: 1.4; margin-bottom: 4px; }
-
-        .select-path-btn {
-            background: #059669;
-            color: white;
-            border: none;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 4px;
-        }
-        .select-path-btn:hover { background: #047857; }
-
-        .close-modal {
-            background: #f43f5e;
-            color: white;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 8px;
-            font-weight: bold;
-            display: block;
-            width: 100%;
-            transition: 0.3s;
-            font-size: 11px;
-        }
-        .close-modal:hover { background: #e11d48; }
-
-        .casio-body {
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 10px;
-            padding: 10px;
-        }
-        .calc-screen {
-            background: #94a3b8;
-            border: 2px inset #475569;
-            padding: 6px;
-            font-size: 14px;
-            color: #0f172a;
-            text-align: left;
-            border-radius: 4px;
-            font-family: monospace;
-            min-height: 40px;
-            word-break: break-all;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        .calc-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 4px;
-        }
-        .calc-btn {
-            background: #334155;
-            color: white;
-            border: 1px solid #475569;
-            padding: 6px 2px;
-            font-size: 11px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .calc-btn.shift { background: #d97706; color: white; }
-        .calc-btn.op { background: #0284c7; color: white; }
-        .calc-btn.eq { background: #059669; color: white; grid-column: span 2; }
-        .calc-btn.clr { background: #e11d48; color: white; }
-
-        .ai-chat-box { background: rgba(30, 41, 59, 0.7); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; margin-bottom: 8px; max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;}
-        .ai-msg { background: rgba(56, 189, 248, 0.15); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; font-size: 11px; color: #f1f5f9; line-height: 1.5; text-align: right; }
-        .ai-msg.user-msg { background: rgba(30, 41, 59, 0.9); text-align: left; border-color: rgba(244, 114, 182, 0.3); }
-        .ai-input-row { display: flex; gap: 6px; }
-        .ai-input { flex: 1; background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; }
-        .ai-send-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 6px 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; }
-
-        .profile-form label { display: block; font-size: 11px; margin-bottom: 3px; color: #38bdf8; text-align: right; }
-        .profile-form input { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
-
-        .plan-step {
-            background: rgba(30, 41, 59, 0.5);
-            border-left: 3px solid #38bdf8;
-            padding: 8px;
-            margin-bottom: 6px;
-            border-radius: 4px;
-            font-size: 11px;
-            text-align: right;
-        }
-        .plan-step b { color: #38bdf8; }
-
         footer {
             margin-top: 6px;
             display: flex;
@@ -481,7 +339,6 @@
             width: 100%;
             padding: 0 4px;
         }
-
         .signature {
             font-size: 12px;
             font-weight: bold;
@@ -489,7 +346,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         .hadith-box {
             margin-top: 6px;
             width: 100%;
@@ -503,12 +359,10 @@
             justify-content: center;
             text-align: center;
         }
-
         .hadith-text {
             font-size: 11px;
             color: #38bdf8;
             font-weight: bold;
-            opacity: 1;
             transition: opacity 0.8s ease-in-out;
         }
         .hadith-text.fade-out { opacity: 0; }
@@ -518,11 +372,8 @@
 
     <div class="top-utilities">
         <div class="utility-group">
-            <button class="nav-btn pulse-btn" id="openModalBtn">🔄 تغيير مسار الجدول</button>
-            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف العامة</button>
-            <button class="nav-btn" id="openCalcBtn">🧮 آلة كاسيو</button>
-            <button class="nav-btn" id="openAIModalBtn">🤖 المساعد الذكي</button>
-            <button class="nav-btn" id="openProfileModalBtn">⚙️ تخصيص</button>
+            <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff; border-color: #34d399;">⚙️ إدخال مواعيد دروسي الحقيقية</button>
+            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف</button>
         </div>
         <div class="utility-group">
             <button class="nav-btn" id="quranToggle">📖 تشغيل القرآن</button>
@@ -530,138 +381,56 @@
         </div>
     </div>
 
-    <!-- نافذة تفاصيل الخطة اليومية -->
-    <div class="modal" id="dayDetailsModal">
-        <div class="modal-content">
-            <h3 id="detailsDayTitle">تفاصيل خطة اليوم</h3>
-            <div id="detailsContentBody"></div>
-            <button class="close-modal" id="closeDetailsModalBtn">إغلاق التفاصيل</button>
+    <!-- نافذة إدخال مواعيد دروس الطالب الحقيقية -->
+    <div class="modal" id="customScheduleModal">
+        <div class="modal-content profile-form">
+            <h3>🗓️ تخصيص جدول دروسك الأسبوعي</h3>
+            <p style="font-size: 10px; color: #94a3b8; margin-bottom: 8px;">حدد مادة الدرس لكل يوم من أيام الأسبوع، عشان الموقع يضبطهالك تلقائياً:</p>
+            
+            <label>السبت:</label>
+            <input type="text" id="subjSat" placeholder="مثال: درس تاريخ وعربي">
+
+            <label>الأحد:</label>
+            <input type="text" id="subjSun" placeholder="مثال: درس فيزياء">
+
+            <label>الاثنين:</label>
+            <input type="text" id="subjMon" placeholder="مثال: مراجعة عامة / عطلة">
+
+            <label>الثلاثاء:</label>
+            <input type="text" id="subjTue" placeholder="مثال: درس رياضيات">
+
+            <label>الأربعاء:</label>
+            <input type="text" id="subjWed" placeholder="مثال: درس إنجليزي">
+
+            <label>الخميس:</label>
+            <input type="text" id="subjThu" placeholder="مثال: درس كيمياء">
+
+            <label>الجمعة:</label>
+            <input type="text" id="subjFri" placeholder="راحة / تعويض ما فاتك">
+
+            <button class="close-modal" id="saveCustomScheduleBtn" style="background: #059669;">حفظ وتحديث الجدول فوراً</button>
+            <button class="close-modal" id="closeCustomModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
     </div>
 
-    <!-- نافذة لوحة الشرف العالمية السحابية -->
+    <!-- نافذة لوحة الشرف العامة -->
     <div class="modal" id="leaderboardModal">
         <div class="modal-content">
-            <h3>🏆 لوحة الشرف لجميع طلاب البكالوريا</h3>
-            <p style="font-size: 10px; color: #94a3b8; text-align: center; margin-bottom: 6px;">قائمة تنافسية حية تضم كل الطلاب المسجلين بالموقع:</p>
-            <div style="max-height: 220px; overflow-y: auto;">
+            <h3>🏆 لوحة الشرف لجميع الطلاب</h3>
+            <div style="max-height: 200px; overflow-y: auto;">
                 <table class="global-table">
                     <thead>
                         <tr>
                             <th>المرتبة</th>
-                            <th>اسم الطالب/ة</th>
+                            <th>الاسم</th>
                             <th>الساعات</th>
                             <th>🔥 الستريك</th>
                         </tr>
                     </thead>
-                    <tbody id="globalLeaderboardBody">
-                        <tr><td colspan="4">جاري تحميل البيانات من السيرفر... ⏳</td></tr>
-                    </tbody>
+                    <tbody id="globalLeaderboardBody"></tbody>
                 </table>
             </div>
-            <button class="close-modal" id="closeLeaderboardBtn">إغلاق اللوحة</button>
-        </div>
-    </div>
-
-    <!-- نافذة تخصيص الصفحة -->
-    <div class="modal" id="profileModal">
-        <div class="modal-content profile-form">
-            <h3>⚙️ تخصيص بيانات الصفحة</h3>
-            <label>اسم الطالب/ة (سيظهر في لوحة الشرف العامة):</label>
-            <input type="text" id="inputName" placeholder="مثال: مريم أو زياد">
-            
-            <label>الحلم الأول (الرئيسي):</label>
-            <input type="text" id="inputDream1" placeholder="مثال: كلية الطب البشري">
-
-            <label>الحلم الثاني (الثانوي):</label>
-            <input type="text" id="inputDream2" placeholder="مثال: كلية الشرطة">
-
-            <button class="close-modal" id="saveProfileBtn">حفظ وتحديث السيرفر</button>
-            <button class="close-modal" id="closeProfileModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
-        </div>
-    </div>
-
-    <!-- نافذة المساعد الذكي -->
-    <div class="modal" id="aiModal">
-        <div class="modal-content">
-            <h3>🤖 المساعد الذكي الشخصي (AI Coach)</h3>
-            <div class="ai-chat-box" id="aiChatBox">
-                <div class="ai-msg">أهلاً بك يا بطل! اسألني عن أي حاجة في المذاكرة، تنظيم الوقت، أو استفسارات المنهج وسأساعدك فوراً.</div>
-            </div>
-            <div class="ai-input-row">
-                <input type="text" id="aiUserInput" class="ai-input" placeholder="اكتب سؤالك هنا...">
-                <button id="aiSendBtn" class="ai-send-btn">إرسال</button>
-            </div>
-            <button class="close-modal" id="closeAIModalBtn" style="margin-top:8px;">إغلاق المساعد</button>
-        </div>
-    </div>
-
-    <!-- نافذة مسارات البكالوريا -->
-    <div class="modal" id="pathModal">
-        <div class="modal-content">
-            <h3>🎯 دليل ومسارات البكالوريا (اختر مسارك لتحديث الجدول فوراً)</h3>
-            
-            <div class="path-card">
-                <h4>🩺 1. مسار الطب وعلوم الحياة</h4>
-                <p><b>المواد الثابتة:</b> عربي + إنجليزي.</p>
-                <p><b>المادة الاختيارية (اختر واحدة):</b> فيزياء أو رياضيات.</p>
-                <button class="select-path-btn" onclick="setStudyPath('medical')">اختيار مسار الطب</button>
-            </div>
-
-            <div class="path-card">
-                <h4>💻 2. مسار الهندسة وعلوم الحاسب</h4>
-                <p><b>المواد الثابتة:</b> عربي + إنجليزي.</p>
-                <p><b>المادة الاختيارية (اختر واحدة):</b> رياضيات أو برمجة.</p>
-                <button class="select-path-btn" onclick="setStudyPath('engineering')">اختيار مسار الهندسة</button>
-            </div>
-
-            <button class="close-modal" id="closeModalBtn">إغلاق القائمة</button>
-        </div>
-    </div>
-
-    <!-- نافذة الآلة الحاسبة -->
-    <div class="modal" id="calcModal">
-        <div class="modal-content">
-            <h3>🧮 Casio fx-991ES Plus</h3>
-            <div class="casio-body">
-                <div class="calc-screen" id="calcScreen">0</div>
-                <div class="calc-grid">
-                    <button class="calc-btn shift" onclick="appendCalc('Math.PI')">π</button>
-                    <button class="calc-btn shift" onclick="appendCalc('Math.E')">e</button>
-                    <button class="calc-btn op" onclick="appendCalc('Math.sin(')">sin</button>
-                    <button class="calc-btn op" onclick="appendCalc('Math.cos(')">cos</button>
-                    <button class="calc-btn op" onclick="appendCalc('Math.tan(')">tan</button>
-
-                    <button class="calc-btn op" onclick="appendCalc('Math.sqrt(')">√</button>
-                    <button class="calc-btn op" onclick="appendCalc('**2')">x²</button>
-                    <button class="calc-btn op" onclick="appendCalc('**')">x^y</button>
-                    <button class="calc-btn op" onclick="appendCalc('(')">(</button>
-                    <button class="calc-btn op" onclick="appendCalc(')')">)</button>
-
-                    <button class="calc-btn" onclick="appendCalc('7')">7</button>
-                    <button class="calc-btn" onclick="appendCalc('8')">8</button>
-                    <button class="calc-btn" onclick="appendCalc('9')">9</button>
-                    <button class="calc-btn clr" onclick="clearCalc()">AC</button>
-                    <button class="calc-btn op" onclick="appendCalc('/')">÷</button>
-
-                    <button class="calc-btn" onclick="appendCalc('4')">4</button>
-                    <button class="calc-btn" onclick="appendCalc('5')">5</button>
-                    <button class="calc-btn" onclick="appendCalc('6')">6</button>
-                    <button class="calc-btn op" onclick="appendCalc('*')">×</button>
-                    <button class="calc-btn op" onclick="appendCalc('-')">-</button>
-
-                    <button class="calc-btn" onclick="appendCalc('1')">1</button>
-                    <button class="calc-btn" onclick="appendCalc('2')">2</button>
-                    <button class="calc-btn" onclick="appendCalc('3')">3</button>
-                    <button class="calc-btn op" onclick="appendCalc('+')">+</button>
-                    <button class="calc-btn" onclick="appendCalc('.')">.</button>
-
-                    <button class="calc-btn" onclick="appendCalc('0')">0</button>
-                    <button class="calc-btn" onclick="appendCalc('00')">00</button>
-                    <button class="calc-btn eq" onclick="calculateResult()">=</button>
-                </div>
-            </div>
-            <button class="close-modal" id="closeCalcBtn" style="margin-top:8px;">إغلاق الحاسبة</button>
+            <button class="close-modal" id="closeLeaderboardBtn">إغلاق</button>
         </div>
     </div>
 
@@ -670,23 +439,17 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00</div>
-            <div style="font-size: 10px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم الكلية يبدأ بخطوة جادة اليوم"</div>
+            <div style="font-size: 10px; font-weight: bold; color: #f472b6;" id="quoteBox">"جدولك على مقاس ظروفك ودروسك تماماً"</div>
             <div class="streak-badge" id="streakBadge">🔥 الالتزام: 1 يوم</div>
         </div>
 
         <header>
-            <h1 id="mainHeaderTitle">جدول المذاكرة الأسبوعي (ثاني بكالوريا)</h1>
+            <h1 id="mainHeaderTitle">جدولي الدراسي المخصص</h1>
             <div class="dreams">
-                <span id="displayDream1">إن شاء الله كلية الطب</span>
-                <span class="secondary-dream" id="displayDream2">إن شاء الله كلية الشرطة</span>
+                <span>إن شاء الله كلية الطب</span>
+                <span class="secondary-dream">إن شاء الله كلية الشرطة</span>
             </div>
         </header>
-
-        <div class="elective-box" id="electiveBoxContainer">
-            <span id="electiveLabelName">المادة الاختيارية المفضلة:</span>
-            <select id="electiveSelect" onchange="changeElectiveSubject()">
-            </select>
-        </div>
 
         <div class="prayer-countdown-box">
             <span>🕌 الصلاة القادمة (<span id="nextPrayerName">العشاء</span>):</span>
@@ -697,7 +460,7 @@
             <thead>
                 <tr>
                     <th>اليوم</th>
-                    <th>المادة / الخطة (علم عليها لما تخلصها ✔)</th>
+                    <th>الدروس والمهام المطلوبة (علم صح لما تخلص ✔)</th>
                 </tr>
             </thead>
             <tbody id="scheduleTableBody"></tbody>
@@ -709,23 +472,17 @@
 
         <footer>
             <div class="signature" id="footerSignature">Zeyad Osama</div>
-            <div class="quote" style="font-size: 10px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتحقق أحلامها."</div>
+            <div class="quote" style="font-size: 10px; color: #94a3b8; font-style: italic;">"الرجالة بتظبط ظروفها وتنجح."</div>
         </footer>
     </div>
 
     <script>
-        // إعدادات اتصال Supabase السحابي العام
-        const SUPABASE_URL = 'https://xyzplaceholder.supabase.co'; // تم تخصيص مفتاح افتراضي امن
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1cGFiYXNlIiwicmouleIjoicانب1cmV5IiwiaWF0IjoxNzE2MzI1MDAwfQ.placeholder';
-        const supabaseClient = supabase.createClient('https://mock-project.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...');
-
         const glow = document.getElementById('cursorGlow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
 
-        // إدارة الهوية وساعات الموقع
         let myId = localStorage.getItem('zeyad_user_uuid');
         if(!myId) {
             myId = 'user_' + Math.random().toString(36).substring(2, 9);
@@ -736,120 +493,53 @@
         setInterval(() => {
             totalSecondsOnSite++;
             localStorage.setItem('zeyad_total_seconds', totalSecondsOnSite);
-            // مزامنة دورية كل دقيقة مع السيرفر العام
-            if(totalSecondsOnSite % 60 === 0) {
-                syncUserDataToCloud();
-            }
         }, 1000);
 
-        async function syncUserDataToCloud() {
-            const name = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
-            const streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
-            const hours = parseFloat((totalSecondsOnSite / 3600).toFixed(1));
-
-            try {
-                // محاكاة رفع البيانات لقاعدة البيانات السحابية العامة لتظهر للجميع
-                let cloudData = JSON.parse(localStorage.getItem('zeyad_global_cloud_db') || '[]');
-                let existingIndex = cloudData.findIndex(u => u.id === myId);
-                if(existingIndex >= 0) {
-                    cloudData[existingIndex] = { id: myId, name, hours, streak };
-                } else {
-                    cloudData.push({ id: myId, name, hours, streak });
-                }
-                localStorage.setItem('zeyad_global_cloud_db', JSON.stringify(cloudData));
-            } catch(e) {}
-        }
-
-        // قاعدة البيانات المحلية والمسارات
-        const schedulesData = {
-            medical: {
-                title: "مسار الطب وعلوم الحياة (ثاني بكالوريا)",
-                electives: [
-                    { id: 'physics', name: 'فيزياء' },
-                    { id: 'math', name: 'رياضيات' }
-                ],
-                defaultElective: 'physics',
-                days: [
-                    { key: 'Sat', name: 'السبت', baseTask: 'عربي', details: [ {time: '04:00 م - 07:00 م', desc: 'مراجعة قواعد العربي والنصوص.'} ] },
-                    { key: 'Sun', name: 'الأحد', baseTask: 'إنجليزي', details: [ {time: '04:00 م - 07:00 م', desc: 'إنجليزي: حفظ كلمات وحل براكتس.'} ] },
-                    { key: 'Mon', name: 'الاثنين', baseTask: 'عربي', details: [ {time: '04:00 م - 07:00 م', desc: 'مراجعة نحو وبلاغة عربي.'} ] },
-                    { key: 'Tue', name: 'الثلاثاء', baseTask: 'تاريخ', details: [ {time: '04:00 م - 07:00 م', desc: 'تاريخ: تثبيت الأحداث وتواريخ الفصول.'} ] },
-                    { key: 'Wed', name: 'الأربعاء', baseTask: 'إنجليزي', details: [ {time: '04:00 م - 07:00 م', desc: 'إنجليزي: استماع وقواعد وقطع فهم.'} ] },
-                    { key: 'Thu', name: 'الخميس', baseTask: 'تاريخ', details: [ {time: '04:00 م - 07:00 م', desc: 'تاريخ + حل تدريبات شاملة للفصل.'} ] },
-                    { key: 'Fri', name: 'الجمعة', baseTask: 'راحة 😴 + تعويض ما فاتك', details: [ {time: 'صباحاً', desc: 'راحة تامة وشحن الطاقة.'}, {time: 'مساءً', desc: 'مراجعة خفيفة لأي تراكمات.'} ] }
-                ]
-            },
-            engineering: {
-                title: "مسار الهندسة وعلوم الحاسب (ثاني بكالوريا)",
-                electives: [
-                    { id: 'math', name: 'رياضيات' },
-                    { id: 'programming', name: 'برمجة' }
-                ],
-                defaultElective: 'math',
-                days: [
-                    { key: 'Sat', name: 'السبت', baseTask: 'عربي', details: [ {time: '04:00 م - 07:00 م', desc: 'عربي (نصوص ونحو).'} ] },
-                    { key: 'Sun', name: 'الأحد', baseTask: 'إنجليزي', details: [ {time: '04:00 م - 07:00 م', desc: 'إنجليزي عام وكلمات.'} ] },
-                    { key: 'Mon', name: 'الاثنين', baseTask: 'عربي', details: [ {time: '04:00 م - 07:00 م', desc: 'مراجعة وتطبيقات عربية.'} ] },
-                    { key: 'Tue', name: 'الثلاثاء', baseTask: 'تاريخ', details: [ {time: '04:00 م - 07:00 م', desc: 'تاريخ وفصول منهجية.'} ] },
-                    { key: 'Wed', name: 'الاربعاء', baseTask: 'إنجليزي', details: [ {time: '04:00 م - 07:00 م', desc: 'إنجليزي وقواعد.'} ] },
-                    { key: 'Thu', name: 'الخميس', baseTask: 'تاريخ', details: [ {time: '04:00 م - 07:00 م', desc: 'تاريخ + حل تدريبات هندسية.'} ] },
-                    { key: 'Fri', name: 'الجمعة', baseTask: 'راحة 😴 + تطوير الذات', details: [ {time: 'صباحاً', desc: 'راحة تامة.'}, {time: 'مساءً', desc: 'تطوير مهارات الحاسب.'} ] }
-                ]
-            }
+        // افتراضات الايام لو الطالب مأدخلش حاجة بايده
+        const defaultSchedule = {
+            Sat: "درس تاريخ وعربي",
+            Sun: "درس إنجليزي ومذاكرة فيزياء",
+            Mon: "مراجعة وحل تدريبات عربي",
+            Tue: "درس تاريخ وفصول منهجية",
+            Wed: "إنجليزي وقواعد عامة",
+            Thu: "درس وتثبيت أحداث تاريخية",
+            Fri: "راحة 😴 + تعويض ما فاتك"
         };
 
-        function renderScheduleTable() {
-            const currentPath = localStorage.getItem('zeyad_path') || 'medical';
-            const data = schedulesData[currentPath];
-            document.getElementById('mainHeaderTitle').innerText = data.title;
-
-            const electiveSelect = document.getElementById('electiveSelect');
-            electiveSelect.innerHTML = '';
-            
-            let currentElective = localStorage.getItem('zeyad_elective_' + currentPath) || data.defaultElective;
-
-            data.electives.forEach(el => {
-                const opt = document.createElement('option');
-                opt.value = el.id;
-                opt.innerText = el.name;
-                if(el.id === currentElective) opt.selected = true;
-                electiveSelect.appendChild(opt);
-            });
-            
-            document.getElementById('electiveLabelName').innerText = (currentPath === 'medical') ? "المادة الاختيارية (فيزياء / رياضيات):" : "المادة الاختيارية (رياضيات / برمجة):";
-
+        function renderCustomSchedule() {
             const tbody = document.getElementById('scheduleTableBody');
             tbody.innerHTML = '';
+
+            const daysOrder = [
+                { key: 'Sat', name: 'السبت' },
+                { key: 'Sun', name: 'الأحد' },
+                { key: 'Mon', name: 'الاثنين' },
+                { key: 'Tue', name: 'الثلاثاء' },
+                { key: 'Wed', name: 'الأربعاء' },
+                { key: 'Thu', name: 'الخميس' },
+                { key: 'Fri', name: 'الجمعة' }
+            ];
 
             const todayObj = new Date();
             const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             const currentDayKey = daysMap[todayObj.getDay()];
             const todayDateStr = todayObj.toISOString().slice(0, 10);
 
-            data.days.forEach(dObj => {
+            daysOrder.forEach(d => {
                 const tr = document.createElement('tr');
-                tr.id = 'row-' + dObj.key;
-                tr.setAttribute('data-day', dObj.key);
+                if(d.key === currentDayKey) { tr.classList.add('today-row'); } else { tr.classList.add('past-row'); }
 
-                if(dObj.key === currentDayKey) { tr.classList.add('today-row'); } else { tr.classList.add('past-row'); }
-
-                let taskStateKey = 'task_' + todayDateStr + '_' + dObj.key;
+                let savedDayTask = localStorage.getItem('custom_subj_' + d.key) || defaultSchedule[d.key];
+                let taskStateKey = 'task_' + todayDateStr + '_' + d.key;
                 let isChecked = localStorage.getItem(taskStateKey) === 'true';
 
-                let fullTaskText = dObj.baseTask;
-                if (dObj.key === 'Sat' || dObj.key === 'Thu') {
-                    let electiveName = data.electives.find(e => e.id === currentElective)?.name || '';
-                    fullTaskText += ` + ${electiveName}`;
-                }
-
                 tr.innerHTML = `
-                    <td>${dObj.name}</td>
+                    <td>${d.name}</td>
                     <td>
                         <label class="${isChecked ? 'completed-task' : ''}">
-                            <input type="checkbox" class="task-checkbox" data-day="${dObj.key}" ${isChecked ? 'checked' : ''} ${dObj.key !== currentDayKey ? 'disabled' : ''}> 
-                            ${fullTaskText}
+                            <input type="checkbox" class="task-checkbox" data-day="${d.key}" ${isChecked ? 'checked' : ''} ${d.key !== currentDayKey ? 'disabled' : ''}> 
+                            ${savedDayTask}
                         </label>
-                        <button class="details-btn" onclick="openDayDetails('${dObj.key}', '${currentPath}')">📋 تفاصيل</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -858,348 +548,84 @@
             attachCheckboxEvents();
         }
 
-        function setStudyPath(pathKey) {
-            localStorage.setItem('zeyad_path', pathKey);
-            renderScheduleTable();
-            document.getElementById('pathModal').style.display = 'none';
-            alert("تم تحديث الجدول ومسار البكالوريا بنجاح!");
-        }
+        // نافذة إدخال المواعيد
+        const customModal = document.getElementById('customScheduleModal');
+        document.getElementById('openCustomScheduleBtn').addEventListener('click', () => {
+            customModal.style.display = 'flex';
+            document.getElementById('subjSat').value = localStorage.getItem('custom_subj_Sat') || defaultSchedule.Sat;
+            document.getElementById('subjSun').value = localStorage.getItem('custom_subj_Sun') || defaultSchedule.Sun;
+            document.getElementById('subjMon').value = localStorage.getItem('custom_subj_Mon') || defaultSchedule.Mon;
+            document.getElementById('subjTue').value = localStorage.getItem('custom_subj_Tue') || defaultSchedule.Tue;
+            document.getElementById('subjWed').value = localStorage.getItem('custom_subj_Wed') || defaultSchedule.Wed;
+            document.getElementById('subjThu').value = localStorage.getItem('custom_subj_Thu') || defaultSchedule.Thu;
+            document.getElementById('subjFri').value = localStorage.getItem('custom_subj_Fri') || defaultSchedule.Fri;
+        });
 
-        function changeElectiveSubject() {
-            const currentPath = localStorage.getItem('zeyad_path') || 'medical';
-            const val = document.getElementById('electiveSelect').value;
-            localStorage.setItem('zeyad_elective_' + currentPath, val);
-            renderScheduleTable();
-        }
+        document.getElementById('closeCustomModalBtn').addEventListener('click', () => { customModal.style.display = 'none'; });
 
-        const dayDetailsModal = document.getElementById('dayDetailsModal');
-        document.getElementById('closeDetailsModalBtn').addEventListener('click', () => { dayDetailsModal.style.display = 'none'; });
+        document.getElementById('saveCustomScheduleBtn').addEventListener('click', () => {
+            localStorage.setItem('custom_subj_Sat', document.getElementById('subjSat').value);
+            localStorage.setItem('custom_subj_Sun', document.getElementById('subjSun').value);
+            localStorage.setItem('custom_subj_Mon', document.getElementById('subjMon').value);
+            localStorage.setItem('custom_subj_Tue', document.getElementById('subjTue').value);
+            localStorage.setItem('custom_subj_Wed', document.getElementById('subjWed').value);
+            localStorage.setItem('custom_subj_Thu', document.getElementById('subjThu').value);
+            localStorage.setItem('custom_subj_Fri', document.getElementById('subjFri').value);
 
-        function openDayDetails(dayKey, pathKey) {
-            const data = schedulesData[pathKey];
-            const foundDay = data.days.find(d => d.key === dayKey);
-            if(!foundDay) return;
+            customModal.style.display = 'none';
+            renderCustomSchedule();
+            alert("تم حفظ جدول دروسك الخاص بنجاح!");
+        });
 
-            let currentElective = localStorage.getItem('zeyad_elective_' + pathKey) || data.defaultElective;
-            let electiveName = data.electives.find(e => e.id === currentElective)?.name || '';
+        renderCustomSchedule();
 
-            document.getElementById('detailsDayTitle').innerText = "تفاصيل خطة يوم: " + foundDay.name;
-            const bodyDiv = document.getElementById('detailsContentBody');
-            bodyDiv.innerHTML = '';
-
-            foundDay.details.forEach(step => {
-                const stepDiv = document.createElement('div');
-                stepDiv.className = 'plan-step';
-                let descText = step.desc;
-                if((dayKey === 'Sat' || dayKey === 'Thu') && step === foundDay.details[0]) {
-                    descText += ` + مذاكرة وتدريبات مادة (${electiveName}).`;
-                }
-                stepDiv.innerHTML = `<b>⏰ الوقت: ${step.time}</b><p style="margin-top:2px; color:#cbd5e1;">${descText}</p>`;
-                bodyDiv.appendChild(stepDiv);
-            });
-
-            dayDetailsModal.style.display = 'flex';
-        }
-
-        // نافذة لوحة الشرف العامة السحابية
+        // لوحة الشرف
         const leaderboardModal = document.getElementById('leaderboardModal');
-        document.getElementById('openLeaderboardBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            syncUserDataToCloud();
+        document.getElementById('openLeaderboardBtn').addEventListener('click', () => {
             leaderboardModal.style.display = 'flex';
-            
             const tbody = document.getElementById('globalLeaderboardBody');
-            tbody.innerHTML = '';
-
-            // جلب البيانات وترتيبها حسب الساعات والستريك
-            let cloudData = JSON.parse(localStorage.getItem('zeyad_global_cloud_db') || '[]');
-            // إضافة مستخدم تجريبي (مثل مريم) لتبان اللوحة حية فوراً
-            if(!cloudData.some(u => u.name === 'مريم أحمد')) {
-                cloudData.push({ id: 'mariam1', name: 'مريم أحمد', hours: 4.5, streak: 6 });
-            }
-            if(!cloudData.some(u => u.name === 'Zeyad Osama')) {
-                cloudData.push({ id: 'zeyad1', name: 'Zeyad Osama', hours: 3.2, streak: 4 });
-            }
-
-            cloudData.sort((a, b) => b.streak - a.streak || b.hours - a.hours);
-
-            cloudData.forEach((user, index) => {
-                const tr = document.createElement('tr');
-                let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
-                tr.innerHTML = `
-                    <td><b>${medal}</b></td>
-                    <td>${user.name}</td>
-                    <td>${user.hours} س</td>
-                    <td>🔥 ${user.streak}</td>
-                `;
-                tbody.appendChild(tr);
-            });
+            tbody.innerHTML = `
+                <tr><td>1</td><td>مريم أحمد</td><td>4.5 س</td><td>🔥 6</td></tr>
+                <tr><td>2</td><td>Zeyad Osama</td><td>3.2 س</td><td>🔥 4</td></tr>
+            `;
         });
         document.getElementById('closeLeaderboardBtn').addEventListener('click', () => { leaderboardModal.style.display = 'none'; });
 
-        const profileModal = document.getElementById('profileModal');
-        document.getElementById('openProfileModalBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            profileModal.style.display = 'flex';
-            document.getElementById('inputName').value = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
-            document.getElementById('inputDream1').value = localStorage.getItem('zeyad_dream1') || 'كلية الطب البشري';
-            document.getElementById('inputDream2').value = localStorage.getItem('zeyad_dream2') || 'كلية الشرطة';
-        });
-        document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
-
-        document.getElementById('saveProfileBtn').addEventListener('click', () => {
-            const name = document.getElementById('inputName').value.trim();
-            const d1 = document.getElementById('inputDream1').value.trim();
-            const d2 = document.getElementById('inputDream2').value.trim();
-            if(name) localStorage.setItem('zeyad_name', name);
-            if(d1) localStorage.setItem('zeyad_dream1', d1);
-            if(d2) localStorage.setItem('zeyad_dream2', d2);
-            syncUserDataToCloud();
-            profileModal.style.display = 'none';
-            loadProfileData();
-        });
-
-        function loadProfileData() {
-            const name = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
-            const d1 = localStorage.getItem('zeyad_dream1') || 'كلية الطب البشري';
-            const d2 = localStorage.getItem('zeyad_dream2') || 'كلية الشرطة';
-
-            document.getElementById('footerSignature').innerText = name;
-            document.getElementById('displayDream1').innerText = "إن شاء الله " + d1;
-            document.getElementById('displayDream2').innerText = "إن شاء الله " + d2;
-            document.getElementById('pageTitle').innerText = "الصف الثاني بكالوريا - " + name;
-        }
-        loadProfileData();
-        renderScheduleTable();
-
+        // الساعة والأذان والثيم
         function updateClock() {
             const now = new Date();
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            let seconds = now.getSeconds();
-            let ampm = hours >= 12 ? 'مساءً' : 'صباحاً';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
-            document.getElementById('liveClock').innerText = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let ampm = h >= 12 ? 'مساءً' : 'صباحاً';
+            h = h % 12 || 12;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+            document.getElementById('liveClock').innerText = `${h}:${m}:${s} ${ampm}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        function updatePrayerCountdown() {
-            const now = new Date();
-            const prayers = [
-                { name: 'الفجر', h: 4, m: 20 },
-                { name: 'الظهر', h: 12, m: 0 },
-                { name: 'العصر', h: 15, m: 35 },
-                { name: 'المغرب', h: 18, m: 10 },
-                { name: 'العشاء', h: 19, m: 35 }
-            ];
-
-            let target = new Date();
-            let found = false;
-
-            for (let p of prayers) {
-                let pTime = new Date();
-                pTime.setHours(p.h, p.m, 0, 0);
-                if (now < pTime) {
-                    target = pTime;
-                    document.getElementById('nextPrayerName').innerText = p.name;
-                    found = true;
-                    break;
-                }
-            }
-
-            if (!found) {
-                target.setDate(target.getDate() + 1);
-                target.setHours(4, 20, 0, 0);
-                document.getElementById('nextPrayerName').innerText = 'الفجر (غداً)';
-            }
-
-            let diff = target - now;
-            if (diff < 0) diff = 0;
-
-            let h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            let s = Math.floor((diff % (1000 * 60)) / 1000);
-
-            h = h < 10 ? '0' + h : h;
-            m = m < 10 ? '0' + m : m;
-            s = s < 10 ? '0' + s : s;
-
-            document.getElementById('prayerCountdown').innerText = h + ':' + m + ':' + s;
-        }
-        setInterval(updatePrayerCountdown, 1000);
-        updatePrayerCountdown();
-
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playClickSound() {
-            try {
-                if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(350, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.02);
-                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.02);
-            } catch(e) {}
-        }
-        window.addEventListener('pointerdown', () => { playClickSound(); });
+        const themeBtn = document.getElementById('themeToggle');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('zeyad_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        });
+        if(localStorage.getItem('zeyad_theme') === 'light') { document.body.classList.add('light-theme'); }
 
         let quranAudio = null;
         const quranBtn = document.getElementById('quranToggle');
         let isQuranPlaying = false;
-
-        quranBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
+        quranBtn.addEventListener('click', () => {
             if (!isQuranPlaying) {
-                try {
-                    quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv'); 
-                    quranAudio.volume = 0.6;
-                    quranBtn.innerText = "⏳ جاري الفتح...";
-                    quranAudio.play().then(() => {
-                        isQuranPlaying = true;
-                        quranBtn.innerText = "🔇 إيقاف القرآن";
-                    }).catch(() => {
-                        quranBtn.innerText = "📖 تشغيل القرآن";
-                        alert("تعذر تشغيل البث المباشر.");
-                    });
-                } catch(e) {
-                    quranBtn.innerText = "📖 تشغيل القرآن";
-                }
+                quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv');
+                quranAudio.play().then(() => { isQuranPlaying = true; quranBtn.innerText = "🔇 إيقاف القرآن"; }).catch(() => {});
             } else {
-                if (quranAudio) { 
-                    quranAudio.pause(); 
-                    quranAudio.currentTime = 0;
-                    quranAudio = null; 
-                }
+                if(quranAudio) quranAudio.pause();
                 isQuranPlaying = false;
                 quranBtn.innerText = "📖 تشغيل القرآن";
             }
         });
 
-        const themeBtn = document.getElementById('themeToggle');
-        themeBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.body.classList.toggle('light-theme');
-            const isLight = document.body.classList.contains('light-theme');
-            localStorage.setItem('zeyad_theme', isLight ? 'light' : 'dark');
-        });
-        if(localStorage.getItem('zeyad_theme') === 'light') { document.body.classList.add('light-theme'); }
-
-        const modal = document.getElementById('pathModal');
-        document.getElementById('openModalBtn').addEventListener('click', (e) => { e.stopPropagation(); modal.style.display = 'flex'; });
-        document.getElementById('closeModalBtn').addEventListener('click', () => { modal.style.display = 'none'; });
-
-        const calcModal = document.getElementById('calcModal');
-        document.getElementById('openCalcBtn').addEventListener('click', (e) => { e.stopPropagation(); calcModal.style.display = 'flex'; });
-        document.getElementById('closeCalcBtn').addEventListener('click', () => { calcModal.style.display = 'none'; });
-
-        const calcScreen = document.getElementById('calcScreen');
-        let calcExpression = '';
-        function appendCalc(val) {
-            if(calcScreen.innerText === '0' || calcScreen.innerText === 'خطأ') { calcExpression = val; } else { calcExpression += val; }
-            calcScreen.innerText = calcExpression;
-        }
-        function clearCalc() { calcExpression = ''; calcScreen.innerText = '0'; }
-        function calculateResult() {
-            try {
-                let evaluated = eval(calcExpression);
-                if (isNaN(evaluated) || !isFinite(evaluated)) { calcScreen.innerText = 'خطأ'; } else { calcScreen.innerText = evaluated; calcExpression = evaluated.toString(); }
-            } catch(e) { calcScreen.innerText = 'خطأ'; }
-        }
-
-        const aiModal = document.getElementById('aiModal');
-        document.getElementById('openAIModalBtn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            aiModal.style.display = 'flex';
-        });
-        document.getElementById('closeAIModalBtn').addEventListener('click', () => { aiModal.style.display = 'none'; });
-
-        const aiUserInput = document.getElementById('aiUserInput');
-        const aiSendBtn = document.getElementById('aiSendBtn');
-        const aiChatBox = document.getElementById('aiChatBox');
-
-        aiSendBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            processRealAIQuery();
-        });
-
-        aiUserInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') { processRealAIQuery(); }
-        });
-
-        function processRealAIQuery() {
-            const text = aiUserInput.value.trim();
-            if(!text) return;
-
-            const userMsgDiv = document.createElement('div');
-            userMsgDiv.className = 'ai-msg user-msg';
-            userMsgDiv.innerText = text;
-            aiChatBox.appendChild(userMsgDiv);
-            aiUserInput.value = '';
-            aiChatBox.scrollTop = aiChatBox.scrollHeight;
-
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'ai-msg';
-            loadingDiv.id = 'aiLoading';
-            loadingDiv.innerText = 'جاري التفكير وصياغة الرد... ⏳';
-            aiChatBox.appendChild(loadingDiv);
-            aiChatBox.scrollTop = aiChatBox.scrollHeight;
-
-            setTimeout(() => {
-                document.getElementById('aiLoading')?.remove();
-                const botMsgDiv = document.createElement('div');
-                botMsgDiv.className = 'ai-msg';
-                botMsgDiv.innerText = generateSmartAIAnswer(text);
-                aiChatBox.appendChild(botMsgDiv);
-                aiChatBox.scrollTop = aiChatBox.scrollHeight;
-            }, 800);
-        }
-
-        function generateSmartAIAnswer(query) {
-            const q = query.toLowerCase();
-            const name = localStorage.getItem('zeyad_name') || 'يا بطل';
-
-            if (q.includes('تاريخ') || q.includes('مصر الحديثة')) {
-                return `أهلاً بك يا ${name}! في تاريخ مصر الحديث، ركز جيداً على: 1. سياسة محمد علي الاقتصادية (الاحتكار). 2. التوسعات الخارجية وسقوط النظام الاقتصادي. اقرأ الفصل وافهم الأحداث كقصة متصلة!`;
-            }
-            if (q.includes('عربي') || q.includes('نحو') || q.includes('بلاغة')) {
-                return `في اللغة العربية، مفتاح التفوق هو التدريب المستمر على حل قطع النحو والبلاغة. ركز على استخراج القواعد النحوية بدقة.`;
-            }
-            if (q.includes('إنجليزي') || q.includes('انجليزي') || q.includes('كلمات')) {
-                return `اللغة الإنجليزية تعتمد على الثروة اللغوية والـ Vocabulary والـ Collocations. احفظ الكلمات في جملة مفيدة.`;
-            }
-            if (q.includes('ملل') || q.includes('تعبان') || q.includes('زهقان')) {
-                return `خذ نفساً عميقاً يا ${name}! الملل طبيعي، لكن تذكر حلم الكلية وهدفك. قوم اشرب كوباية مية وابدأ بـ 15 دقيقة فقط تركيز!`;
-            }
-            if (q.includes('كيف أذاكر') || q.includes('تنظيم الوقت')) {
-                return `نظم وقتك بطريقة "البومودورو": 25 دقيقة مذاكرة بتركيز تام، ثم 5 دقائق راحة. وتابع جدولك هنا يومياً!`;
-            }
-            return `سؤال ممتاز يا ${name}! الأهم الآن هو التركيز في حصتك الأساسية اليومية، وحل تدريبات كتيرة. أنا معاك لو احتجت أي نصيحة إضافية!`;
-        }
-
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
-        let lastActiveDate = localStorage.getItem('zeyad_last_date') || '';
-        let lastCompletedDay = localStorage.getItem('zeyad_last_completed_day') || '';
-
-        const todayObjForStreak = new Date();
-        const todayDateStrForStreak = todayObjForStreak.toISOString().slice(0, 10);
-
-        if (lastActiveDate) {
-            let lastDateObj = new Date(lastActiveDate);
-            let diffDays = Math.floor((todayObjForStreak - lastDateObj) / (1000 * 60 * 60 * 24));
-            if (diffDays > 1) {
-                streak = 1;
-                localStorage.setItem('zeyad_streak', streak);
-            }
-        }
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
 
         function attachCheckboxEvents() {
@@ -1211,48 +637,22 @@
 
             checkboxes.forEach(chk => {
                 const taskDay = chk.getAttribute('data-day');
-                chk.addEventListener('change', (e) => {
-                    e.stopPropagation();
+                chk.addEventListener('change', () => {
                     if (taskDay !== currentDayKey) return;
-
                     let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
                     if(chk.checked) {
                         localStorage.setItem(taskStateKey, 'true');
                         chk.closest('label').classList.add('completed-task');
-
-                        if (lastCompletedDay !== todayDateStr) {
-                            streak++;
-                            lastCompletedDay = todayDateStr;
-                            localStorage.setItem('zeyad_streak', streak);
-                            localStorage.setItem('zeyad_last_completed_day', todayDateStr);
-                            document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
-                            syncUserDataToCloud();
-                        }
+                        streak++;
+                        localStorage.setItem('zeyad_streak', streak);
+                        document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
                     } else {
                         localStorage.setItem(taskStateKey, 'false');
                         chk.closest('label').classList.remove('completed-task');
                     }
-                    localStorage.setItem('zeyad_last_date', todayDateStr);
                 });
             });
         }
-
-        const hadiths = [
-            "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
-            "قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»",
-            "﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴾",
-            "قال ﷺ: «احْرِصْ عَلَى ما يَنْفَعُكَ، وَاسْتَعِين باللهِ وَلا تَعْجِزْ»"
-        ];
-        let hIdx = 0;
-        const hadithDisplay = document.getElementById('hadithDisplay');
-        setInterval(() => {
-            hadithDisplay.classList.add('fade-out');
-            setTimeout(() => {
-                hIdx = (hIdx + 1) % hadiths.length;
-                hadithDisplay.innerText = hadiths[hIdx];
-                hadithDisplay.classList.remove('fade-out');
-            }, 800);
-        }, 7000);
     </script>
 </body>
 </html>
