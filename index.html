@@ -601,7 +601,6 @@
         }, 1000);
         syncToCloud();
 
-        // مواقيت الصلاة (تلقائية لمصر/القاهرة عبر API رسمي دقيق)
         let prayerTimesList = [];
         async function fetchPrayerTimes() {
             try {
@@ -667,7 +666,6 @@
         }
         setInterval(updatePrayerCountdown, 1000);
 
-        // 🛡️ فلتر الألفاظ
         const badWords = ['شرموط', 'منيوك', 'كلب', 'وسخ', 'حمار', 'قحبة', 'متناك', 'كس', 'طيز', 'عاهرة', 'خول', 'عرص', 'حمضان', 'زفت', 'خرا', 'بضان'];
         function filterBadWords(text) {
             let cleanText = text;
@@ -942,7 +940,7 @@
                     let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
                     if(chk.checked) {
                         localStorage.setItem(taskStateKey, 'true');
-                        chk.closest('label').classList.0 ? '' : chk.closest('label').classList.add('completed-task');
+                        chk.closest('label').classList.add('completed-task');
                         streak++;
                         localStorage.setItem('zeyad_streak', streak);
                         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
