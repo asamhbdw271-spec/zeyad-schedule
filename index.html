@@ -180,7 +180,6 @@
             color: #fb7185;
         }
 
-        /* عداد الصلاة التنازلي المنفصل */
         .prayer-countdown-box {
             background: rgba(30, 41, 59, 0.65);
             padding: 4px 12px;
@@ -256,8 +255,13 @@
             border-bottom-left-radius: 6px; 
         }
 
-        tr:hover td {
-            background: var(--row-hover);
+        /* تمييز يوم اليوم الحالي في الجدول وباقي الأيام تكون هادئة */
+        tr.today-row td {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--accent-blue);
+        }
+        tr.past-row {
+            opacity: 0.6;
         }
 
         .task-checkbox {
@@ -274,7 +278,6 @@
             opacity: 0.5;
         }
 
-        /* المودالز */
         .modal {
             display: none;
             position: fixed;
@@ -331,7 +334,6 @@
         }
         .close-modal:hover { background: #e11d48; }
 
-        /* ستايل الآلة الحاسبة الكاسيو العلمية */
         .casio-body {
             background: #1e293b;
             border: 2px solid #334155;
@@ -372,7 +374,6 @@
         .calc-btn.eq { background: #059669; color: white; grid-column: span 2; }
         .calc-btn.clr { background: #e11d48; color: white; }
 
-        /* الملاحظات */
         .notes-box { display: flex; gap: 6px; margin-top: 6px; }
         .notes-input { flex: 1; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 5px; color: white; border-radius: 6px; font-size: 10px; }
         .notes-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 5px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 10px; }
@@ -396,7 +397,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* شريط الآيات والأحاديث الهادئ (عرض و اختفاء ببطء) */
         .hadith-box {
             margin-top: 6px;
             width: 100%;
@@ -531,7 +531,7 @@
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00</div>
             <div style="font-size: 10px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم"</div>
-            <div class="streak-badge" id="streakBadge">🔥 التزام: 1 يوم</div>
+            <div class="streak-badge" id="streakBadge">🔥 الالتزام: 1 يوم</div>
         </div>
 
         <header>
@@ -542,7 +542,6 @@
             </div>
         </header>
 
-        <!-- عداد الصلاة التنازلي المنفصل -->
         <div class="prayer-countdown-box">
             <span>🕌 الصلاة القادمة (<span id="nextPrayerName">العشاء</span>):</span>
             <div class="countdown-timer" id="prayerCountdown">02:15:40</div>
@@ -556,38 +555,37 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr id="row-sat" data-day="Sat">
                     <td>السبت</td>
-                    <td><label><input type="checkbox" class="task-checkbox" data-id="sat"> تاريخ + عربي (دروسك الأساسية)</label></td>
+                    <td><label><input type="checkbox" class="task-checkbox" data-day="Sat"> تاريخ + عربي (دروسك الأساسية)</label></td>
                 </tr>
-                <tr>
+                <tr id="row-sun" data-day="Sun">
                     <td>الأحد</td>
-                    <td><label><input type="checkbox" class="task-checkbox" data-id="sun"> فيزياء + إنجليزي</label></td>
+                    <td><label><input type="checkbox" class="task-checkbox" data-day="Sun"> فيزياء + إنجليزي</label></td>
                 </tr>
-                <tr>
+                <tr id="row-mon" data-day="Mon">
                     <td>الاثنين</td>
-                    <td><label><input type="checkbox" class="task-checkbox" data-id="mon"> فيزياء (درسك) + تاريخ</label></td>
+                    <td><label><input type="checkbox" class="task-checkbox" data-day="Mon"> فيزياء (درسك) + تاريخ</label></td>
                 </tr>
-                <tr>
+                <tr id="row-tue" data-day="Tue">
                     <td>الثلاثاء</td>
-                    <td><label><input type="checkbox" class="task-checkbox" data-id="tue"> إنجليزي (درسك) + عربي</label></td>
+                    <td><label><input type="checkbox" class="task-checkbox" data-day="Tue"> إنجليزي (درسك) + عربي</label></td>
                 </tr>
-                <tr>
+                <tr id="row-wed" data-day="Wed">
                     <td>الأربعاء</td>
-                    <td><label><input type="checkbox" class="task-checkbox" data-id="wed"> فيزياء + تاريخ</label></td>
+                    <td><label><input type="checkbox" class="task-checkbox" data-day="Wed"> فيزياء + تاريخ</label></td>
                 </tr>
-                <tr>
+                <tr id="row-thu" data-day="Thu">
                     <td>الخميس</td>
-                    <td><label><input type="checkbox" class="task-checkbox" data-id="thu"> عربي + إنجليزي</label></td>
+                    <td><label><input type="checkbox" class="task-checkbox" data-day="Thu"> عربي + إنجليزي</label></td>
                 </tr>
-                <tr>
+                <tr id="row-fri" data-day="Fri">
                     <td>الجمعة</td>
-                    <td><label><input type="checkbox" class="task-checkbox" data-id="fri"> راحة 😴 + تعويض ما فاتك</label></td>
+                    <td><label><input type="checkbox" class="task-checkbox" data-day="Fri"> راحة 😴 + تعويض ما فاتك</label></td>
                 </tr>
             </tbody>
         </table>
 
-        <!-- شريط الآيات والأحاديث الهادئ (بدون جري) -->
         <div class="hadith-box">
             <div class="hadith-text" id="hadithDisplay">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
         </div>
@@ -605,7 +603,6 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // تحديث الساعة العادية
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
@@ -621,7 +618,6 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // نظام العداد التنازلي للصلاة (مبني بدقة للوقت الحالي)
         function updatePrayerCountdown() {
             const now = new Date();
             const prayers = [
@@ -668,7 +664,6 @@
         setInterval(updatePrayerCountdown, 1000);
         updatePrayerCountdown();
 
-        // صوت الماوس (بيشتغل في أي مكان ف الصفحة عند الضغط)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playClickSound() {
             try {
@@ -689,7 +684,6 @@
 
         window.addEventListener('pointerdown', () => { playClickSound(); });
 
-        // صوت الرياح
         let windNode = null;
         let windGain = null;
         const soundBtn = document.getElementById('soundToggle');
@@ -749,7 +743,6 @@
             document.body.classList.add('light-theme');
         }
 
-        // مودال المسارات
         const modal = document.getElementById('pathModal');
         document.getElementById('openModalBtn').addEventListener('click', (e) => {
             e.stopPropagation();
@@ -759,7 +752,6 @@
             modal.style.display = 'none';
         });
 
-        // مودال الآلة الحاسبة
         const calcModal = document.getElementById('calcModal');
         document.getElementById('openCalcBtn').addEventListener('click', (e) => {
             e.stopPropagation();
@@ -800,7 +792,6 @@
             }
         }
 
-        // مودال الملاحظات
         const notesModal = document.getElementById('notesModal');
         document.getElementById('openNotesBtn').addEventListener('click', (e) => {
             e.stopPropagation();
@@ -844,35 +835,84 @@
             }
         });
 
-        // عداد الالتزام
-        let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
-        document.getElementById('streakBadge').innerText = "🔥 التزام: " + streak + " يوم";
+        // ----------------------------------------------------
+        // نظام الـ Streak والمهام المنطقي الجديد (Daily Reality)
+        // ----------------------------------------------------
+        const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const todayObj = new Date();
+        const currentDayKey = daysMap[todayObj.getDay()]; // اسم اليوم الحقيقي (اختصار)
+        const todayDateStr = todayObj.toISOString().slice(0, 10); // تاريخ اليوم YYYY-MM-DD
 
+        // تمييز صف اليوم الحالي في الجدول
+        document.querySelectorAll('tr[data-day]').forEach(tr => {
+            const d = tr.getAttribute('data-day');
+            if(d === currentDayKey) {
+                tr.classList.add('today-row');
+            } else {
+                tr.classList.add('past-row');
+            }
+        });
+
+        // إدارة الـ Streak مع الوقت والتاريخ الحقيقي
+        let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
+        let lastActiveDate = localStorage.getItem('zeyad_last_date') || '';
+        let lastCompletedDay = localStorage.getItem('zeyad_last_completed_day') || '';
+
+        // التحقق من انتظام الأيام (لو فات يوم كامل ومفتحش ومخلصش، الـ Streak يقل أو يتصفر)
+        if (lastActiveDate) {
+            let lastDateObj = new Date(lastActiveDate);
+            let diffDays = Math.floor((todayObj - lastDateObj) / (1000 * 60 * 60 * 24));
+            if (diffDays > 1) {
+                // غاب أكتر من يوم، رجع الـ Streak لـ 1
+                streak = 1;
+                localStorage.setItem('zeyad_streak', streak);
+            }
+        }
+
+        document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
+
+        // التعامل مع مربعات الاختيار (الـ Checkboxes)
         const checkboxes = document.querySelectorAll('.task-checkbox');
         checkboxes.forEach(chk => {
-            const id = chk.getAttribute('data-id');
-            if(localStorage.getItem('task_' + id) === 'true') {
+            const taskDay = chk.getAttribute('data-day');
+            
+            // قفل مهام الأيام الأخرى أو السماح لليوم الحالي فقط (أو القديم المعلق)
+            if (taskDay !== currentDayKey) {
+                chk.disabled = true; // منع اللعب في الأيام الثانية عشوائياً
+            }
+
+            // استرجاع حالة الحفظ لليوم الحالي
+            let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
+            if(localStorage.getItem(taskStateKey) === 'true') {
                 chk.checked = true;
                 chk.closest('label').classList.add('completed-task');
             }
 
             chk.addEventListener('change', (e) => {
                 e.stopPropagation();
+                if (taskDay !== currentDayKey) return; // حماية إضافية
+
                 if(chk.checked) {
-                    localStorage.setItem('task_' + id, 'true');
+                    localStorage.setItem(taskStateKey, 'true');
                     chk.closest('label').classList.add('completed-task');
-                    streak++;
+
+                    // لو دي أول مرة يخلص مهام النهارده، نزود الـ Streak مرة واحدة فقط!
+                    if (lastCompletedDay !== todayDateStr) {
+                        streak++;
+                        lastCompletedDay = todayDateStr;
+                        localStorage.setItem('zeyad_streak', streak);
+                        localStorage.setItem('zeyad_last_completed_day', todayDateStr);
+                        document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
+                    }
                 } else {
-                    localStorage.setItem('task_' + id, 'false');
+                    localStorage.setItem(taskStateKey, 'false');
                     chk.closest('label').classList.remove('completed-task');
-                    streak = Math.max(1, streak - 1);
                 }
-                localStorage.setItem('zeyad_streak', streak);
-                document.getElementById('streakBadge').innerText = "🔥 التزام: " + streak + " يوم";
+                localStorage.setItem('zeyad_last_date', todayDateStr);
             });
         });
 
-        // نظام تبديل الآيات والأحاديث بهدوء
+        // نظام تبديل الآيات والأحاديث
         const hadiths = [
             "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
             "قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»",
