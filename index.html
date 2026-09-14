@@ -420,7 +420,6 @@
     <div class="modal" id="adminEditUserModal">
         <div class="modal-content profile-form">
             <h3>🛠️ تعديل بيانات البطل (لوحة تحكم الأدمن)</h3>
-            <input type="hidden" id="editUserId">
             <label>اسم البطل:</label>
             <input type="text" id="editUserNameDisplay" disabled style="background: rgba(15,23,42,0.9); color: #94a3b8;">
             
@@ -853,7 +852,7 @@
             renderCustomSchedule();
         });
 
-        // لوحة الشرف وتعديل الأدمن
+        // لوحة الشرف وتعديل الأدمن (محدثة لتعتمد على الاسم مباشرة بدون ID)
         const leaderboardModal = document.getElementById('leaderboardModal');
         const adminEditUserModal = document.getElementById('adminEditUserModal');
 
@@ -880,7 +879,7 @@
                     let userStreak = user.streak || 0;
                     let title = getRankTitle(userStreak);
                     
-                    let adminEditBtn = isAdminHere ? `<button class="edit-user-btn" onclick="openAdminEditModal(${user.id}, '${user.name}', ${user.hours || 0}, ${userStreak})">🛠️ تعديل</button>` : '';
+                    let adminEditBtn = isAdminHere ? `<button class="edit-user-btn" onclick="openAdminEditModal('${user.name}', ${user.hours || 0}, ${userStreak})">🛠️ تعديل</button>` : '';
 
                     tr.innerHTML = `
                         <td><b>${medal}</b></td>
@@ -895,9 +894,8 @@
             }
         }
 
-        window.openAdminEditModal = function(id, name, hours, streakVal) {
+        window.openAdminEditModal = function(name, hours, streakVal) {
             if(!verifyStrictAdmin()) return;
-            document.getElementById('editUserId').value = id;
             document.getElementById('editUserNameDisplay').value = name;
             document.getElementById('editUserHours').value = hours;
             document.getElementById('editUserStreak').value = streakVal;
@@ -910,7 +908,7 @@
 
         document.getElementById('saveAdminEditBtn').addEventListener('click', async () => {
             if(!verifyStrictAdmin()) return;
-            let id = document.getElementById('editUserId').value;
+            let name = document.getElementById('editUserNameDisplay').value;
             let newHours = parseFloat(document.getElementById('editUserHours').value) || 0;
             let newStreak = parseInt(document.getElementById('editUserStreak').value) || 0;
 
@@ -918,7 +916,7 @@
                 let { error } = await supabaseClient
                     .from('students')
                     .update({ hours: newHours, streak: newStreak })
-                    .eq('id', id);
+                    .eq('name', name);
 
                 if(error) {
                     alert("حدث خطأ أثناء التحديث: " + error.message);
