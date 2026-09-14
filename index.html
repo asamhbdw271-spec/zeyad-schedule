@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeyad Osama - Ultimate Schedule</title>
+    <title>الصف الثاني الثانوي - جدول زياد أسامة</title>
     <style>
         * {
             box-sizing: border-box;
@@ -390,18 +390,18 @@
             margin-top: 6px;
             width: 100%;
             overflow: hidden;
-            background: rgba(30, 41, 59, 0.6);
+            background: rgba(30, 41, 59, 0.8);
             border-radius: 6px;
-            padding: 3px 0;
+            padding: 5px 0;
             border: 1px solid var(--border-color);
         }
 
         .ticker {
             display: inline-block;
             white-space: nowrap;
-            animation: tickerAnim 10s linear infinite;
-            font-size: 11px;
-            color: var(--accent-blue);
+            animation: tickerAnim 22s linear infinite;
+            font-size: 12px;
+            color: #38bdf8;
             font-weight: bold;
         }
 
@@ -443,7 +443,7 @@
             <div class="path-card">
                 <h4>📊 3. مسار إدارة الأعمال</h4>
                 <p><b>المواد:</b> تركز على الرياضيات المالية، الاقتصاد، الإدارة، والعلوم الاجتماعية.</p>
-                <p><b>الكليات:</b> التجارة، إدارة الأعمال، الاقتصاد والعلوم السياسية، الحقوق، الآداب، نظم المعلومات الإدارية.</p>
+                <p><b>الكليات:</b> التجارة، إدارة الأعمال, الاقتصاد والعلوم السياسية، الحقوق، الآداب، نظم المعلومات الإدارية.</p>
             </div>
             <div class="path-card">
                 <h4>🎨 4. مسار الآداب والفنون</h4>
@@ -573,13 +573,21 @@
             </tbody>
         </table>
 
+        <!-- شريط الآيات والأحاديث المتحرك -->
         <div class="ticker-wrap">
-            <div class="ticker" id="tickerText">صلى على النبي ﷺ  •  لا اله الا الله محمد رسول الله  •  استغفر الله العظيم واتوب إليه  •  طريق حلمك يستحق كل تعب</div>
+            <div class="ticker">
+                ﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
+                قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»  &nbsp;&nbsp;•&nbsp;&nbsp; 
+                ﴿ وَأَن لَّيْسَ لِلْإِنسَانِ إِلَّا مَا سَعَى ۝ وَأَنَّ سَعْيَهُ سَوْفَ يُرَى ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
+                قال ﷺ: «احْرِصْ عَلَى ما يَنْفَعُكَ، وَاسْتَعِين باللهِ وَلا تَعْجِزْ»  &nbsp;&nbsp;•&nbsp;&nbsp; 
+                ﴿ وَمَنْ يَتَّقِ اللَّهَ يَجْعَلْ لَهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لا يَحْتَسِبُ ﴾  &nbsp;&nbsp;•&nbsp;&nbsp; 
+                صلى على النبي ﷺ  •  لا اله الا الله محمد رسول الله  •  استغفر الله العظيم واتوب إليه
+            </div>
         </div>
 
         <footer>
             <div class="signature">Zeyad Osama</div>
-            <div class="quote" style="font-size: 11px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتدخل اللي تتمناه."</div>
+            <div class="quote" style="font-size: 11px; color: #94a3b8; font-style: italic;">"الرجالة بتجيب مجموع وتحقق أحلامها."</div>
         </footer>
     </div>
 
@@ -590,21 +598,21 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // تحديث الساعة (ساعات ودقائق فقط بدون ثواني)
+        // تحديث الساعة
         function updateClock() {
             const now = new Date();
             let hours = now.getHours();
             let minutes = now.getMinutes();
             let ampm = hours >= 12 ? 'مساءً' : 'صباحاً';
             hours = hours % 12;
-            hours = hours ? hours : 12; // الساعة 12
+            hours = hours ? hours : 12;
             minutes = minutes < 10 ? '0' + minutes : minutes;
             document.getElementById('liveClock').innerText = hours + ':' + minutes + ' ' + ampm;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // صوت النقر (تكة ماوس ناعمة ورفيعة جداً)
+        // صوت النقر
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playClickSound() {
             try {
@@ -625,7 +633,7 @@
 
         window.addEventListener('click', () => { playClickSound(); });
 
-        // صوت الرياح والهواء الهادئ
+        // صوت الرياح
         let windNode = null;
         let windGain = null;
         const soundBtn = document.getElementById('soundToggle');
@@ -792,7 +800,7 @@
             }
         });
 
-        // عداد الالتزام (Streak Counter)
+        // عداد الالتزام
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         document.getElementById('streakBadge').innerText = "🔥 التزام: " + streak + " يوم";
 
