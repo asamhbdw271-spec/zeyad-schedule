@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - الحماية </title>
+    <title>الصف الثاني بكالوريا - الحماية العامه</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -904,6 +904,7 @@
             adminEditUserModal.style.display = 'none';
         });
 
+        // تعديل الدالة لضمان الحفظ المباشر بـ upsert لمنع رجوع الستريك القديم
         document.getElementById('saveAdminEditBtn').addEventListener('click', async () => {
             if(!verifyStrictAdmin()) return;
             let name = document.getElementById('editUserNameDisplay').value;
@@ -913,8 +914,7 @@
             try {
                 let { error } = await supabaseClient
                     .from('students')
-                    .update({ hours: newHours, streak: newStreak })
-                    .eq('name', name);
+                    .upsert({ name: name, hours: newHours, streak: newStreak }, { onConflict: ['name'] });
 
                 if(error) {
                     alert("حدث خطأ أثناء التحديث: " + error.message);
