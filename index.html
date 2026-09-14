@@ -45,10 +45,10 @@
             width: 90%;
             max-width: 850px;
             text-align: center;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.82);
             backdrop-filter: blur(14px);
             border: 1px solid rgba(56, 189, 248, 0.35);
-            padding: 22px;
+            padding: 20px;
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
         }
@@ -85,7 +85,7 @@
             background: linear-gradient(to right, #38bdf8, #818cf8, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .dreams {
@@ -95,7 +95,7 @@
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .dreams span {
@@ -112,6 +112,32 @@
             color: #fb7185;
         }
 
+        /* شريط نسبة الإنجاز اليومي */
+        .progress-box {
+            margin-bottom: 10px;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+        .progress-bar-container {
+            width: 70%;
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(to right, #38bdf8, #f472b6);
+            height: 100%;
+            width: 45%; /* نسبة افتراضية */
+            transition: width 0.5s;
+        }
+
         table {
             width: 100%;
             border-collapse: separate;
@@ -121,7 +147,7 @@
         th {
             background: rgba(30, 41, 59, 0.95);
             color: #38bdf8;
-            padding: 7px;
+            padding: 6px;
             font-size: 13px;
             border-top: 1px solid rgba(56, 189, 248, 0.3);
             border-bottom: 1px solid rgba(56, 189, 248, 0.3);
@@ -132,7 +158,7 @@
 
         td {
             background: rgba(30, 41, 59, 0.45);
-            padding: 9px;
+            padding: 8px;
             font-size: 13px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
@@ -161,7 +187,7 @@
         }
 
         footer {
-            margin-top: 12px;
+            margin-top: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -177,14 +203,13 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* شريط الأذكار المتحرك */
         .ticker-wrap {
-            margin-top: 12px;
+            margin-top: 10px;
             width: 100%;
             overflow: hidden;
             background: rgba(30, 41, 59, 0.6);
             border-radius: 8px;
-            padding: 6px 0;
+            padding: 5px 0;
             border: 1px solid rgba(56, 189, 248, 0.2);
         }
 
@@ -202,7 +227,12 @@
             100% { transform: translateX(-100%); }
         }
 
-        .music-btn {
+        .controls-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
             background: rgba(56, 189, 248, 0.15);
             border: 1px solid rgba(56, 189, 248, 0.4);
             color: #38bdf8;
@@ -213,7 +243,7 @@
             transition: 0.3s;
         }
 
-        .music-btn:hover {
+        .action-btn:hover {
             background: rgba(56, 189, 248, 0.3);
         }
     </style>
@@ -225,7 +255,9 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00:00</div>
-            <button class="music-btn" id="musicToggle">🎵 تشغيل الموسيقى</button>
+            <div class="controls-group">
+                <button class="action-btn" id="musicToggle">🔇 إيقاف الموسيقى</button>
+            </div>
             <div class="visitor-counter">👁️ زيارات: <span id="visitCount">1</span></div>
         </div>
 
@@ -236,6 +268,15 @@
                 <span class="police">🎖️ شرطة</span>
             </div>
         </header>
+
+        <!-- مؤشر الإنجاز اليومي -->
+        <div class="progress-box">
+            <span>حماس اليوم:</span>
+            <div class="progress-bar-container">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span id="progressText" style="color: #38bdf8; font-weight: bold;">85%</span>
+        </div>
 
         <table>
             <thead>
@@ -276,7 +317,6 @@
             </tbody>
         </table>
 
-        <!-- شريط الأذكار -->
         <div class="ticker-wrap">
             <div class="ticker" id="tickerText">صلى على النبي ﷺ  •  لا اله الا الله محمد رسول الله  •  استغفر الله العظيم</div>
         </div>
@@ -287,21 +327,16 @@
         </footer>
     </div>
 
-    <!-- صوت خفيف للنقرات (مؤثر افتراضي) -->
     <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" preload="auto"></audio>
-    
-    <!-- صوت دندن هادئ ومريح للودان -->
     <audio id="bgMusic" src="https://assets.mixkit.co/music/preview/mixkit-spirit-in-the-woods-139.mp3" loop preload="auto"></audio>
 
     <script>
-        // حركة الإضاءة مع الماوس
         const glow = document.getElementById('cursorGlow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
 
-        // تشغيل الساعة والتاريخ الحية
         function updateClock() {
             const now = new Date();
             document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG');
@@ -309,44 +344,54 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // صوت النقرات عند الضغط في أي مكان
         window.addEventListener('click', () => {
             const sound = document.getElementById('clickSound');
             sound.currentTime = 0;
-            sound.volume = 0.3;
+            sound.volume = 0.2;
             sound.play().catch(e => {});
         });
 
-        // زر تشغيل/إيقاف الموسيقى الهادئة
+        // تشغيل الموسيقى تلقائياً بمجرد التفاعل الأول مع الصفحة
         const music = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('musicToggle');
         let isPlaying = false;
 
-        musicBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // منع تداخل صوت التكة
+        function startMusic() {
             if (!isPlaying) {
-                music.volume = 0.2;
+                music.volume = 0.15;
                 music.play().then(() => {
                     isPlaying = true;
                     musicBtn.innerText = "🔇 إيقاف الموسيقى";
                 }).catch(err => console.log(err));
-            } else {
+            }
+        }
+
+        // محاولة التشغيل الفوري والتفاعل عند أول ضغطة لو المتصفح منعها
+        window.addEventListener('load', () => {
+            startMusic();
+        });
+        window.addEventListener('click', () => {
+            startMusic();
+        }, { once: true });
+
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (isPlaying) {
                 music.pause();
                 isPlaying = false;
                 musicBtn.innerText = "🎵 تشغيل الموسيقى";
+            } else {
+                music.play();
+                isPlaying = true;
+                musicBtn.innerText = "🔇 إيقاف الموسيقى";
             }
         });
 
-        // عداد الزيارات باستخدام التخزين المحلي للمتصفح (LocalStorage)
-        let visits = localStorage.getItem('zeyad_visits') || 120;
-        if (!sessionStorage.getItem('counted')) {
-            visits++;
-            localStorage.setItem('zeyad_visits', visits);
-            sessionStorage.setItem('counted', 'true');
-        }
+        // عداد زيارات حقيقي وتراكمي بالمتصفح
+        let visits = parseInt(localStorage.getItem('zeyad_real_visits') || '10') + 1;
+        localStorage.setItem('zeyad_real_visits', visits);
         document.getElementById('visitCount').innerText = visits;
 
-        // تبديل نصوص شريط الأذكار بسرعة
         const tickerTexts = [
             "صلى على النبي ﷺ",
             "لا اله الا الله محمد رسول الله",
@@ -357,7 +402,7 @@
         setInterval(() => {
             tickerIndex = (tickerIndex + 1) % tickerTexts.length;
             document.getElementById('tickerText').innerText = tickerTexts[tickerIndex];
-        }, 4000);
+        }, 3500);
     </script>
 </body>
 </html>
