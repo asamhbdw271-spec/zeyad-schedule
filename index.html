@@ -317,7 +317,7 @@
         }
         .close-modal:hover { background: #e11d48; }
 
-        /* ستايل الآلة الحاسبة العلمية كاسيو الحديثة */
+        /* ستايل الآلة الحاسبة الكاسيو العلمية المتقدمة */
         .casio-body {
             background: #1e293b;
             border: 2px solid #334155;
@@ -517,7 +517,7 @@
 
     <div class="container">
         <div class="top-bar">
-            <div class="live-clock" id="liveClock">00:00:00</div>
+            <div class="live-clock" id="liveClock">00:00</div>
             <div style="font-size: 11px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم"</div>
             <div class="streak-badge" id="streakBadge">🔥 التزام: 1 يوم</div>
         </div>
@@ -590,24 +590,31 @@
             glow.style.top = e.clientY + 'px';
         });
 
+        // تحديث الساعة (ساعات ودقائق فقط بدون ثواني)
         function updateClock() {
             const now = new Date();
-            document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG');
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            let ampm = hours >= 12 ? 'مساءً' : 'صباحاً';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // الساعة 12
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('liveClock').innerText = hours + ':' + minutes + ' ' + ampm;
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // صوت النقر (تكة ماوس ناعمة ورفيعة جداً وليست خبطة)
+        // صوت النقر (تكة ماوس ناعمة ورفيعة جداً)
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playClickSound() {
             try {
                 if (audioCtx.state === 'suspended') { audioCtx.resume(); }
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.type = 'sine'; // موجة نقية وناعمة
-                osc.frequency.setValueAtTime(1200, audioCtx.currentTime); // تردد رفيع
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.02);
-                gain.gain.setValueAtTime(0.03, audioCtx.currentTime); // صوت هادي جداً
+                gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
                 gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.02);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
@@ -726,7 +733,6 @@
         function calculateResult() {
             playClickSound();
             try {
-                // معالجة آمنة ودقيقة للعمليات الرياضية والجذور والأسس
                 let evaluated = eval(calcExpression);
                 if (isNaN(evaluated) || !isFinite(evaluated)) {
                     calcScreen.innerText = 'خطأ';
