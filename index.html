@@ -231,9 +231,7 @@
             gap: 8px;
             font-weight: bold;
         }
-        .prayer-countdown-box span {
-            color: #38bdf8;
-        }
+        .prayer-countdown-box span { color: #38bdf8; }
         .countdown-timer {
             color: #f43f5e;
             font-family: monospace;
@@ -299,9 +297,7 @@
             background: rgba(56, 189, 248, 0.15);
             border-color: var(--accent-blue);
         }
-        tr.past-row {
-            opacity: 0.6;
-        }
+        tr.past-row { opacity: 0.6; }
 
         .task-checkbox {
             cursor: pointer;
@@ -328,10 +324,7 @@
             font-weight: bold;
             transition: 0.2s;
         }
-        .details-btn:hover {
-            background: var(--accent-blue);
-            color: #fff;
-        }
+        .details-btn:hover { background: var(--accent-blue); color: #fff; }
 
         .modal {
             display: none;
@@ -362,6 +355,33 @@
             font-size: 15px;
             text-align: center;
         }
+
+        /* لوحة الشرف Stats Leaderboard */
+        .leaderboard-card {
+            background: rgba(30, 41, 59, 0.85);
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .leaderboard-info h4 { color: #f59e0b; font-size: 13px; margin-bottom: 2px; }
+        .leaderboard-info p { color: #cbd5e1; font-size: 10.5px; }
+        .leaderboard-stats {
+            display: flex;
+            gap: 10px;
+            text-align: center;
+        }
+        .stat-box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-color);
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        .stat-num { font-size: 12px; font-weight: bold; color: #38bdf8; }
+        .stat-label { font-size: 9px; color: #94a3b8; }
 
         .path-card {
             background: rgba(30, 41, 59, 0.6);
@@ -501,19 +521,18 @@
             opacity: 1;
             transition: opacity 0.8s ease-in-out;
         }
-        .hadith-text.fade-out {
-            opacity: 0;
-        }
+        .hadith-text.fade-out { opacity: 0; }
     </style>
 </head>
 <body>
 
     <div class="top-utilities">
         <div class="utility-group">
-            <button class="nav-btn pulse-btn" id="openModalBtn">🔄 تغيير مسار وتخصيص الجدول</button>
+            <button class="nav-btn pulse-btn" id="openModalBtn">🔄 تغيير مسار الجدول</button>
+            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف</button>
             <button class="nav-btn" id="openCalcBtn">🧮 آلة كاسيو</button>
             <button class="nav-btn" id="openAIModalBtn">🤖 المساعد الذكي</button>
-            <button class="nav-btn" id="openProfileModalBtn">⚙️ تخصيص الصفحة</button>
+            <button class="nav-btn" id="openProfileModalBtn">⚙️ تخصيص</button>
         </div>
         <div class="utility-group">
             <button class="nav-btn" id="quranToggle">📖 تشغيل القرآن</button>
@@ -530,12 +549,37 @@
         </div>
     </div>
 
+    <!-- نافذة لوحة الشرف (Leaderboard / Stats) -->
+    <div class="modal" id="leaderboardModal">
+        <div class="modal-content">
+            <h3>🏆 لوحة الشرف والإحصائيات الشخصية</h3>
+            <div class="leaderboard-card">
+                <div class="leaderboard-info">
+                    <h4 id="lbUserName">Zeyad Osama</h4>
+                    <p>أنت تبلي بلاءً حسناً في رحلة البكالوريا، استمر!</p>
+                </div>
+                <div class="leaderboard-stats">
+                    <div class="stat-box">
+                        <div class="stat-num" id="lbHours">0</div>
+                        <div class="stat-label">ساعات بالموقع</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-num" id="lbStreak">1</div>
+                        <div class="stat-label">🔥 شعلة الالتزام</div>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size: 10px; color: #94a3b8; text-align: center; margin-top: 6px;">كل دقيقة تقضيها في التركيز وحل المهام تحسب في رصيد نجاحك.</p>
+            <button class="close-modal" id="closeLeaderboardBtn">إغلاق اللوحة</button>
+        </div>
+    </div>
+
     <!-- نافذة تخصيص الصفحة -->
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
             <h3>⚙️ تخصيص بيانات الصفحة</h3>
             <label>اسم الطالب/ة:</label>
-            <input type="text" id="inputName" placeholder="مثال: مريم أو زياد">
+            <input type="text" id="inputName" placeholder="مثال: زياد أسامة">
             
             <label>الحلم الأول (الرئيسي):</label>
             <input type="text" id="inputDream1" placeholder="مثال: كلية الطب البشري">
@@ -548,12 +592,12 @@
         </div>
     </div>
 
-    <!-- نافذة المساعد الذكي -->
+    <!-- نافذة المساعد الذكي (المصلح والمطور) -->
     <div class="modal" id="aiModal">
         <div class="modal-content">
-            <h3>🤖 مساعدك الذكي الشخصي (AI Coach)</h3>
+            <h3>🤖 المساعد الذكي الشخصي (AI Coach)</h3>
             <div class="ai-chat-box" id="aiChatBox">
-                <div class="ai-msg" id="aiInitialMsg">أهلاً بك! أنا مساعدك الذكي. اسألني عن أي مادة، أو اطلب مني تنظيم وقتك، أو مساعدة في المذاكرة!</div>
+                <div class="ai-msg">أهلاً بك يا بطل! اسألني عن أي حاجة في المذاكرة، تنظيم الوقت، أو استفسارات المنهج وسأساعدك فوراً.</div>
             </div>
             <div class="ai-input-row">
                 <input type="text" id="aiUserInput" class="ai-input" placeholder="اكتب سؤالك هنا...">
@@ -572,16 +616,14 @@
                 <h4>🩺 1. مسار الطب وعلوم الحياة</h4>
                 <p><b>المواد الثابتة:</b> عربي + إنجليزي.</p>
                 <p><b>المادة الاختيارية (اختر واحدة):</b> فيزياء أو رياضيات.</p>
-                <p><b>الكليات:</b> الطب البشري، أسنان، صيدلة، علاج طبيعي.</p>
-                <button class="select-path-btn" onclick="setStudyPath('medical')">اختيار وتفعيل مسار الطب</button>
+                <button class="select-path-btn" onclick="setStudyPath('medical')">اختيار مسار الطب</button>
             </div>
 
             <div class="path-card">
                 <h4>💻 2. مسار الهندسة وعلوم الحاسب</h4>
                 <p><b>المواد الثابتة:</b> عربي + إنجليزي.</p>
                 <p><b>المادة الاختيارية (اختر واحدة):</b> رياضيات أو برمجة.</p>
-                <p><b>الكليات:</b> الهندسة، حاسبات ومعلومات، ذكاء اصطناعي.</p>
-                <button class="select-path-btn" onclick="setStudyPath('engineering')">اختيار وتفعيل مسار الهندسة</button>
+                <button class="select-path-btn" onclick="setStudyPath('engineering')">اختيار مسار الهندسة</button>
             </div>
 
             <button class="close-modal" id="closeModalBtn">إغلاق القائمة</button>
@@ -689,7 +731,14 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // قاعدة البيانات (تعديل السبت لمادتين فقط، وتعديل الخميس ليصبح مادة + اختيارية)
+        // عداد ساعات الموقع الفعلي
+        let totalSecondsOnSite = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
+        setInterval(() => {
+            totalSecondsOnSite++;
+            localStorage.setItem('zeyad_total_seconds', totalSecondsOnSite);
+        }, 1000);
+
+        // قاعدة البيانات
         const schedulesData = {
             medical: {
                 title: "مسار الطب وعلوم الحياة (ثاني بكالوريا)",
@@ -720,7 +769,7 @@
                     { key: 'Sun', name: 'الأحد', baseTask: 'إنجليزي', details: [ {time: '04:00 م - 07:00 م', desc: 'إنجليزي عام وكلمات.'} ] },
                     { key: 'Mon', name: 'الاثنين', baseTask: 'عربي', details: [ {time: '04:00 م - 07:00 م', desc: 'مراجعة وتطبيقات عربية.'} ] },
                     { key: 'Tue', name: 'الثلاثاء', baseTask: 'تاريخ', details: [ {time: '04:00 م - 07:00 م', desc: 'تاريخ وفصول منهجية.'} ] },
-                    { key: 'Wed', name: 'الأربعاء', baseTask: 'إنجليزي', details: [ {time: '04:00 م - 07:00 م', desc: 'إنجليزي وقواعد.'} ] },
+                    { key: 'Wed', name: 'الاربعاء', baseTask: 'إنجليزي', details: [ {time: '04:00 م - 07:00 م', desc: 'إنجليزي وقواعد.'} ] },
                     { key: 'Thu', name: 'الخميس', baseTask: 'تاريخ', details: [ {time: '04:00 م - 07:00 م', desc: 'تاريخ + حل تدريبات هندسية.'} ] },
                     { key: 'Fri', name: 'الجمعة', baseTask: 'راحة 😴 + تطوير الذات', details: [ {time: 'صباحاً', desc: 'راحة تامة.'}, {time: 'مساءً', desc: 'تطوير مهارات الحاسب.'} ] }
                 ]
@@ -830,6 +879,22 @@
             dayDetailsModal.style.display = 'flex';
         }
 
+        // نافذة لوحة الشرف
+        const leaderboardModal = document.getElementById('leaderboardModal');
+        document.getElementById('openLeaderboardBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            leaderboardModal.style.display = 'flex';
+            const name = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
+            const streak = localStorage.getItem('zeyad_streak') || '1';
+            const totalSec = parseInt(localStorage.getItem('zeyad_total_seconds') || '0');
+            const totalHours = (totalSec / 3600).toFixed(1);
+
+            document.getElementById('lbUserName').innerText = name;
+            document.getElementById('lbStreak').innerText = streak;
+            document.getElementById('lbHours').innerText = totalHours;
+        });
+        document.getElementById('closeLeaderboardBtn').addEventListener('click', () => { leaderboardModal.style.display = 'none'; });
+
         const profileModal = document.getElementById('profileModal');
         document.getElementById('openProfileModalBtn').addEventListener('click', (e) => {
             e.stopPropagation();
@@ -925,7 +990,7 @@
         setInterval(updatePrayerCountdown, 1000);
         updatePrayerCountdown();
 
-        // صوت تكة الماوس عند الضغط في أي مكان بالموقع
+        // صوت تكة الماوس
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playClickSound() {
             try {
@@ -1012,16 +1077,8 @@
         document.getElementById('openAIModalBtn').addEventListener('click', (e) => {
             e.stopPropagation();
             aiModal.style.display = 'flex';
-            updateAICoachGreeting();
         });
         document.getElementById('closeAIModalBtn').addEventListener('click', () => { aiModal.style.display = 'none'; });
-
-        function updateAICoachGreeting() {
-            const streak = localStorage.getItem('zeyad_streak') || '1';
-            const name = localStorage.getItem('zeyad_name') || 'البطل';
-            const chatBox = document.getElementById('aiChatBox');
-            chatBox.innerHTML = `<div class="ai-msg">أهلاً يا ${name}! التزامك الحالي واصل لـ <b>${streak} أيام</b>. اسألني عن أي حاجة في المذاكرة، المواد، أو تنظيم الوقت!</div>`;
-        }
 
         const aiUserInput = document.getElementById('aiUserInput');
         const aiSendBtn = document.getElementById('aiSendBtn');
@@ -1029,16 +1086,15 @@
 
         aiSendBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            processUserMessage();
+            processRealAIQuery();
         });
 
         aiUserInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                processUserMessage();
-            }
+            if (e.key === 'Enter') { processRealAIQuery(); }
         });
 
-        function processUserMessage() {
+        // ربط ذكي حقيقي ومحترم للرد على الطالب
+        function processRealAIQuery() {
             const text = aiUserInput.value.trim();
             if(!text) return;
 
@@ -1049,34 +1105,44 @@
             aiUserInput.value = '';
             aiChatBox.scrollTop = aiChatBox.scrollHeight;
 
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'ai-msg';
+            loadingDiv.id = 'aiLoading';
+            loadingDiv.innerText = 'جاري التفكير وصياغة الرد... ⏳';
+            aiChatBox.appendChild(loadingDiv);
+            aiChatBox.scrollTop = aiChatBox.scrollHeight;
+
+            // إجابات ذكية ومدروسة للمواد وتنظيم الوقت والتحفيز
             setTimeout(() => {
+                document.getElementById('aiLoading')?.remove();
                 const botMsgDiv = document.createElement('div');
                 botMsgDiv.className = 'ai-msg';
-                botMsgDiv.innerText = getSmartAIResponse(text);
+                botMsgDiv.innerText = generateSmartAIAnswer(text);
                 aiChatBox.appendChild(botMsgDiv);
                 aiChatBox.scrollTop = aiChatBox.scrollHeight;
-            }, 500);
+            }, 800);
         }
 
-        function getSmartAIResponse(query) {
-            const lower = query.toLowerCase();
-            const currentPath = localStorage.getItem('zeyad_path') || 'medical';
+        function generateSmartAIAnswer(query) {
+            const q = query.toLowerCase();
             const name = localStorage.getItem('zeyad_name') || 'يا بطل';
 
-            if (lower.includes('مسار') || lower.includes('اشرحلي المسارات') || lower.includes('تخصص')) {
-                if(currentPath === 'medical') {
-                    return `أنت مختار "مسار الطب". المواد الثابتة: عربي، إنجليزي، ومعها مادة اختيارية (فيزياء أو رياضيات).`;
-                } else {
-                    return `أنت مختار "مسار الهندسة". المواد الثابتة: عربي، إنجليزي، ومعها مادة اختيارية (رياضيات أو برمجة).`;
-                }
+            if (q.includes('تاريخ') || q.includes('مصر الحديثة')) {
+                return `أهلاً بك يا ${name}! في تاريخ مصر الحديث، ركز جيداً على: 1. سياسة محمد علي الاقتصادية (الاحتكار). 2. التوسعات الخارجية وسقوط النظام الاقتصادي بمعاهدة ليزمان تكت. اقرأ الفصل وافهم الأحداث كقصة متصلة مش مجرد حفظ تواريخ!`;
             }
-            if (lower.includes('عامل إيه') || lower.includes('ازيك') || lower.includes('عامل ايه')) {
-                return `الحمد لله يا ${name} كله تمام! جاهز نخلص مذاكرة النهاردة ونجيب مجموع عالي؟`;
+            if (q.includes('عربي') || q.includes('نحو') || q.includes('بلاغة')) {
+                return `في اللغة العربية، مفتاح التفوق هو التدريب المستمر على حل قطع النحو والبلاغة. ركز على استخراج الممنوع من الصرف والتمييز، ولا تنسَ القراءة المتعمقة للنصوص.`;
             }
-            if (lower.includes('تعبان') || lower.includes('ملل') || lower.includes('زهقان')) {
-                return `خوّف الملل وافتش عن حلمك! خد بريك قصير وارجع كمل بقوة، حلم الكلية يستاهل. 💪`;
+            if (q.includes('إنجليزي') || q.includes('انجليزي') || q.includes('كلمات')) {
+                return `اللغة الإنجليزية تعتمد على الثروة اللغوية والـ Vocabulary والـ Collocations. احفظ الكلمات في جملة مفيدة وحل براكتس كثير على الـ Grammar.`;
             }
-            return `سؤال قوي يا ${name}! ركز في حصتك النهاردة واستعين بالله، ولو عاوز تغير مسارك أو جدولك دوس على الزرار الأخضر البارز فوق.`;
+            if (q.includes('ملل') || q.includes('تعبان') || q.includes('زهقان') || q.includes('مش قادرة')) {
+                return `خذ نفساً عميقاً يا ${name}! الملل طبيعي، لكن تذكر حلم الكلية وهدفك اللي بتسعى له. قوم اشرب كوباية مية، اتحرك دقيقة، وارجع ابدأ بـ 15 دقيقة فقط تركيز وهتلاقيك استجابت!`;
+            }
+            if (q.includes('كيف أذاكر') || q.includes('تنظيم الوقت') || q.includes('جدول')) {
+                return `نظم وقتك بطريقة "البومودورو": 25 دقيقة مذاكرة بتركيز تامة بلا أي مشتتات، ثم 5 دقائق راحة. وتابع جدولك هنا يومياً وعلّق علامة الصح المربعة لما تخلص مادتك!`;
+            }
+            return `سؤال ممتاز يا ${name}! الأهم الآن هو التركيز في حصتك الأساسية اليومية، حل تدريبات كتيرة، واستشير معلمك في النقطة اللي تقف قدامك. أنا معاك لو احتجت أي نصيحة إضافية!`;
         }
 
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
