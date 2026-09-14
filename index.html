@@ -322,6 +322,12 @@
         .global-table th { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
         .global-table td { background: rgba(30, 41, 59, 0.6); }
 
+        .edit-user-btn {
+            background: #f59e0b; color: #0f172a; border: none; padding: 2px 6px;
+            border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer; margin-right: 4px;
+        }
+        .edit-user-btn:hover { background: #d97706; }
+
         footer { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 4px; }
         .signature { font-size: 12px; font-weight: bold; background: linear-gradient(to right, #f43f5e, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hadith-box {
@@ -407,6 +413,25 @@
                 </table>
             </div>
             <button class="close-modal" id="closeLeaderboardBtn">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل بيانات العضو للأدمن فقط -->
+    <div class="modal" id="adminEditUserModal">
+        <div class="modal-content profile-form">
+            <h3>🛠️ تعديل بيانات البطل (لوحة تحكم الأدمن)</h3>
+            <input type="hidden" id="editUserId">
+            <label>اسم البطل:</label>
+            <input type="text" id="editUserNameDisplay" disabled style="background: rgba(15,23,42,0.9); color: #94a3b8;">
+            
+            <label>عدد الساعات:</label>
+            <input type="number" step="0.1" id="editUserHours" placeholder="مثال: 5.5">
+
+            <label>عدد أيام الستريك (الالتزام):</label>
+            <input type="number" id="editUserStreak" placeholder="مثال: 10">
+
+            <button class="close-modal" id="saveAdminEditBtn" style="background: #059669;">حفظ التعديلات في السيرفر</button>
+            <button class="close-modal" id="closeAdminEditModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
     </div>
 
@@ -828,9 +853,16 @@
             renderCustomSchedule();
         });
 
+        // لوحة الشرف وتعديل الأدمن
         const leaderboardModal = document.getElementById('leaderboardModal');
+        const adminEditUserModal = document.getElementById('adminEditUserModal');
+
         document.getElementById('openLeaderboardBtn').addEventListener('click', async () => {
             leaderboardModal.style.display = 'flex';
+            loadLeaderboardData();
+        });
+
+        async function loadLeaderboardData() {
             const tbody = document.getElementById('globalLeaderboardBody');
             tbody.innerHTML = `<tr><td colspan="4">جاري جلب المنافسين...</td></tr>`;
             try {
@@ -840,18 +872,66 @@
                     return;
                 }
                 tbody.innerHTML = '';
+                const isAdminHere = verifyStrictAdmin();
+
                 students.forEach((user, index) => {
                     const tr = document.createElement('tr');
                     let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
                     let userStreak = user.streak || 0;
                     let title = getRankTitle(userStreak);
-                    tr.innerHTML = `<td><b>${medal}</b></td><td>${user.name}</td><td>${user.hours || 0} س</td><td>🔥 ${userStreak} (${title})</td>`;
+                    
+                    let adminEditBtn = isAdminHere ? `<button class="edit-user-btn" onclick="openAdminEditModal(${user.id}, '${user.name}', ${user.hours || 0}, ${userStreak})">🛠️ تعديل</button>` : '';
+
+                    tr.innerHTML = `
+                        <td><b>${medal}</b></td>
+                        <td>${adminEditBtn} ${user.name}</td>
+                        <td>${user.hours || 0} س</td>
+                        <td>🔥 ${userStreak} (${title})</td>
+                    `;
                     tbody.appendChild(tr);
                 });
             } catch(e) {
                 tbody.innerHTML = `<tr><td colspan="4">خطأ في الاتصال.</td></tr>`;
             }
+        }
+
+        window.openAdminEditModal = function(id, name, hours, streakVal) {
+            if(!verifyStrictAdmin()) return;
+            document.getElementById('editUserId').value = id;
+            document.getElementById('editUserNameDisplay').value = name;
+            document.getElementById('editUserHours').value = hours;
+            document.getElementById('editUserStreak').value = streakVal;
+            adminEditUserModal.style.display = 'flex';
+        };
+
+        document.getElementById('closeAdminEditModalBtn').addEventListener('click', () => {
+            adminEditUserModal.style.display = 'none';
         });
+
+        document.getElementById('saveAdminEditBtn').addEventListener('click', async () => {
+            if(!verifyStrictAdmin()) return;
+            let id = document.getElementById('editUserId').value;
+            let newHours = parseFloat(document.getElementById('editUserHours').value) || 0;
+            let newStreak = parseInt(document.getElementById('editUserStreak').value) || 0;
+
+            try {
+                let { error } = await supabaseClient
+                    .from('students')
+                    .update({ hours: newHours, streak: newStreak })
+                    .eq('id', id);
+
+                if(error) {
+                    alert("حدث خطأ أثناء التحديث: " + error.message);
+                } else {
+                    alert("تم تعديل الساعات والستريك بنجاح يا أدمن! 🚀");
+                    adminEditUserModal.style.display = 'none';
+                    loadLeaderboardData(); // تحديث الجدول تلقائياً
+                }
+            } catch(e) {
+                alert("حدث خطأ في الاتصال بالسيرفر.");
+            }
+        });
+
         document.getElementById('closeLeaderboardBtn').addEventListener('click', () => { leaderboardModal.style.display = 'none'; });
 
         function updateClock() {
