@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - الحماية المطلقة</title>
+    <title>الصف الثاني بكالوريا - الحماية </title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -416,7 +416,6 @@
         </div>
     </div>
 
-    <!-- نافذة تعديل بيانات العضو للأدمن فقط -->
     <div class="modal" id="adminEditUserModal">
         <div class="modal-content profile-form">
             <h3>🛠️ تعديل بيانات البطل (لوحة تحكم الأدمن)</h3>
@@ -570,7 +569,7 @@
             })
             .subscribe(async (status) => {
                 if (status === 'SUBSCRIBED') {
-                    await presenceChannel.track({ name: myName, online_at: new Date().toISOString() };
+                    await presenceChannel.track({ name: myName, online_at: new Date().toISOString() });
                 }
             });
 
@@ -586,11 +585,10 @@
             } catch (err) {}
         }
 
-        // تم إيقاف العداد التلقائي المؤقت الذي كان يكتب فوق تعديلات الأدمن بشكل عشوائي، والاعتماد على المزامنة الذكية
         setInterval(() => {
             totalSeconds++;
             localStorage.setItem('zeyad_total_seconds', totalSeconds);
-            if (totalSeconds % 30 === 0) syncToCloud(); // زوّدنا الفترة لـ 30 ثانية عشان تدي براح وميحصلش تداخل
+            if (totalSeconds % 30 === 0) syncToCloud();
         }, 1000);
         syncToCloud();
 
@@ -853,7 +851,6 @@
             renderCustomSchedule();
         });
 
-        // لوحة الشرف وتعديل الأدمن
         const leaderboardModal = document.getElementById('leaderboardModal');
         const adminEditUserModal = document.getElementById('adminEditUserModal');
 
@@ -922,7 +919,6 @@
                 if(error) {
                     alert("حدث خطأ أثناء التحديث: " + error.message);
                 } else {
-                    // إذا كان العضو اللي بنعدله هو نفسنا، بنحدث المتغيرات المحلية عشان ما ترجعش تتلخبط
                     if (name.toLowerCase() === myName.toLowerCase()) {
                         streak = newStreak;
                         totalSeconds = Math.round(newHours * 3600);
@@ -933,7 +929,7 @@
 
                     alert("تم تعديل الساعات والستريك بنجاح وسُجلت في السيرفر فوراً! 🚀");
                     adminEditUserModal.style.display = 'none';
-                    loadLeaderboardData(); // تحديث الجدول فوراً
+                    loadLeaderboardData();
                 }
             } catch(e) {
                 alert("حدث خطأ في الاتصال بالسيرفر.");
