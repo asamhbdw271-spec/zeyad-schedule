@@ -340,6 +340,7 @@
             <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف أونلاين</button>
         </div>
         <div class="utility-group">
+            <a href="https://www.youtube.com" target="_blank" class="nav-btn" style="background: #ef4444; color: #fff; text-decoration: none;">📺 يوتيوب</a>
             <button class="nav-btn" id="quranToggle">📖 القرآن</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
         </div>
@@ -489,7 +490,6 @@
         let userDream1 = localStorage.getItem('zeyad_dream1') || 'إن شاء الله كلية الطب';
         let userDream2 = localStorage.getItem('zeyad_dream2') || 'إن شاء الله كلية الشرطة';
 
-        // نظام التحقق من الستريك ومنع التلاعب (مره واحدة فقط لكل يوم)
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '0');
         let lastCompletedDate = localStorage.getItem('zeyad_last_date') || '';
         
@@ -498,7 +498,6 @@
         yesterday.setDate(yesterday.getDate() - 1);
         let yesterdayString = yesterday.toISOString().slice(0, 10);
 
-        // إذا مر يوم كامل بدون ضغط (فاتت الساعة 12 ومكملش)، الستريك يصفر لوحده!
         if (lastCompletedDate !== todayString && lastCompletedDate !== yesterdayString && lastCompletedDate !== '') {
             streak = 0;
             localStorage.setItem('zeyad_streak', 0);
@@ -896,7 +895,6 @@
                     if (taskDay !== currentDayKey) return;
                     let taskStateKey = 'task_' + todayString + '_' + taskDay;
 
-                    // حماية تامة ضد التلاعب: الستريك يزيد فقط أول مرة يعلم فيها اليوم، ومينفعش يزوده لو شالها وحطها تاني
                     if(chk.checked) {
                         if (lastCompletedDate !== todayString) {
                             streak++;
@@ -909,7 +907,6 @@
                         document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
                         await syncToCloud();
                     } else {
-                        // لو شال الصح في نفس اليوم (عشان يرجع الخطأ)، بنخلي الستريك يرجع لوراه عشان ميتلاعبش
                         if (lastCompletedDate === todayString) {
                             streak = Math.max(0, streak - 1);
                             lastCompletedDate = '';
