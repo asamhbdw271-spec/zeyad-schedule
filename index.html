@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zeyad's Schedule - Dreams to Reality</title>
+    <title>Zeyad's Schedule - Live Background</title>
     <style>
         * {
             box-sizing: border-box;
@@ -15,12 +15,11 @@
         body {
             width: 100vw;
             height: 100vh;
-            /* خلفية حية تدمج أجواء طب وشرطة مع صور حقيقية في الخلفية مع إضاءة خرافية */
-            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(9, 13, 22, 0.9)), 
+            background: linear-gradient(rgba(11, 15, 25, 0.88), rgba(6, 9, 15, 0.92)), 
                         url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1600&auto=format&fit=crop') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
-            overflow-x: hidden;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,65 +27,70 @@
             position: relative;
         }
 
-        /* تأثير الحركة الحية في الخلفية */
-        .animated-bg {
+        /* الإضاءة المتحركة مع الماوس */
+        .cursor-glow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, rgba(244, 63, 94, 0.05) 100%);
-            z-index: 1;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, rgba(244, 63, 94, 0.05) 70%, transparent 100%);
+            border-radius: 50%;
             pointer-events: none;
-            animation: pulseGlow 6s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            0% { opacity: 0.4; transform: scale(1); }
-            100% { opacity: 0.8; transform: scale(1.05); }
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+            z-index: 1;
         }
 
         .container {
             position: relative;
             z-index: 2;
             width: 90%;
-            max-width: 900px;
+            max-width: 850px;
             text-align: center;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            padding: 30px;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            padding: 25px;
             border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
         }
 
-        header {
-            margin-bottom: 20px;
+        /* الساعة الحية */
+        .live-clock {
+            font-size: 14px;
+            color: #38bdf8;
+            font-weight: 600;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            background: rgba(56, 189, 248, 0.1);
+            display: inline-block;
+            padding: 4px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
 
         h1 {
-            font-size: 30px;
+            font-size: 26px;
             font-weight: 900;
             background: linear-gradient(to right, #38bdf8, #818cf8, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .dreams {
-            font-size: 15px;
+            font-size: 14px;
             color: #e2e8f0;
             font-weight: 600;
             display: flex;
             justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 15px;
         }
 
         .dreams span {
             background: rgba(56, 189, 248, 0.15);
-            padding: 5px 12px;
-            border-radius: 8px;
+            padding: 4px 10px;
+            border-radius: 6px;
             border: 1px solid rgba(56, 189, 248, 0.3);
             color: #38bdf8;
         }
@@ -101,26 +105,25 @@
         table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0 8px;
-            margin-top: 10px;
+            border-spacing: 0 6px;
         }
 
         th {
-            background: rgba(30, 41, 59, 0.9);
+            background: rgba(30, 41, 59, 0.95);
             color: #38bdf8;
-            padding: 10px;
-            font-size: 15px;
+            padding: 8px;
+            font-size: 14px;
             border-top: 1px solid rgba(56, 189, 248, 0.3);
             border-bottom: 1px solid rgba(56, 189, 248, 0.3);
         }
 
-        th:first-child { border-right: 1px solid rgba(56, 189, 248, 0.3); border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
-        th:last-child { border-left: 1px solid rgba(56, 189, 248, 0.3); border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+        th:first-child { border-right: 1px solid rgba(56, 189, 248, 0.3); border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+        th:last-child { border-left: 1px solid rgba(56, 189, 248, 0.3); border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
 
         td {
-            background: rgba(30, 41, 59, 0.5);
-            padding: 12px;
-            font-size: 15px;
+            background: rgba(30, 41, 59, 0.45);
+            padding: 10px;
+            font-size: 14px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -129,26 +132,26 @@
 
         td:first-child { 
             border-right: 1px solid rgba(255, 255, 255, 0.05); 
-            border-top-right-radius: 8px; 
-            border-bottom-right-radius: 8px;
+            border-top-right-radius: 6px; 
+            border-bottom-right-radius: 6px;
             font-weight: bold;
             color: #fb7185;
         }
 
         td:last-child { 
             border-left: 1px solid rgba(255, 255, 255, 0.05); 
-            border-top-left-radius: 8px; 
-            border-bottom-left-radius: 8px; 
+            border-top-left-radius: 6px; 
+            border-bottom-left-radius: 6px; 
             color: #f1f5f9;
         }
 
         tr:hover td {
-            background: rgba(56, 189, 248, 0.15);
+            background: rgba(56, 189, 248, 0.2);
             transform: scale(1.01);
         }
 
         footer {
-            margin-top: 20px;
+            margin-top: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -157,7 +160,7 @@
         }
 
         .signature {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             background: linear-gradient(to right, #f43f5e, #fb7185);
             -webkit-background-clip: text;
@@ -165,7 +168,7 @@
         }
 
         .quote {
-            font-size: 13px;
+            font-size: 12px;
             color: #94a3b8;
             font-style: italic;
         }
@@ -173,14 +176,15 @@
 </head>
 <body>
 
-    <div class="animated-bg"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
     <div class="container">
+        <div class="live-clock" id="liveClock">00:00:00 --/--/----</div>
         <header>
             <h1>جدول المذاكرة الأسبوعي</h1>
             <div class="dreams">
-                <span>🩺 كلية الطب إن شاء الله</span>
-                <span class="police">🎖️ كلية الشرطة إن شاء الله</span>
+                <span>🩺 طب</span>
+                <span class="police">🎖️ شرطة</span>
             </div>
         </header>
 
@@ -225,9 +229,27 @@
 
         <footer>
             <div class="signature">Doc: Zeyad</div>
-            <div class="quote">"طريق الحلم محتاج تعب، والبطل بيوصل لآخر السكة."</div>
+            <div class="quote">"طريق الحلم محتاج تعب، والبطل بيوصل."</div>
         </footer>
     </div>
 
+    <script>
+        // حركة الإضاءة مع الماوس
+        const glow = document.getElementById('cursorGlow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // تشغيل الساعة والتاريخ الحية
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-EG');
+            const dateString = now.toLocaleDateString('ar-EG');
+            document.getElementById('liveClock').innerText = timeString + ' | ' + dateString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
