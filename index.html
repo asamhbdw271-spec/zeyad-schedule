@@ -106,7 +106,7 @@
             background: var(--container-bg);
             backdrop-filter: blur(14px);
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 18px;
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
             transition: background 0.4s ease, border 0.4s ease;
@@ -116,7 +116,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 13px;
         }
 
@@ -139,28 +139,28 @@
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 900;
             background: linear-gradient(to right, #38bdf8, #818cf8, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .dreams {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-color);
             font-weight: 600;
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             opacity: 0.9;
         }
 
         .dreams span {
             background: rgba(56, 189, 248, 0.15);
-            padding: 3px 10px;
+            padding: 2px 8px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             color: var(--accent-blue);
@@ -174,10 +174,10 @@
 
         .countdown-banner {
             background: rgba(30, 41, 59, 0.6);
-            padding: 6px 15px;
+            padding: 5px 15px;
             border-radius: 8px;
-            margin-bottom: 10px;
-            font-size: 12px;
+            margin-bottom: 8px;
+            font-size: 11px;
             color: var(--accent-blue);
             border: 1px solid var(--border-color);
             display: flex;
@@ -189,14 +189,14 @@
         table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0 5px;
+            border-spacing: 0 4px;
         }
 
         th {
             background: rgba(30, 41, 59, 0.95);
             color: var(--accent-blue);
-            padding: 6px;
-            font-size: 13px;
+            padding: 5px;
+            font-size: 12px;
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
         }
@@ -206,8 +206,8 @@
 
         td {
             background: var(--row-bg);
-            padding: 8px;
-            font-size: 13px;
+            padding: 6px;
+            font-size: 12px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -242,8 +242,8 @@
         .task-checkbox {
             cursor: pointer;
             accent-color: var(--accent-blue);
-            width: 16px;
-            height: 16px;
+            width: 15px;
+            height: 15px;
             margin-left: 8px;
             vertical-align: middle;
         }
@@ -253,6 +253,7 @@
             opacity: 0.5;
         }
 
+        /* المودالز المشتركة */
         .modal {
             display: none;
             position: fixed;
@@ -266,11 +267,11 @@
         .modal-content {
             background: #0f172a;
             border: 1px solid #38bdf8;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
             width: 92%;
-            max-width: 650px;
-            max-height: 85vh;
+            max-width: 600px;
+            max-height: 82vh;
             overflow-y: auto;
             text-align: right;
             box-shadow: 0 15px 40px rgba(0,0,0,0.8);
@@ -278,37 +279,26 @@
         }
         .modal-content h3 {
             color: #38bdf8;
-            margin-bottom: 15px;
-            font-size: 20px;
+            margin-bottom: 12px;
+            font-size: 18px;
             text-align: center;
         }
 
         .path-card {
             background: rgba(30, 41, 59, 0.6);
             border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 12px;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
         }
-
-        .path-card h4 {
-            color: #fb7185;
-            margin-bottom: 6px;
-            font-size: 15px;
-        }
-
-        .path-card p {
-            color: #cbd5e1;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 4px;
-        }
+        .path-card h4 { color: #fb7185; margin-bottom: 4px; font-size: 14px; }
+        .path-card p { color: #cbd5e1; font-size: 12px; line-height: 1.4; margin-bottom: 3px; }
 
         .close-modal {
             background: #f43f5e;
             color: white;
             border: none;
-            padding: 8px 18px;
+            padding: 6px 15px;
             border-radius: 6px;
             cursor: pointer;
             margin-top: 10px;
@@ -317,12 +307,49 @@
             width: 100%;
             transition: 0.3s;
         }
-        .close-modal:hover {
-            background: #e11d48;
+        .close-modal:hover { background: #e11d48; }
+
+        /* ستايل لوحة الرسائل الإبداعية المحلية (بدون سحابة) */
+        .notes-box {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .notes-input {
+            flex: 1;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            color: white;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+        .notes-btn {
+            background: var(--accent-blue);
+            color: #0f172a;
+            border: none;
+            padding: 8px 14px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .notes-list {
+            margin-top: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+            text-align: right;
+        }
+        .note-item {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 12px;
+            border-right: 3px solid #38bdf8;
         }
 
         footer {
-            margin-top: 12px;
+            margin-top: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -331,7 +358,7 @@
         }
 
         .signature {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
             background: linear-gradient(to right, #f43f5e, #fb7185);
             -webkit-background-clip: text;
@@ -339,12 +366,12 @@
         }
 
         .ticker-wrap {
-            margin-top: 10px;
+            margin-top: 8px;
             width: 100%;
             overflow: hidden;
             background: rgba(30, 41, 59, 0.6);
             border-radius: 8px;
-            padding: 5px 0;
+            padding: 4px 0;
             border: 1px solid var(--border-color);
         }
 
@@ -352,7 +379,7 @@
             display: inline-block;
             white-space: nowrap;
             animation: tickerAnim 10s linear infinite;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--accent-blue);
             font-weight: bold;
         }
@@ -366,42 +393,55 @@
 <body>
 
     <div class="top-utilities">
-        <button class="nav-btn" id="openModalBtn">🎓 مسارات البكالوريا المصرية</button>
         <div class="utility-group">
-            <button class="nav-btn" id="musicToggle">🎵 تشغيل الدندنة</button>
+            <button class="nav-btn" id="openModalBtn">🎓 مسارات البكالوريا</button>
+            <button class="nav-btn" id="openNotesBtn">📝 لوحة أفكاري وملاحظاتي</button>
+        </div>
+        <div class="utility-group">
+            <button class="nav-btn" id="soundToggle">🔇 كتم الصوت</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
         </div>
     </div>
 
+    <!-- نافذة مسارات البكالوريا -->
     <div class="modal" id="pathModal">
         <div class="modal-content">
             <h3>دليل مسارات مرحلة البكالوريا (الثانوية العامة المصرية)</h3>
-            
             <div class="path-card">
                 <h4>🧬 1. مسار الطب وعلوم الحياة</h4>
-                <p><b>المواد المدروسة:</b> تركز على العلوم الطبية والأحياء والكيمياء والفيزياء.</p>
-                <p><b>الكليات المتاحة:</b> الكليات الطبية والعلمية مثل: الطب البشري، أسنان، صيدلة، علاج طبيعي، تكنولوجيا العلوم الصحية، العلوم، الزراعة، والتربية (قسم علوم).</p>
+                <p><b>المواد:</b> تركز على العلوم الطبية والأحياء والكيمياء والفيزياء.</p>
+                <p><b>الكليات:</b> الطب البشري، أسنان، صيدلة، علاج طبيعي، تكنولوجيا العلوم الصحية، العلوم، الزراعة، والتربية (قسم علوم).</p>
             </div>
-
             <div class="path-card">
                 <h4>⚙️ 2. مسار الهندسة وعلوم الحاسب</h4>
-                <p><b>المواد المدروسة:</b> تركز على الرياضيات البحتة والتطبيقية والفيزياء وعلوم الحاسب.</p>
-                <p><b>الكليات المتاحة:</b> كليات الهندسة، التخطيط العمراني، حاسبات ومعلومات وذكاء اصطناعي، الفنون الجميلة (عمارة)، العلوم (رياضة)، والتربية (رياضة)، والمعاهد الهندسية.</p>
+                <p><b>المواد:</b> تركز على الرياضيات البحتة والتطبيقية والفيزياء وعلوم الحاسب.</p>
+                <p><b>الكليات:</b> الهندسة، التخطيط العمراني، حاسبات ومعلومات وذكاء اصطناعي، الفنون الجميلة (عمارة)، العلوم (رياضة)، والمعاهد الهندسية.</p>
             </div>
-
             <div class="path-card">
                 <h4>📊 3. مسار إدارة الأعمال</h4>
-                <p><b>المواد المدروسة:</b> تركز على الرياضيات المالية، الاقتصاد، الإدارة، والعلوم الاجتماعية.</p>
-                <p><b>الكليات المتاحة:</b> كليات التجارة، إدارة الأعمال، الاقتصاد والعلوم السياسية، الحقوق، الآداب، نظم المعلومات الإدارية، والمعاهد العليا والمتخصصة.</p>
+                <p><b>المواد:</b> تركز على الرياضيات المالية، الاقتصاد، الإدارة، والعلوم الاجتماعية.</p>
+                <p><b>الكليات:</b> التجارة، إدارة الأعمال، الاقتصاد والعلوم السياسية، الحقوق، الآداب، نظم المعلومات الإدارية.</p>
             </div>
-
             <div class="path-card">
                 <h4>🎨 4. مسار الآداب والفنون</h4>
-                <p><b>المواد المدروسة:</b> تركز على اللغات، الفنون، العلوم الإنسانية، والجغرافيا وعلم النفس.</p>
-                <p><b>الكليات المتاحة:</b> كليات الآداب، الألسن، الإعلام، الآثار، السياحة والفنادق، الفنون الجميلة (فنون)، والتربية (الأقسام الأدبية).</p>
+                <p><b>المواد:</b> تركز على اللغات، الفنون، العلوم الإنسانية، والجغرافيا وعلم النفس.</p>
+                <p><b>الكليات:</b> الآداب، الألسن، الإعلام، الآثار، السياحة والفنادق، الفنون الجميلة (فنون).</p>
             </div>
-
             <button class="close-modal" id="closeModalBtn">إغلاق القائمة</button>
+        </div>
+    </div>
+
+    <!-- نافذة لوحة الأفكار الإبداعية (بدون سحابة وبشكل فاجر) -->
+    <div class="modal" id="notesModal">
+        <div class="modal-content">
+            <h3>📝 لوحة الأفكار والملاحظات السريعة</h3>
+            <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">سجل أفكارك أو ملاحظاتك الدراسية هنا (تتحفظ عندك على الجهاز فوراً):</p>
+            <div class="notes-box">
+                <input type="text5" id="noteInput" class="notes-input" placeholder="اكتب فكرة أو ملحوظة هنا...">
+                <button id="addNoteBtn" class="notes-btn">إضافة</button>
+            </div>
+            <div class="notes-list" id="notesListContainer"></div>
+            <button class="close-modal" id="closeNotesBtn">إغلاق</button>
         </div>
     </div>
 
@@ -410,7 +450,7 @@
     <div class="container">
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00:00</div>
-            <div style="font-size: 12px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم"</div>
+            <div style="font-size: 11px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم"</div>
             <div class="visitor-counter">👁️ زيارات: <span id="visitCount">1</span></div>
         </div>
 
@@ -475,9 +515,8 @@
         </footer>
     </div>
 
-    <!-- ملفات الصوت المحدثة والمباشرة -->
-    <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
-    <audio id="bgMusic" src="https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg" loop preload="auto"></audio>
+    <!-- صوت الرياح والهواء الهادئ (بدل المطر) -->
+    <audio id="bgMusic" src="https://actions.google.com/sounds/v1/weather/wind_gusts.ogg" loop preload="auto"></audio>
 
     <script>
         const glow = document.getElementById('cursorGlow');
@@ -493,50 +532,69 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // تفعيل الأداء الصوتي عند أول تفاعل للمستخدم مع الصفحة لتخطي قيود المتصفح
-        let audioUnlocked = false;
-        window.addEventListener('pointerdown', () => {
-            if (!audioUnlocked) {
-                const clickSnd = document.getElementById('clickSound');
-                clickSnd.volume = 0;
-                clickSnd.play().then(() => {
-                    clickSnd.pause();
-                    clickSnd.currentTime = 0;
-                    clickSnd.volume = 0.5;
-                    audioUnlocked = true;
+        // نظام توليد صوت الماوس برمجياً (Web Audio API) عشان يشتغل غصب عن أي متصفح وبدون ملفات خارجية مقفولة
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playClickSound() {
+            if (isMuted) return;
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
+            } catch(e) {}
+        }
+
+        window.addEventListener('click', () => {
+            playClickSound();
+        });
+
+        // تشغيل صوت الرياح والهواء تلقائياً مع أول حركة تفاعل في الصفحة
+        const music = document.getElementById('bgMusic');
+        const soundBtn = document.getElementById('soundToggle');
+        let isMuted = false;
+        let startedPlaying = false;
+
+        function startAmbientSound() {
+            if (!startedPlaying) {
+                music.volume = 0.4;
+                music.play().then(() => {
+                    startedPlaying = true;
                 }).catch(e => {});
             }
-        });
+        }
 
-        // تشغيل صوت النقر مع كل كليك في الصفحة
-        window.addEventListener('click', () => {
-            const sound = document.getElementById('clickSound');
-            sound.currentTime = 0;
-            sound.play().catch(e => {});
-        });
+        window.addEventListener('pointerdown', startAmbientSound, { once: true });
+        window.addEventListener('keydown', startAmbientSound, { once: true });
 
-        const music = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('musicToggle');
-        let isPlaying = false;
-
-        musicBtn.addEventListener('click', (e) => {
+        soundBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            if (!isPlaying) {
-                music.volume = 0.5;
-                music.play().then(() => {
-                    isPlaying = true;
-                    musicBtn.innerText = "🔇 إيقاف الدندنة والمطر";
-                }).catch(err => console.log(err));
-            } else {
+            playClickSound();
+            if (!isMuted) {
                 music.pause();
-                isPlaying = false;
-                musicBtn.innerText = "🎵 تشغيل الدندنة";
+                isMuted = true;
+                soundBtn.innerText = "🔊 تشغيل الصوت";
+            } else {
+                music.play().then(() => {
+                    isMuted = false;
+                    soundBtn.innerText = "🔇 كتم الصوت";
+                }).catch(e => {});
             }
         });
 
         const themeBtn = document.getElementById('themeToggle');
         themeBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+            playClickSound();
             document.body.classList.toggle('light-theme');
             const isLight = document.body.classList.contains('light-theme');
             localStorage.setItem('zeyad_theme', isLight ? 'light' : 'dark');
@@ -546,13 +604,68 @@
             document.body.classList.add('light-theme');
         }
 
+        // مودال المسارات
         const modal = document.getElementById('pathModal');
         document.getElementById('openModalBtn').addEventListener('click', (e) => {
             e.stopPropagation();
+            playClickSound();
             modal.style.display = 'flex';
         });
         document.getElementById('closeModalBtn').addEventListener('click', () => {
+            playClickSound();
             modal.style.display = 'none';
+        });
+
+        // مودال لوحة الأفكار والملاحظات (بدون سحابة)
+        const notesModal = document.getElementById('notesModal');
+        document.getElementById('openNotesBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            playClickSound();
+            notesModal.style.display = 'flex';
+            renderNotes();
+        });
+        document.getElementById('closeNotesBtn').addEventListener('click', () => {
+            playClickSound();
+            notesModal.style.display = 'none';
+        });
+
+        // إدارة الملاحظات المحلية
+        const noteInput = document.getElementById('noteInput');
+        const addNoteBtn = document.getElementById('addNoteBtn');
+        const notesListContainer = document.getElementById('notesListContainer');
+
+        function getNotes() {
+            try {
+                return JSON.parse(localStorage.getItem('zeyad_notes') || '[]');
+            } catch(e) { return []; }
+        }
+
+        function renderNotes() {
+            const notes = getNotes();
+            notesListContainer.innerHTML = '';
+            if(notes.length === 0) {
+                notesListContainer.innerHTML = '<div style="font-size:11px; color:#64748b; text-align:center;">مفيش ملاحظات متسجلة لسه.</div>';
+                return;
+            }
+            notes.forEach((note, index) => {
+                const div = document.createElement('div');
+                div.className = 'note-item';
+                div.innerText = (index + 1) + ". " + note;
+                notesListContainer.appendChild(div);
+            });
+        }
+
+        addNoteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            playClickSound();
+            const val = noteInput.value.trim();
+            if(val) {
+                const notes = getNotes();
+                notes.push(val);
+                localStorage.setItem('zeyad_notes', JSON.stringify(notes));
+                noteInput.value = '';
+                renderNotes();
+            }
         });
 
         const checkboxes = document.querySelectorAll('.task-checkbox');
@@ -565,6 +678,7 @@
 
             chk.addEventListener('change', (e) => {
                 e.stopPropagation();
+                playClickSound();
                 if(chk.checked) {
                     localStorage.setItem('task_' + id, 'true');
                     chk.closest('label').classList.add('completed-task');
