@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الصف الثاني بكالوريا - الحماية المطلقة</title>
-    <!-- استدعاء مكتبة Supabase الحقيقية -->
+    <!-- استدعاء مكتبة Supabase وحساب مواقيت الصلاة (Aladhan API) -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -168,7 +168,7 @@
 
         .prayer-countdown-box {
             background: rgba(30, 41, 59, 0.65);
-            padding: 4px 12px;
+            padding: 6px 12px;
             border-radius: 8px;
             margin-bottom: 8px;
             font-size: 11px;
@@ -483,8 +483,8 @@
         </header>
 
         <div class="prayer-countdown-box">
-            <span>🕌 الصلاة القادمة:</span>
-            <div class="countdown-timer" id="prayerCountdown">02:15:40</div>
+            <span id="nextPrayerName">🕌 الصلاة القادمة: جاري التحميل...</span>
+            <div class="countdown-timer" id="prayerCountdown">--:--:--</div>
         </div>
 
         <table>
@@ -535,7 +535,6 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // 🛡️ تم ربط مفتاح الأدمن السري برقم تليفونك الخاص
         const ADMIN_SECRET_PASSWORD = "01228980015a";
 
         let myName = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
@@ -577,6 +576,74 @@
             if (totalSeconds % 10 === 0) syncToCloud();
         }, 1000);
         syncToCloud();
+
+        // مواقيت الصلاة (تلقائية لمصر/القاهرة عبر API رسمي دقيق)
+        let prayerTimesList = [];
+        async function fetchPrayerTimes() {
+            try {
+                const response = await fetch('https://api.aladhan.com/v1/timingsByCity?city=Cairo&country=Egypt&method=5');
+                const data = await response.json();
+                if (data && data.data && data.data.timings) {
+                    const timings = data.data.timings;
+                    prayerTimesList = [
+                        { name: 'الفجر', time: timings.Fajr },
+                        { name: 'الشروق', time: timings.Sunrise },
+                        { name: 'الظهر', time: timings.Dhuhr },
+                        { name: 'العصر', time: timings.Asr },
+                        { name: 'المغرب', time: timings.Maghrib },
+                        { name: 'العشاء', time: timings.Isha }
+                    ];
+                }
+            } catch(e) {
+                // مواقيت افتراضية لو النت قاطع
+                prayerTimesList = [
+                    { name: 'الفجر', time: '04:30' },
+                    { name: 'الشروق', time: '06:00' },
+                    { name: 'الظهر', time: '12:00' },
+                    { name: 'العصر', time: '15:30' },
+                    { name: 'المغرب', time: '18:00' },
+                    { name: 'العشاء', time: '19:30' }
+                ];
+            }
+        }
+        fetchPrayerTimes();
+
+        function updatePrayerCountdown() {
+            if (prayerTimesList.length === 0) return;
+            const now = new Date();
+            let currentMinutes = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+            
+            let nextPrayer = null;
+            let targetMinutes = 0;
+
+            for (let p of prayerTimesList) {
+                let parts = p.time.split(':');
+                let pMinutes = parseInt(parts[0]) * 60 + parseInt(parts[1]);
+                if (pMinutes > currentMinutes) {
+                    nextPrayer = p;
+                    targetMinutes = pMinutes;
+                    break;
+                }
+            }
+
+            // لو كل صلاة اليوم خلصت، تبقى الصلاة القادمة هي فجر اليوم اللي بعده
+            if (!nextPrayer) {
+                nextPrayer = prayerTimesList[0];
+                let parts = nextPrayer.time.split(':');
+                targetMinutes = parseInt(parts[0]) * 60 + parseInt(parts[1]) + 24 * 60;
+            }
+
+            let diffSeconds = Math.floor((targetMinutes * 60) - (now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()));
+            if (diffSeconds < 0) diffSeconds = 0;
+
+            let hh = Math.floor(diffSeconds / 3600);
+            let mm = Math.floor((diffSeconds % 3600) / 60);
+            let ss = diffSeconds % 60;
+
+            document.getElementById('nextPrayerName').innerText = `🕌 الصلاة القادمة (${nextPrayer.name}):`;
+            document.getElementById('prayerCountdown').innerText = `${hh.toString().padStart(2,'0')}:${mm.toString().padStart(2,'0')}:${ss.toString().padStart(2,'0')}`;
+        }
+        setInterval(updatePrayerCountdown, 1000);
 
         // 🛡️ فلتر الألفاظ
         const badWords = ['شرموط', 'منيوك', 'كلب', 'وسخ', 'حمار', 'قحبة', 'متناك', 'كس', 'طيز', 'عاهرة', 'خول', 'عرص', 'حمضان', 'زفت', 'خرا', 'بضان'];
@@ -809,7 +876,8 @@
         quranButton.addEventListener('click', () => {
             if (!isQuranPlaying) {
                 quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv');
-                quranAudio.play().then(() => { isQuranPlaying = true; quranButton.innerText = "🔇 إيقاف"; }).catch(()=>{});
+                quranAudio.play().then(() => { isQuranPlaying = type = true; quranButton.innerText = "🔇 إيقاف"; }).catch(()=>{});
+                isQuranPlaying = true;
             } else {
                 if(quranAudio) quranAudio.pause();
                 isQuranPlaying = false;
