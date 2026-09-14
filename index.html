@@ -373,14 +373,12 @@
         .calc-btn.eq { background: #059669; color: white; grid-column: span 2; }
         .calc-btn.clr { background: #e11d48; color: white; }
 
-        /* تنسيق المساعد الذكي بدلاً من الملاحظات */
-        .ai-chat-box { background: rgba(30, 41, 59, 0.7); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; margin-bottom: 8px; }
+        .ai-chat-box { background: rgba(30, 41, 59, 0.7); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; margin-bottom: 8px; max-height: 250px; overflow-y: auto; }
         .ai-msg { background: rgba(56, 189, 248, 0.15); border: 1px solid var(--border-color); padding: 8px; border-radius: 8px; font-size: 11px; color: #f1f5f9; line-height: 1.5; margin-bottom: 6px; }
         .ai-input-row { display: flex; gap: 6px; }
         .ai-input { flex: 1; background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; }
         .ai-send-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 6px 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; }
 
-        /* تنسيق نافذة تخصيص الملف الشخصي */
         .profile-form label { display: block; font-size: 11px; margin-bottom: 3px; color: #38bdf8; text-align: right; }
         .profile-form input { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
 
@@ -460,7 +458,7 @@
         </div>
     </div>
 
-    <!-- نافذة المساعد الذكي بدلاً من الملاحظات -->
+    <!-- نافذة المساعد الذكي -->
     <div class="modal" id="aiModal">
         <div class="modal-content">
             <h3>🤖 مساعدك الذكي الشخصي (AI Coach)</h3>
@@ -617,9 +615,7 @@
             glow.style.top = e.clientY + 'px';
         });
 
-        // ----------------------------------------------------
-        // نظام تخصيص الملف الشخصي والأحلام (فكرة رقم 2)
-        // ----------------------------------------------------
+        // تخصيص الملف الشخصي والأحلام
         const profileModal = document.getElementById('profileModal');
         document.getElementById('openProfileModalBtn').addEventListener('click', (e) => {
             e.stopPropagation();
@@ -733,22 +729,39 @@
         }
         window.addEventListener('pointerdown', () => { playClickSound(); });
 
+        // ----------------------------------------------------
+        // تشغيل القرآن الكريم (رابط إذاعة القرآن الكريم الآمن HTTPS)
+        // ----------------------------------------------------
         let quranAudio = null;
         const quranBtn = document.getElementById('quranToggle');
         let isQuranPlaying = false;
 
-        function toggleQuranSound() {
+        function toggleQuranSound(e) {
+            e.stopPropagation();
             if (!isQuranPlaying) {
                 try {
-                    quranAudio = new Audio('https://backup.quran-radio.com:8443/live.mp3'); 
-                    quranAudio.volume = 0.5;
+                    // رابط إذاعة القرآن الكريم من القاهرة الآمن (HTTPS)
+                    quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv'); 
+                    quranAudio.volume = 0.6;
+                    quranBtn.innerText = "⏳ جاري الفتح...";
+                    
                     quranAudio.play().then(() => {
                         isQuranPlaying = true;
                         quranBtn.innerText = "🔇 إيقاف القرآن";
-                    }).catch(err => { alert("تعذر تشغيل الصوت."); });
-                } catch(e) {}
+                    }).catch(err => {
+                        console.error(err);
+                        quranBtn.innerText = "📖 تشغيل القرآن";
+                        alert("تعذر تشغيل البث المباشر. تأكد من اتصال الإنترنت.");
+                    });
+                } catch(e) {
+                    quranBtn.innerText = "📖 تشغيل القرآن";
+                }
             } else {
-                if (quranAudio) { quranAudio.pause(); quranAudio = null; }
+                if (quranAudio) { 
+                    quranAudio.pause(); 
+                    quranAudio.currentTime = 0;
+                    quranAudio = null; 
+                }
                 isQuranPlaying = false;
                 quranBtn.innerText = "📖 تشغيل القرآن";
             }
@@ -786,9 +799,7 @@
             } catch(e) { calcScreen.innerText = 'خطأ'; }
         }
 
-        // ----------------------------------------------------
-        // المساعد الذكي المحلي (AI Coach) بدلاً من الملاحظات
-        // ----------------------------------------------------
+        // المساعد الذكي المحلي
         const aiModal = document.getElementById('aiModal');
         document.getElementById('openAIModalBtn').addEventListener('click', (e) => {
             e.stopPropagation();
@@ -813,7 +824,6 @@
             const text = aiUserInput.value.trim();
             if(!text) return;
 
-            // إضافة رسالة المستخدم
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = 'ai-msg';
             userMsgDiv.style.background = 'rgba(30, 41, 59, 0.8)';
@@ -822,7 +832,6 @@
             aiChatBox.appendChild(userMsgDiv);
             aiUserInput.value = '';
 
-            // رد المساعد الذكي بناءً على تحليل محلي
             setTimeout(() => {
                 const botMsgDiv = document.createElement('div');
                 botMsgDiv.className = 'ai-msg';
@@ -832,7 +841,7 @@
                 if(lower.includes('تعبان') || lower.includes('كسل') || lower.includes('ملل')) {
                     reply = "طبيعي تحس بتعب، لكن افتكر حلم الكلية ومجموعك. قوم اشرب مياه وخد 5 دقائق راحة وارجع أقوى!";
                 } else if(lower.includes('فيزياء') || lower.includes('صعب')) {
-                    reply = "الفيزياء بتحتاج فهم وتركئز مش حفظ. امسك القوانين واكتبها بإيدك وحل أمثال كتير عليها وهتبقى تافهه قدامك.";
+                    reply = "الفيزياء بتحتاج فهم وتركيز مش حفظ. امسك القوانين واكتبها بإيدك وحل أمثلة كتير عليها وهتبقى تافهة قدامك.";
                 } else if(lower.includes('اسمك')) {
                     reply = "أنا مساعدك الذكي الشخصي المبرمج داخل صفحتك لخدمتك ودعمك معنوياً طول طريق البكالوريا!";
                 }
@@ -843,9 +852,7 @@
             }, 600);
         });
 
-        // ----------------------------------------------------
-        // نظام الـ Streak والمهام المنطقي (Daily Reality)
-        // ----------------------------------------------------
+        // نظام الـ Streak والمهام
         const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         const todayObj = new Date();
         const currentDayKey = daysMap[todayObj.getDay()];
