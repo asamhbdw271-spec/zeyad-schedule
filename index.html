@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Zeyad's Schedule</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeyad's Schedule - Dreams to Reality</title>
     <style>
         * {
             box-sizing: border-box;
@@ -10,141 +11,161 @@
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
-            width: 1366px;
-            height: 768px;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #090d16 100%);
+            width: 100vw;
+            height: 100vh;
+            /* خلفية حية تدمج أجواء طب وشرطة مع صور حقيقية في الخلفية مع إضاءة خرافية */
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(9, 13, 22, 0.9)), 
+                        url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1600&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
             color: #ffffff;
-            overflow: hidden;
-            position: relative;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            position: relative;
         }
-        /* خلفية حية جمالية متحركة */
-        .bg-glow {
+
+        /* تأثير الحركة الحية في الخلفية */
+        .animated-bg {
             position: absolute;
-            width: 400px;
-            height: 400px;
-            background: rgba(99, 102, 241, 0.15);
-            filter: blur(100px);
-            border-radius: 50%;
-            top: 10%;
-            left: 20%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, rgba(244, 63, 94, 0.05) 100%);
             z-index: 1;
-            animation: float 8s ease-in-out infinite alternate;
+            pointer-events: none;
+            animation: pulseGlow 6s ease-in-out infinite alternate;
         }
-        .bg-glow-2 {
-            position: absolute;
-            width: 450px;
-            height: 450px;
-            background: rgba(236, 72, 153, 0.1);
-            filter: blur(120px);
-            border-radius: 50%;
-            bottom: 10%;
-            right: 20%;
-            z-index: 1;
-            animation: float 10s ease-in-out infinite alternate-reverse;
-        }
-        @keyframes float {
-            0% { transform: translateY(0px) scale(1); }
-            100% { transform: translateY(-30px) scale(1.1); }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0.4; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.05); }
         }
 
         .container {
             position: relative;
             z-index: 2;
             width: 90%;
-            max-width: 1200px;
+            max-width: 900px;
             text-align: center;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
 
         header {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
+
         h1 {
-            font-size: 32px;
-            font-weight: 800;
+            font-size: 30px;
+            font-weight: 900;
             background: linear-gradient(to right, #38bdf8, #818cf8, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        .dreams {
-            font-size: 16px;
-            color: #cbd5e1;
-            font-weight: 600;
-        }
-        .dreams span {
-            color: #38bdf8;
-            margin: 0 10px;
         }
 
-        /* تصميم الجدول */
+        .dreams {
+            font-size: 15px;
+            color: #e2e8f0;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .dreams span {
+            background: rgba(56, 189, 248, 0.15);
+            padding: 5px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+        }
+
+        .dreams span.police {
+            background: rgba(244, 63, 94, 0.15);
+            border-color: rgba(244, 63, 94, 0.3);
+            color: #fb7185;
+        }
+
+        /* الجدول */
         table {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 0 10px;
+            border-spacing: 0 8px;
+            margin-top: 10px;
         }
+
         th {
-            background: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.9);
             color: #38bdf8;
-            padding: 12px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 15px;
             border-top: 1px solid rgba(56, 189, 248, 0.3);
             border-bottom: 1px solid rgba(56, 189, 248, 0.3);
         }
-        th:first-child { border-right: 1px solid rgba(56, 189, 248, 0.3); border-top-right-radius: 10px; border-bottom-right-radius: 10px; }
-        th:last-child { border-left: 1px solid rgba(56, 189, 248, 0.3); border-top-left-radius: 10px; border-bottom-left-radius: 10px; }
+
+        th:first-child { border-right: 1px solid rgba(56, 189, 248, 0.3); border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+        th:last-child { border-left: 1px solid rgba(56, 189, 248, 0.3); border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
 
         td {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(10px);
-            padding: 14px;
-            font-size: 16px;
+            background: rgba(30, 41, 59, 0.5);
+            padding: 12px;
+            font-size: 15px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
+
         td:first-child { 
             border-right: 1px solid rgba(255, 255, 255, 0.05); 
             border-top-right-radius: 8px; 
             border-bottom-right-radius: 8px;
             font-weight: bold;
-            color: #f43f5e;
+            color: #fb7185;
         }
+
         td:last-child { 
             border-left: 1px solid rgba(255, 255, 255, 0.05); 
             border-top-left-radius: 8px; 
             border-bottom-left-radius: 8px; 
-            color: #e2e8f0;
+            color: #f1f5f9;
         }
+
         tr:hover td {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(56, 189, 248, 0.15);
             transform: scale(1.01);
         }
 
         footer {
-            margin-top: 25px;
+            margin-top: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding: 0 10px;
+            padding: 0 5px;
         }
+
         .signature {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             background: linear-gradient(to right, #f43f5e, #fb7185);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
         }
+
         .quote {
-            font-size: 14px;
+            font-size: 13px;
             color: #94a3b8;
             font-style: italic;
         }
@@ -152,14 +173,14 @@
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-    <div class="bg-glow-2"></div>
+    <div class="animated-bg"></div>
 
     <div class="container">
         <header>
             <h1>جدول المذاكرة الأسبوعي</h1>
             <div class="dreams">
-                حلمك قُدامك: <span>🩺 كلية الطب إن شاء الله</span> | <span>🎖️ كلية الشرطة إن شاء الله</span>
+                <span>🩺 كلية الطب إن شاء الله</span>
+                <span class="police">🎖️ كلية الشرطة إن شاء الله</span>
             </div>
         </header>
 
@@ -204,7 +225,7 @@
 
         <footer>
             <div class="signature">Doc: Zeyad</div>
-            <div class="quote">"التعب بيعدي، لكن النجاح بيفضل محفور للأبد."</div>
+            <div class="quote">"طريق الحلم محتاج تعب، والبطل بيوصل لآخر السكة."</div>
         </footer>
     </div>
 
