@@ -255,7 +255,6 @@
             border-bottom-left-radius: 6px; 
         }
 
-        /* تمييز يوم اليوم الحالي في الجدول وباقي الأيام تكون هادئة */
         tr.today-row td {
             background: rgba(56, 189, 248, 0.15);
             border-color: var(--accent-blue);
@@ -433,7 +432,7 @@
             <a href="https://www.youtube.com" target="_blank" class="nav-btn" id="ytBtn">▶️ يوتيوب</a>
         </div>
         <div class="utility-group">
-            <button class="nav-btn" id="soundToggle">🔊 تشغيل الرياح</button>
+            <button class="nav-btn" id="quranToggle">📖 تشغيل القرآن</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
         </div>
     </div>
@@ -684,52 +683,35 @@
 
         window.addEventListener('pointerdown', () => { playClickSound(); });
 
-        let windNode = null;
-        let windGain = null;
-        const soundBtn = document.getElementById('soundToggle');
-        let isWindPlaying = false;
+        // تشغيل القرآن الكريم بصوت القارئ (مثل عبدالرحمن مسعد من بث مباشر/إذاعة قرآن كريم أو رابط تلاوة هادئة)
+        let quranAudio = null;
+        const quranBtn = document.getElementById('quranToggle');
+        let isQuranPlaying = false;
 
-        function toggleWindSound() {
-            if (!isWindPlaying) {
+        function toggleQuranSound() {
+            if (!isQuranPlaying) {
                 try {
-                    if (audioCtx.state === 'suspended') { audioCtx.resume(); }
-                    const bufferSize = 2 * audioCtx.sampleRate;
-                    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-                    const output = noiseBuffer.getChannelData(0);
-                    for (let i = 0; i < bufferSize; i++) {
-                        output[i] = Math.random() * 2 - 1;
-                    }
-
-                    windNode = audioCtx.createBufferSource();
-                    windNode.buffer = noiseBuffer;
-                    windNode.loop = true;
-
-                    const filter = audioCtx.createBiquadFilter();
-                    filter.type = 'bandpass';
-                    filter.frequency.value = 300;
-                    filter.Q.value = 1.0;
-
-                    windGain = audioCtx.createGain();
-                    windGain.gain.value = 0.12;
-
-                    windNode.connect(filter);
-                    filter.connect(windGain);
-                    windGain.connect(audioCtx.destination);
-
-                    windNode.start();
-                    isWindPlaying = true;
-                    soundBtn.innerText = "🔇 كتم الرياح";
+                    // رابط إذاعة القرآن الكريم أو تلاوة هادئة مباشرة
+                    quranAudio = new Audio('https://backup.quran-radio.com:8443/live.mp3'); 
+                    quranAudio.volume = 0.5;
+                    quranAudio.play().then(() => {
+                        isQuranPlaying = true;
+                        quranBtn.innerText = "🔇 إيقاف القرآن";
+                    }).catch(err => {
+                        alert("تعذر تشغيل الصوت، تأكد من اتصال الإنترنت.");
+                    });
                 } catch(e) {}
             } else {
-                if (windNode) {
-                    try { windNode.stop(); } catch(e) {}
+                if (quranAudio) {
+                    quranAudio.pause();
+                    quranAudio = null;
                 }
-                isWindPlaying = false;
-                soundBtn.innerText = "🔊 تشغيل الرياح";
+                isQuranPlaying = false;
+                quranBtn.innerText = "📖 تشغيل القرآن";
             }
         }
 
-        soundBtn.addEventListener('click', toggleWindSound);
+        quranBtn.addEventListener('click', toggleQuranSound);
 
         const themeBtn = document.getElementById('themeToggle');
         themeBtn.addEventListener('click', (e) => {
@@ -840,10 +822,9 @@
         // ----------------------------------------------------
         const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         const todayObj = new Date();
-        const currentDayKey = daysMap[todayObj.getDay()]; // اسم اليوم الحقيقي (اختصار)
-        const todayDateStr = todayObj.toISOString().slice(0, 10); // تاريخ اليوم YYYY-MM-DD
+        const currentDayKey = daysMap[todayObj.getDay()];
+        const todayDateStr = todayObj.toISOString().slice(0, 10);
 
-        // تمييز صف اليوم الحالي في الجدول
         document.querySelectorAll('tr[data-day]').forEach(tr => {
             const d = tr.getAttribute('data-day');
             if(d === currentDayKey) {
@@ -853,17 +834,14 @@
             }
         });
 
-        // إدارة الـ Streak مع الوقت والتاريخ الحقيقي
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
         let lastActiveDate = localStorage.getItem('zeyad_last_date') || '';
         let lastCompletedDay = localStorage.getItem('zeyad_last_completed_day') || '';
 
-        // التحقق من انتظام الأيام (لو فات يوم كامل ومفتحش ومخلصش، الـ Streak يقل أو يتصفر)
         if (lastActiveDate) {
             let lastDateObj = new Date(lastActiveDate);
             let diffDays = Math.floor((todayObj - lastDateObj) / (1000 * 60 * 60 * 24));
             if (diffDays > 1) {
-                // غاب أكتر من يوم، رجع الـ Streak لـ 1
                 streak = 1;
                 localStorage.setItem('zeyad_streak', streak);
             }
@@ -871,17 +849,14 @@
 
         document.getElementById('streakBadge').innerText = "🔥 الالتزام: " + streak + " يوم";
 
-        // التعامل مع مربعات الاختيار (الـ Checkboxes)
         const checkboxes = document.querySelectorAll('.task-checkbox');
         checkboxes.forEach(chk => {
             const taskDay = chk.getAttribute('data-day');
             
-            // قفل مهام الأيام الأخرى أو السماح لليوم الحالي فقط (أو القديم المعلق)
             if (taskDay !== currentDayKey) {
-                chk.disabled = true; // منع اللعب في الأيام الثانية عشوائياً
+                chk.disabled = true;
             }
 
-            // استرجاع حالة الحفظ لليوم الحالي
             let taskStateKey = 'task_' + todayDateStr + '_' + taskDay;
             if(localStorage.getItem(taskStateKey) === 'true') {
                 chk.checked = true;
@@ -890,13 +865,12 @@
 
             chk.addEventListener('change', (e) => {
                 e.stopPropagation();
-                if (taskDay !== currentDayKey) return; // حماية إضافية
+                if (taskDay !== currentDayKey) return;
 
                 if(chk.checked) {
                     localStorage.setItem(taskStateKey, 'true');
                     chk.closest('label').classList.add('completed-task');
 
-                    // لو دي أول مرة يخلص مهام النهارده، نزود الـ Streak مرة واحدة فقط!
                     if (lastCompletedDay !== todayDateStr) {
                         streak++;
                         lastCompletedDay = todayDateStr;
@@ -912,7 +886,6 @@
             });
         });
 
-        // نظام تبديل الآيات والأحاديث
         const hadiths = [
             "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
             "قال رسول الله ﷺ: «مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ»",
