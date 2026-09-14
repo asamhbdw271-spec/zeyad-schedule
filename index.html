@@ -64,32 +64,39 @@
 
         .top-utilities {
             position: fixed;
-            top: 20px;
-            left: 20px;
-            right: 20px;
+            top: 15px;
+            left: 15px;
+            right: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 10;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
         .utility-group {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .nav-btn {
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.85);
             border: 1px solid var(--accent-blue);
             color: var(--accent-blue);
-            padding: 8px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(8px);
             transition: 0.3s;
-            font-size: 13px;
+            font-size: 12px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         .nav-btn:hover {
             background: var(--accent-blue);
@@ -100,16 +107,17 @@
         .container {
             position: relative;
             z-index: 2;
-            width: 92%;
+            width: 94%;
             max-width: 880px;
             text-align: center;
             background: var(--container-bg);
             backdrop-filter: blur(14px);
             border: 1px solid var(--border-color);
-            padding: 18px;
+            padding: 16px;
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
             transition: background 0.4s ease, border 0.4s ease;
+            margin-top: 25px;
         }
 
         .top-bar {
@@ -117,29 +125,29 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 6px;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .live-clock {
             color: var(--accent-blue);
             font-weight: 600;
             background: rgba(56, 189, 248, 0.1);
-            padding: 3px 12px;
+            padding: 3px 10px;
             border-radius: 15px;
             border: 1px solid var(--border-color);
         }
 
-        .visitor-counter {
-            color: #fb7185;
-            background: rgba(244, 63, 94, 0.1);
+        .streak-badge {
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.15);
             padding: 3px 10px;
             border-radius: 15px;
-            border: 1px solid rgba(244, 63, 94, 0.2);
-            font-weight: 600;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            font-weight: bold;
         }
 
         h1 {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 900;
             background: linear-gradient(to right, #38bdf8, #818cf8, #f472b6);
             -webkit-background-clip: text;
@@ -148,13 +156,13 @@
         }
 
         .dreams {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-color);
             font-weight: 600;
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
+            gap: 10px;
+            margin-bottom: 6px;
             opacity: 0.9;
         }
 
@@ -174,9 +182,9 @@
 
         .countdown-banner {
             background: rgba(30, 41, 59, 0.6);
-            padding: 5px 15px;
+            padding: 4px 12px;
             border-radius: 8px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 11px;
             color: var(--accent-blue);
             border: 1px solid var(--border-color);
@@ -196,7 +204,7 @@
             background: rgba(30, 41, 59, 0.95);
             color: var(--accent-blue);
             padding: 5px;
-            font-size: 12px;
+            font-size: 11px;
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
         }
@@ -206,8 +214,8 @@
 
         td {
             background: var(--row-bg);
-            padding: 6px;
-            font-size: 12px;
+            padding: 5px;
+            font-size: 11px;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -225,7 +233,7 @@
 
         td:nth-child(2) {
             text-align: right;
-            padding-right: 15px;
+            padding-right: 12px;
         }
 
         td:last-child { 
@@ -236,15 +244,14 @@
 
         tr:hover td {
             background: var(--row-hover);
-            transform: scale(1.005);
         }
 
         .task-checkbox {
             cursor: pointer;
             accent-color: var(--accent-blue);
-            width: 15px;
-            height: 15px;
-            margin-left: 8px;
+            width: 14px;
+            height: 14px;
+            margin-left: 6px;
             vertical-align: middle;
         }
 
@@ -253,12 +260,12 @@
             opacity: 0.5;
         }
 
-        /* المودالز المشتركة */
+        /* المودالز */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.82);
             z-index: 100;
             justify-content: center;
             align-items: center;
@@ -267,11 +274,11 @@
         .modal-content {
             background: #0f172a;
             border: 1px solid #38bdf8;
-            padding: 20px;
+            padding: 18px;
             border-radius: 15px;
-            width: 92%;
+            width: 94%;
             max-width: 600px;
-            max-height: 82vh;
+            max-height: 85vh;
             overflow-y: auto;
             text-align: right;
             box-shadow: 0 15px 40px rgba(0,0,0,0.8);
@@ -279,8 +286,8 @@
         }
         .modal-content h3 {
             color: #38bdf8;
-            margin-bottom: 12px;
-            font-size: 18px;
+            margin-bottom: 10px;
+            font-size: 16px;
             text-align: center;
         }
 
@@ -288,11 +295,11 @@
             background: rgba(30, 41, 59, 0.6);
             border: 1px solid rgba(56, 189, 248, 0.2);
             border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
+            padding: 8px;
+            margin-bottom: 8px;
         }
-        .path-card h4 { color: #fb7185; margin-bottom: 4px; font-size: 14px; }
-        .path-card p { color: #cbd5e1; font-size: 12px; line-height: 1.4; margin-bottom: 3px; }
+        .path-card h4 { color: #fb7185; margin-bottom: 3px; font-size: 13px; }
+        .path-card p { color: #cbd5e1; font-size: 11px; line-height: 1.4; margin-bottom: 2px; }
 
         .close-modal {
             background: #f43f5e;
@@ -301,64 +308,69 @@
             padding: 6px 15px;
             border-radius: 6px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
             font-weight: bold;
             display: block;
             width: 100%;
             transition: 0.3s;
+            font-size: 12px;
         }
         .close-modal:hover { background: #e11d48; }
 
-        /* ستايل لوحة الرسائل الإبداعية المحلية (بدون سحابة) */
-        .notes-box {
-            display: flex;
-            gap: 8px;
+        /* ستايل الآلة الحاسبة العلمية كاسيو */
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
             margin-top: 10px;
         }
-        .notes-input {
-            flex: 1;
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid var(--border-color);
-            padding: 8px;
-            color: white;
+        .calc-screen {
+            grid-column: span 4;
+            background: #020617;
+            border: 1px solid var(--accent-blue);
+            padding: 10px;
+            font-size: 18px;
+            color: #38bdf8;
+            text-align: left;
             border-radius: 6px;
-            font-size: 12px;
+            font-family: monospace;
+            min-height: 42px;
+            word-break: break-all;
         }
-        .notes-btn {
-            background: var(--accent-blue);
-            color: #0f172a;
-            border: none;
-            padding: 8px 14px;
+        .calc-btn {
+            background: #1e293b;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px;
+            font-size: 13px;
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
+            transition: 0.2s;
         }
-        .notes-list {
-            margin-top: 10px;
-            max-height: 120px;
-            overflow-y: auto;
-            text-align: right;
-        }
-        .note-item {
-            background: rgba(30, 41, 59, 0.5);
-            padding: 6px 10px;
-            border-radius: 6px;
-            margin-bottom: 5px;
-            font-size: 12px;
-            border-right: 3px solid #38bdf8;
-        }
+        .calc-btn:hover { background: #334155; }
+        .calc-btn.op { background: #0284c7; color: white; }
+        .calc-btn.eq { background: #10b981; color: white; grid-column: span 2; }
+        .calc-btn.clr { background: #f43f5e; color: white; }
+
+        /* الملاحظات */
+        .notes-box { display: flex; gap: 6px; margin-top: 8px; }
+        .notes-input { flex: 1; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; }
+        .notes-btn { background: var(--accent-blue); color: #0f172a; border: none; padding: 6px 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; }
+        .notes-list { margin-top: 8px; max-height: 100px; overflow-y: auto; text-align: right; }
+        .note-item { background: rgba(30, 41, 59, 0.5); padding: 5px 8px; border-radius: 6px; margin-bottom: 4px; font-size: 11px; border-right: 3px solid #38bdf8; }
 
         footer {
-            margin-top: 10px;
+            margin-top: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            padding: 0 5px;
+            padding: 0 4px;
         }
 
         .signature {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             background: linear-gradient(to right, #f43f5e, #fb7185);
             -webkit-background-clip: text;
@@ -366,12 +378,12 @@
         }
 
         .ticker-wrap {
-            margin-top: 8px;
+            margin-top: 6px;
             width: 100%;
             overflow: hidden;
             background: rgba(30, 41, 59, 0.6);
-            border-radius: 8px;
-            padding: 4px 0;
+            border-radius: 6px;
+            padding: 3px 0;
             border: 1px solid var(--border-color);
         }
 
@@ -379,7 +391,7 @@
             display: inline-block;
             white-space: nowrap;
             animation: tickerAnim 10s linear infinite;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--accent-blue);
             font-weight: bold;
         }
@@ -395,10 +407,12 @@
     <div class="top-utilities">
         <div class="utility-group">
             <button class="nav-btn" id="openModalBtn">🎓 مسارات البكالوريا</button>
-            <button class="nav-btn" id="openNotesBtn">📝 لوحة أفكاري وملاحظاتي</button>
+            <button class="nav-btn" id="openCalcBtn">🧮 الآلة الحاسبة</button>
+            <button class="nav-btn" id="openNotesBtn">📝 ملاحظاتي</button>
+            <a href="https://www.youtube.com" target="_blank" class="nav-btn" id="ytBtn">▶️ يوتيوب</a>
         </div>
         <div class="utility-group">
-            <button class="nav-btn" id="soundToggle">🔇 كتم الصوت</button>
+            <button class="nav-btn" id="soundToggle">🔊 تشغيل الرياح</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
         </div>
     </div>
@@ -431,13 +445,47 @@
         </div>
     </div>
 
-    <!-- نافذة لوحة الأفكار الإبداعية (بدون سحابة وبشكل فاجر) -->
+    <!-- نافذة الآلة الحاسبة العلمية (كاسيو) -->
+    <div class="modal" id="calcModal">
+        <div class="modal-content">
+            <h3>🧮 آلة حاسبة علمية (رياضيات وفيزياء)</h3>
+            <div class="calc-screen" id="calcScreen">0</div>
+            <div class="calc-grid">
+                <button class="calc-btn clr" onclick="clearCalc()">AC</button>
+                <button class="calc-btn op" onclick="appendCalc('(')">(</button>
+                <button class="calc-btn op" onclick="appendCalc(')')">)</button>
+                <button class="calc-btn op" onclick="appendCalc('/')">/</button>
+
+                <button class="calc-btn" onclick="appendCalc('7')">7</button>
+                <button class="calc-btn" onclick="appendCalc('8')">8</button>
+                <button class="calc-btn" onclick="appendCalc('9')">9</button>
+                <button class="calc-btn op" onclick="appendCalc('*')">*</button>
+
+                <button class="calc-btn" onclick="appendCalc('4')">4</button>
+                <button class="calc-btn" onclick="appendCalc('5')">5</button>
+                <button class="calc-btn" onclick="appendCalc('6')">6</button>
+                <button class="calc-btn op" onclick="appendCalc('-')">-</button>
+
+                <button class="calc-btn" onclick="appendCalc('1')">1</button>
+                <button class="calc-btn" onclick="appendCalc('2')">2</button>
+                <button class="calc-btn" onclick="appendCalc('3')">3</button>
+                <button class="calc-btn op" onclick="appendCalc('+')">+</button>
+
+                <button class="calc-btn" onclick="appendCalc('0')">0</button>
+                <button class="calc-btn" onclick="appendCalc('.')">.</button>
+                <button class="calc-btn op" onclick="appendCalc('Math.sqrt(')">√</button>
+                <button class="calc-btn eq" onclick="calculateResult()">=</button>
+            </div>
+            <button class="close-modal" id="closeCalcBtn" style="margin-top:10px;">إغلاق الحاسبة</button>
+        </div>
+    </div>
+
+    <!-- نافذة الملاحظات المحلية -->
     <div class="modal" id="notesModal">
         <div class="modal-content">
-            <h3>📝 لوحة الأفكار والملاحظات السريعة</h3>
-            <p style="font-size:12px; color:#94a3b8; margin-bottom:10px;">سجل أفكارك أو ملاحظاتك الدراسية هنا (تتحفظ عندك على الجهاز فوراً):</p>
+            <h3>📝 لوحة ملاحظاتي وأفكاري</h3>
             <div class="notes-box">
-                <input type="text5" id="noteInput" class="notes-input" placeholder="اكتب فكرة أو ملحوظة هنا...">
+                <input type="text" id="noteInput" class="notes-input" placeholder="اكتب ملحوظة أو مسألة...">
                 <button id="addNoteBtn" class="notes-btn">إضافة</button>
             </div>
             <div class="notes-list" id="notesListContainer"></div>
@@ -451,7 +499,7 @@
         <div class="top-bar">
             <div class="live-clock" id="liveClock">00:00:00</div>
             <div style="font-size: 11px; font-weight: bold; color: #f472b6;" id="quoteBox">"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم"</div>
-            <div class="visitor-counter">👁️ زيارات: <span id="visitCount">1</span></div>
+            <div class="streak-badge" id="streakBadge">🔥 التزام: 1 يوم</div>
         </div>
 
         <header>
@@ -515,9 +563,6 @@
         </footer>
     </div>
 
-    <!-- صوت الرياح والهواء الهادئ (بدل المطر) -->
-    <audio id="bgMusic" src="https://actions.google.com/sounds/v1/weather/wind_gusts.ogg" loop preload="auto"></audio>
-
     <script>
         const glow = document.getElementById('cursorGlow');
         window.addEventListener('mousemove', (e) => {
@@ -532,64 +577,80 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // نظام توليد صوت الماوس برمجياً (Web Audio API) عشان يشتغل غصب عن أي متصفح وبدون ملفات خارجية مقفولة
+        // نظام توليد صوت الماوس برمجياً
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playClickSound() {
-            if (isMuted) return;
             try {
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
+                if (audioCtx.state === 'suspended') { audioCtx.resume(); }
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.04);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
-                osc.stop(audioCtx.currentTime + 0.05);
+                osc.stop(audioCtx.currentTime + 0.04);
             } catch(e) {}
         }
 
-        window.addEventListener('click', () => {
-            playClickSound();
-        });
+        window.addEventListener('click', () => { playClickSound(); });
 
-        // تشغيل صوت الرياح والهواء تلقائياً مع أول حركة تفاعل في الصفحة
-        const music = document.getElementById('bgMusic');
+        // توليد صوت رياح وهواء هادئ حقيقي (White Noise Filtered) برمجياً بدون روابط خارجية معطلة
+        let windNode = null;
+        let windGain = null;
         const soundBtn = document.getElementById('soundToggle');
-        let isMuted = false;
-        let startedPlaying = false;
+        let isWindPlaying = false;
 
-        function startAmbientSound() {
-            if (!startedPlaying) {
-                music.volume = 0.4;
-                music.play().then(() => {
-                    startedPlaying = true;
-                }).catch(e => {});
+        function toggleWindSound() {
+            playClickSound();
+            if (!isWindPlaying) {
+                try {
+                    if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+                    
+                    // إنشاء ضوضاء بيضاء لصوت الهواء
+                    const bufferSize = 2 * audioCtx.sampleRate;
+                    const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const output = noiseBuffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        output[i] = Math.random() * 2 - 1;
+                    }
+
+                    windNode = audioCtx.createBufferSource();
+                    windNode.buffer = noiseBuffer;
+                    windNode.loop = true;
+
+                    // فلتر لتنعيم الصوت وجعله شبيه بالهواء والرياح الهادئة
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'bandpass';
+                    filter.frequency.value = 300;
+                    filter.Q.value = 1.0;
+
+                    windGain = audioCtx.createGain();
+                    windGain.gain.value = 0.12; // مستوى صوت هادي ومريح
+
+                    windNode.connect(filter);
+                    filter.connect(windGain);
+                    windGain.connect(audioCtx.destination);
+
+                    windNode.start();
+                    isWindPlaying = true;
+                    soundBtn.innerText = "🔇 كتم الرياح";
+                } catch(e) {
+                    console.log(e);
+                }
+            } else {
+                if (windNode) {
+                    try { windNode.stop(); } catch(e) {}
+                }
+                isWindPlaying = false;
+                soundBtn.innerText = "🔊 تشغيل الرياح";
             }
         }
 
-        window.addEventListener('pointerdown', startAmbientSound, { once: true });
-        window.addEventListener('keydown', startAmbientSound, { once: true });
-
-        soundBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            playClickSound();
-            if (!isMuted) {
-                music.pause();
-                isMuted = true;
-                soundBtn.innerText = "🔊 تشغيل الصوت";
-            } else {
-                music.play().then(() => {
-                    isMuted = false;
-                    soundBtn.innerText = "🔇 كتم الصوت";
-                }).catch(e => {});
-            }
-        });
+        soundBtn.addEventListener('click', toggleWindSound);
 
         const themeBtn = document.getElementById('themeToggle');
         themeBtn.addEventListener('click', (e) => {
@@ -616,7 +677,41 @@
             modal.style.display = 'none';
         });
 
-        // مودال لوحة الأفكار والملاحظات (بدون سحابة)
+        // مودال الآلة الحاسبة
+        const calcModal = document.getElementById('calcModal');
+        document.getElementById('openCalcBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            playClickSound();
+            calcModal.style.display = 'flex';
+        });
+        document.getElementById('closeCalcBtn').addEventListener('click', () => {
+            playClickSound();
+            calcModal.style.display = 'none';
+        });
+
+        const calcScreen = document.getElementById('calcScreen');
+        function appendCalc(val) {
+            playClickSound();
+            if(calcScreen.innerText === '0' || calcScreen.innerText === 'خطأ') {
+                calcScreen.innerText = val;
+            } else {
+                calcScreen.innerText += val;
+            }
+        }
+        function clearCalc() {
+            playClickSound();
+            calcScreen.innerText = '0';
+        }
+        function calculateResult() {
+            playClickSound();
+            try {
+                calcScreen.innerText = eval(calcScreen.innerText);
+            } catch(e) {
+                calcScreen.innerText = 'خطأ';
+            }
+        }
+
+        // مودال الملاحظات
         const notesModal = document.getElementById('notesModal');
         document.getElementById('openNotesBtn').addEventListener('click', (e) => {
             e.stopPropagation();
@@ -629,22 +724,18 @@
             notesModal.style.display = 'none';
         });
 
-        // إدارة الملاحظات المحلية
         const noteInput = document.getElementById('noteInput');
         const addNoteBtn = document.getElementById('addNoteBtn');
         const notesListContainer = document.getElementById('notesListContainer');
 
         function getNotes() {
-            try {
-                return JSON.parse(localStorage.getItem('zeyad_notes') || '[]');
-            } catch(e) { return []; }
+            try { return JSON.parse(localStorage.getItem('zeyad_notes') || '[]'); } catch(e) { return []; }
         }
-
         function renderNotes() {
             const notes = getNotes();
             notesListContainer.innerHTML = '';
             if(notes.length === 0) {
-                notesListContainer.innerHTML = '<div style="font-size:11px; color:#64748b; text-align:center;">مفيش ملاحظات متسجلة لسه.</div>';
+                notesListContainer.innerHTML = '<div style="font-size:11px; color:#64748b; text-align:center;">مفيش ملاحظات.</div>';
                 return;
             }
             notes.forEach((note, index) => {
@@ -654,7 +745,6 @@
                 notesListContainer.appendChild(div);
             });
         }
-
         addNoteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             playClickSound();
@@ -667,6 +757,10 @@
                 renderNotes();
             }
         });
+
+        // عداد الالتزام (Streak Counter)
+        let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
+        document.getElementById('streakBadge').innerText = "🔥 التزام: " + streak + " يوم";
 
         const checkboxes = document.querySelectorAll('.task-checkbox');
         checkboxes.forEach(chk => {
@@ -682,16 +776,16 @@
                 if(chk.checked) {
                     localStorage.setItem('task_' + id, 'true');
                     chk.closest('label').classList.add('completed-task');
+                    streak++;
                 } else {
                     localStorage.setItem('task_' + id, 'false');
                     chk.closest('label').classList.remove('completed-task');
+                    streak = Math.max(1, streak - 1);
                 }
+                localStorage.setItem('zeyad_streak', streak);
+                document.getElementById('streakBadge').innerText = "🔥 التزام: " + streak + " يوم";
             });
         });
-
-        let visits = parseInt(localStorage.getItem('zeyad_real_visits') || '30') + 1;
-        localStorage.setItem('zeyad_real_visits', visits);
-        document.getElementById('visitCount').innerText = visits;
 
         const quotes = [
             "\"حلم كلية الطب أو كليه الشرطة يبدأ بخطوة جادة اليوم\"",
