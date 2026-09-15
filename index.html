@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الثاني بكالوريا - الحماية العامه</title>
+    <title>الصف الثاني بكالوريا - الحماية المطلقة</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
@@ -238,8 +238,76 @@
         .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
         .completed-task { text-decoration: line-through; opacity: 0.5; }
 
+        /* سكشن المدرسين الجديد */
+        .teachers-section {
+            margin-top: 15px;
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: right;
+        }
+        .teachers-section h3 {
+            color: var(--accent-blue);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 8px;
+        }
+        .teacher-card {
+            background: rgba(15, 23, 42, 0.75);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: 0.2s;
+        }
+        .teacher-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+        .teacher-subject {
+            font-size: 9px;
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        .teacher-name {
+            font-size: 11px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+        .teacher-link {
+            margin-top: 4px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #ef4444;
+            text-decoration: none;
+            text-align: center;
+            padding: 3px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+        .teacher-link:hover {
+            background: #ef4444;
+            color: white;
+        }
+
         .chat-section {
-            margin-top: 20px;
+            margin-top: 15px;
             background: rgba(30, 41, 59, 0.7);
             border: 1px solid var(--border-color);
             border-radius: 14px;
@@ -268,7 +336,7 @@
         .admin-btn:hover { background: #e11d48; }
 
         .chat-box {
-            height: 160px; overflow-y: auto; background: rgba(15, 23, 42, 0.6);
+            height: 150px; overflow-y: auto; background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 8px;
             margin-bottom: 8px; display: flex; flex-direction: column; gap: 6px;
         }
@@ -465,6 +533,33 @@
             </thead>
             <tbody id="scheduleTableBody"></tbody>
         </table>
+
+        <!-- قسم أفضل المدرسين المختارين -->
+        <div class="teachers-section">
+            <h3>⭐ أفضل المدرسين (نخبة اليوتيوب للمواد)</h3>
+            <div class="teachers-grid">
+                <div class="teacher-card">
+                    <span class="teacher-subject">📖 اللغة العربية</span>
+                    <span class="teacher-name">محمود رضا الزعبلاوي</span>
+                    <a href="https://www.youtube.com/@MahmoudReda" target="_blank" class="teacher-link">📺 زيارة القناة</a>
+                </div>
+                <div class="teacher-card">
+                    <span class="teacher-subject">⚡ الفيزياء</span>
+                    <span class="teacher-name">مستر رشوان (داتا فيزياء)</span>
+                    <a href="https://www.youtube.com/@DataPhysics" target="_blank" class="teacher-link">📺 زيارة القناة</a>
+                </div>
+                <div class="teacher-card">
+                    <span class="teacher-subject">⏳ التاريخ</span>
+                    <span class="teacher-name">مهاب سلامه</span>
+                    <span class="teacher-link" style="background: rgba(100,100,100,0.2); color:#94a3b8; border-color:rgba(100,100,100,0.4); cursor:default;">🎯 نخبة التاريخ</span>
+                </div>
+                <div class="teacher-card">
+                    <span class="teacher-subject">🇬🇧 اللغة الإنجليزية</span>
+                    <span class="teacher-name">مستر عمرو رجب</span>
+                    <a href="https://www.youtube.com/@AmrRagab" target="_blank" class="teacher-link">📺 زيارة القناة</a>
+                </div>
+            </div>
+        </div>
 
         <div class="chat-section">
             <div class="chat-header-flex">
@@ -904,7 +999,6 @@
             adminEditUserModal.style.display = 'none';
         });
 
-        // تعديل الدالة لضمان الحفظ المباشر بـ upsert لمنع رجوع الستريك القديم
         document.getElementById('saveAdminEditBtn').addEventListener('click', async () => {
             if(!verifyStrictAdmin()) return;
             let name = document.getElementById('editUserNameDisplay').value;
@@ -927,7 +1021,7 @@
                         document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
                     }
 
-                    alert("تم تعديل الساعات والستريك بنجاح وسُجلت في السيرفر فوراً! 🚀");
+                    alert("تم تعديل الساعات والسيتريك بنجاح وسُجلت في السيرفر فوراً! 🚀");
                     adminEditUserModal.style.display = 'none';
                     loadLeaderboardData();
                 }
