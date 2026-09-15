@@ -419,6 +419,7 @@
         </div>
     </div>
 
+    <!-- Modals -->
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
             <h3>⚙️ تخصيص ملفك الشخصي وأحلامك</h3>
@@ -605,13 +606,13 @@
         let userTrack = localStorage.getItem('zeyad_track') || 'علمي علوم (طب وصحة)';
         let userDream1 = localStorage.getItem('zeyad_dream1') || 'إن شاء الله كلية الطب';
         let userDream2 = localStorage.getItem('zeyad_dream2') || 'إن شاء الله كلية الشرطة';
-
         let streak = parseInt(localStorage.getItem('zeyad_streak') || '1');
 
-        // Initial setup and bindings logic can go here
         document.getElementById('footerSignature').innerText = myName;
         document.getElementById('displayDream1').innerText = userDream1;
         document.getElementById('displayDream2').innerText = userDream2;
+        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم`;
+
         if (isUserAdmin) {
             document.getElementById('adminControlsPanel').style.display = 'flex';
         }
@@ -621,6 +622,232 @@
             const now = new Date();
             document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG');
         }, 1000);
+
+        // Schedule Table Generation
+        const days = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
+        const defaultSchedule = {
+            'السبت': 'فيزياء + لغة عربية',
+            'الأحد': 'تاريخ + لغة إنجليزية',
+            'الاثنين': 'كيمياء + أحياء',
+            'الثلاثاء': 'رياضيات + فرنسي',
+            'الأربعاء': 'فيزياء + تاريخ',
+            'الخميس': 'مراجعة شاملة وحل امتحانات',
+            'الجمعة': 'راحة واستعداد للأسبوع الجديد'
+        };
+
+        function loadSchedule() {
+            const tbody = document.getElementById('scheduleTableBody');
+            tbody.innerHTML = '';
+            const todayIndex = (new Date().getDay() + 1) % 7; // Adjust for Saturday start
+
+            days.forEach((day, index) => {
+                const tr = document.createElement('tr');
+                if (index === todayIndex) tr.classList.add('today-row');
+                
+                const customSubj = localStorage.getItem('schedule_' + day) || defaultSchedule[day];
+                const isChecked = localStorage.getItem('task_' + day) === 'true';
+
+                tr.innerHTML = `
+                    <td>${day}</td>
+                    <td>
+                        <label class="${isChecked ? 'completed-task' : ''}">
+                            <input type="checkbox" class="task-checkbox" data-day="${day}" ${isChecked ? 'checked' : ''}>
+                            <span id="text_${day}">${customSubj}</span>
+                        </label>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.querySelectorAll('.task-checkbox').forEach(chk => {
+                chk.addEventListener('change', (e) => {
+                    const day = e.target.getAttribute('data-day');
+                    localStorage.setItem('task_' + day, e.target.checked);
+                    loadSchedule();
+                });
+            });
+        }
+        loadSchedule();
+
+        // Modals Logic
+        const profileModal = document.getElementById('profileModal');
+        document.getElementById('openProfileModalBtn').addEventListener('click', () => {
+            document.getElementById('inputName').value = myName;
+            document.getElementById('inputTrack').value = userTrack;
+            document.getElementById('inputDream1').value = userDream1;
+            document.getElementById('inputDream2').value = userDream2;
+            profileModal.style.display = 'flex';
+        });
+        document.getElementById('closeProfileModalBtn').addEventListener('click', () => profileModal.style.display = 'none');
+
+        document.getElementById('saveProfileBtn').addEventListener('click', () => {
+            const newName = document.getElementById('inputName').value.trim();
+            const pass = document.getElementById('inputAdminPass').value;
+            if (newName) {
+                myName = newName;
+                localStorage.setItem('zeyad_name', myName);
+                document.getElementById('footerSignature').innerText = myName;
+            }
+            userTrack = document.getElementById('inputTrack').value;
+            userDream1 = document.getElementById('inputDream1').value || userDream1;
+            userDream2 = document.getElementById('inputDream2').value || userDream2;
+            
+            localStorage.setItem('zeyad_track', userTrack);
+            localStorage.setItem('zeyad_dream1', userDream1);
+            localStorage.setItem('zeyad_dream2', userDream2);
+
+            document.getElementById('displayDream1').innerText = userDream1;
+            document.getElementById('displayDream2').innerText = userDream2;
+
+            if (pass === ADMIN_SECRET_PASSWORD) {
+                isUserAdmin = true;
+                localStorage.setItem('zeyad_is_admin', 'true');
+                document.getElementById('adminControlsPanel').style.display = 'flex';
+                alert('تم تفعيل وضع الأدمن بنجاح!');
+            }
+            profileModal.style.display = 'none';
+            location.reload();
+        });
+
+        // Custom Schedule Modal
+        const customModal = document.getElementById('customScheduleModal');
+        document.getElementById('openCustomScheduleBtn').addEventListener('click', () => {
+            days.forEach(day => {
+                const inputId = 'subj' + ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'][days.indexOf(day)];
+                const el = document.getElementById(inputId);
+                if(el) el.value = localStorage.getItem('schedule_' + day) || defaultSchedule[day];
+            });
+            customModal.style.display = 'flex';
+        });
+        document.getElementById('closeCustomModalBtn').addEventListener('click', () => customModal.style.display = 'none');
+
+        document.getElementById('saveCustomScheduleBtn').addEventListener('click', () => {
+            days.forEach((day, idx) => {
+                const inputId = 'subj' + ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'][idx];
+                const val = document.getElementById(inputId).value;
+                if(val) localStorage.setItem('schedule_' + day, val);
+            });
+            customModal.style.display = 'none';
+            loadSchedule();
+        });
+
+        // Theme Toggle
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('zeyad_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
+        });
+        if(localStorage.getItem('zeyad_theme') === 'light') {
+            document.body.classList.add('light-theme');
+        }
+
+        // Leaderboard Modal & Supabase sync
+        const leaderboardModal = document.getElementById('leaderboardModal');
+        document.getElementById('openLeaderboardBtn').addEventListener('click', async () => {
+            leaderboardModal.style.display = 'flex';
+            await fetchLeaderboard();
+        });
+        document.getElementById('closeLeaderboardBtn').addEventListener('click', () => leaderboardModal.style.display = 'none');
+
+        async function fetchLeaderboard() {
+            const tbody = document.getElementById('globalLeaderboardBody');
+            tbody.innerHTML = `<tr><td colspan="4">جاري تحميل الأبطال...</td></tr>`;
+            try {
+                // Upsert current user profile
+                await supabaseClient.from('leaderboard').upsert({
+                    name: myName,
+                    hours: (totalSeconds / 3600).toFixed(1),
+                    streak: streak
+                }, { onConflict: 'name' });
+
+                const { data, error } = await supabaseClient.from('leaderboard').select('*').order('hours', { ascending: false });
+                if (error) throw error;
+
+                tbody.innerHTML = '';
+                if (data && data.length > 0) {
+                    data.forEach((row, idx) => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>#${idx + 1}</td>
+                            <td>${row.name} ${row.name === myName ? '(أنت)' : ''}</td>
+                            <td>${row.hours} س</td>
+                            <td>🔥 ${row.streak || 1} يوم ${isUserAdmin ? `<button class="edit-user-btn" onclick="openAdminEdit('${row.name}', ${row.hours}, ${row.streak || 1})">تعديل</button>` : ''}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="4">لا يوجد بيانات مسجلة بعد.</td></tr>`;
+                }
+            } catch (err) {
+                tbody.innerHTML = `<tr><td colspan="4">خطأ في الاتصال بقاعدة البيانات.</td></tr>`;
+            }
+        }
+
+        // Chat functionality
+        async function fetchChat() {
+            const chatBox = document.getElementById('chatBox');
+            const { data } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true }).limit(50);
+            if (data) {
+                chatBox.innerHTML = '';
+                data.forEach(msg => {
+                    const div = document.createElement('div');
+                    div.className = 'chat-message';
+                    div.innerHTML = `
+                        <div class="msg-content-wrapper">
+                            <span class="author">${msg.author}:</span> 
+                            <span>${msg.text}</span>
+                        </div>
+                        ${isUserAdmin ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display:inline-block;">حذف</button>` : ''}
+                    `;
+                    chatBox.appendChild(div);
+                });
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }
+        }
+
+        document.getElementById('sendChatBtn').addEventListener('click', async () => {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if(!text) return;
+            await supabaseClient.from('messages').insert([{ author: myName, text: text }]);
+            input.value = '';
+            fetchChat();
+        });
+
+        document.getElementById('forceRefreshBtn').addEventListener('click', () => {
+            fetchChat();
+            fetchLeaderboard();
+        });
+
+        window.deleteMessage = async function(id) {
+            await supabaseClient.from('messages').delete().eq('id', id);
+            fetchChat();
+        };
+
+        // Admin Edit User from leaderboard
+        let editingTargetName = '';
+        window.openAdminEdit = function(name, hours, userStreak) {
+            editingTargetName = name;
+            document.getElementById('editUserNameDisplay').value = name;
+            document.getElementById('editUserHours').value = hours;
+            document.getElementById('editUserStreak').value = userStreak;
+            document.getElementById('adminEditUserModal').style.display = 'flex';
+        };
+
+        document.getElementById('closeAdminEditModalBtn').addEventListener('click', () => {
+            document.getElementById('adminEditUserModal').style.display = 'none';
+        });
+
+        document.getElementById('saveAdminEditBtn').addEventListener('click', async () => {
+            const newHours = parseFloat(document.getElementById('editUserHours').value) || 0;
+            const newStreak = parseInt(document.getElementById('editUserStreak').value) || 1;
+
+            await supabaseClient.from('leaderboard').update({ hours: newHours, streak: newStreak }).eq('name', editingTargetName);
+            document.getElementById('adminEditUserModal').style.display = 'none';
+            fetchLeaderboard();
+        });
+
+        // Initial background fetch
+        fetchChat();
     </script>
 </body>
 </html>
