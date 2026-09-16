@@ -420,6 +420,7 @@
         </div>
     </div>
 
+    <!-- مودال الملف الشخصي والأدمن -->
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
             <h3>⚙️ تخصيص ملفك الشخصي وأحلامك</h3>
@@ -447,6 +448,7 @@
         </div>
     </div>
 
+    <!-- مودال نظام التاسك الفردي المستقل -->
     <div class="modal" id="customScheduleModal">
         <div class="modal-content profile-form">
             <h3>📋 نظام التاسك الفردي (اكتب مهامك مفصولة بفاصلة ،)</h3>
@@ -462,6 +464,7 @@
         </div>
     </div>
 
+    <!-- مودال لوحة الشرف -->
     <div class="modal" id="leaderboardModal">
         <div class="modal-content">
             <h3>🏆 لوحة الشرف الجماعية (أونلاين 100%)</h3>
@@ -484,6 +487,7 @@
         </div>
     </div>
 
+    <!-- مودال تعديل الأدمن للبطل -->
     <div class="modal" id="adminEditUserModal">
         <div class="modal-content profile-form">
             <h3>🛠️ تعديل بيانات البطل (لوحة تحكم الأدمن)</h3>
@@ -612,14 +616,6 @@
         if (lastCompletedDate !== todayString && lastCompletedDate !== yesterdayString && lastCompletedDate !== '') {
             streak = 0;
             localStorage.setItem('zeyad_streak', 0);
-        }
-
-        // الحماية المطلقة: الأدمن الحقيقي مرتبط بكلمة المرور السرية فقط
-        function checkIfAdminByNameOrPass(nameStr) {
-            if (isUserAdmin) {
-                return true;
-            }
-            return false;
         }
 
         function getRankWithStyle(s, nameStr) {
@@ -902,7 +898,6 @@
                 if (dream2Val) { userDream2 = dream2Val; localStorage.setItem('zeyad_dream2', userDream2); }
                 updateDreamsUI();
                 
-                // الحماية المطلقة: الباسورد هو الشرط الوحيد لتفعيل الأدمستريتور
                 if (passVal === ADMIN_SECRET_PASSWORD) {
                     isUserAdmin = true;
                     localStorage.setItem('zeyad_is_admin', 'true');
@@ -1031,7 +1026,7 @@
             document.body.classList.toggle('light-theme');
             localStorage.setItem('zeyad_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
         });
-        if(localStorage.getItem('zeyad_theme') === 'light') document.body.classList.0('light-theme');
+        if(localStorage.getItem('zeyad_theme') === 'light') document.body.classList.add('light-theme');
 
         let quranAudio = null;
         const quranButton = document.getElementById('quranToggle');
