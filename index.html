@@ -240,7 +240,9 @@
         }
         tr.past-row { opacity: 0.6; }
 
-        .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
+        .tasks-container { display: flex; flex-direction: column; gap: 4px; }
+        .task-item-row { display: flex; align-items: center; gap: 6px; }
+        .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; }
         .completed-task { text-decoration: line-through; opacity: 0.5; }
 
         .teachers-section {
@@ -406,10 +408,14 @@
         .hadith-box {
             margin-top: 8px; width: 100%; background: rgba(30, 41, 59, 0.75); border-radius: 6px; padding: 6px 12px;
             border: 1px solid var(--border-color); min-height: 32px; display: flex; align-items: center; justify-content: center; text-align: center;
-            cursor: pointer; transition: 0.3s;
         }
-        .hadith-box:hover { border-color: var(--accent-blue); background: rgba(30, 41, 59, 0.95); }
-        .hadith-text { font-size: 11px; color: #38bdf8; font-weight: bold; }
+        .hadith-text { font-size: 11px; color: #38bdf8; font-weight: bold; animation: fadeInOut 5s infinite; }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -456,7 +462,7 @@
 
     <div class="modal" id="customScheduleModal">
         <div class="modal-content profile-form">
-            <h3>🗓️ جدول دروسك الأسبوعي المخصص</h3>
+            <h3>🗓️ جدول دروسك الأسبوعي (اكتب مهام متعددة مفصولة بفاصلة ،)</h3>
             <label>السبت:</label><input type="text" id="subjSat">
             <label>الأحد:</label><input type="text" id="subjSun">
             <label>الاثنين:</label><input type="text" id="subjMon">
@@ -535,7 +541,7 @@
             <thead>
                 <tr>
                     <th>اليوم</th>
-                    <th>الدروس والمهام المطلوبة (علم صح لما تخلص ✔)</th>
+                    <th>الدروس والمهام المطلوبة (علم صح لكل تاسك ✔)</th>
                 </tr>
             </thead>
             <tbody id="scheduleTableBody"></tbody>
@@ -583,8 +589,8 @@
             </div>
         </div>
 
-        <!-- شريط الآيات القرآنية التحفيزية -->
-        <div class="hadith-box" id="quranVerseBox" title="اضغط لتغيير الآية">
+        <!-- شريط الآيات القرآنية التحفيزية التلقائي -->
+        <div class="hadith-box" id="quranVerseBox">
             <div class="hadith-text" id="quranVerseText">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
         </div>
 
@@ -632,10 +638,14 @@
             "﴿ فَصَبْرٌ جَمِيلٌ وَاللَّهُ الْمُسْتَعَانُ ﴾"
         ];
         let currentVerseIndex = 0;
-        document.getElementById('quranVerseBox').addEventListener('click', () => {
+        setInterval(() => {
             currentVerseIndex = (currentVerseIndex + 1) % quranVerses.length;
-            document.getElementById('quranVerseText').innerText = quranVerses[currentVerseIndex];
-        });
+            const verseElement = document.getElementById('quranVerseText');
+            verseElement.style.animation = 'none';
+            verseElement.offsetHeight; // trigger reflow
+            verseElement.style.animation = 'fadeInOut 5s infinite';
+            verseElement.innerText = quranVerses[currentVerseIndex];
+        }, 5000);
 
         const ADMIN_SECRET_PASSWORD = "01228980015a";
 
@@ -660,7 +670,6 @@
             localStorage.setItem('zeyad_streak', 0);
         }
 
-        // ألقاب ليدر بورد بألوان النيون وعلامة الشعلة 🔥 بدل كلمة يوم
         function getRankWithStyle(s) {
             if (s >= 35) return `<span style="color: #fb923c; text-shadow: 0 0 8px #fb923c; font-weight: bold;">👑 الوزير هيتعشي عندهم</span> 🔥 ${s}`;
             if (s >= 33) return `<span style="color: #34d399; text-shadow: 0 0 8px #34d399; font-weight: bold;">💎 أسطورة البكالوريا</span> 🔥 ${s}`;
@@ -670,17 +679,6 @@
             if (s >= 10) return `<span style="color: #f43f5e; text-shadow: 0 0 8px #f43f5e; font-weight: bold;">🔥 دحيح</span> 🔥 ${s}`;
             if (s >= 5)  return `<span style="color: #ffffff; text-shadow: 0 0 8px #ffffff; font-weight: bold;">⭐ بيحاول ينجح</span> 🔥 ${s}`;
             return `<span style="color: #94a3b8; font-weight: bold;">🌱 مبتدئ</span> 🔥 ${s}`;
-        }
-
-        function getRankTitlePlain(s) {
-            if (s >= 35) return '👑 الوزير هيتعشي عندهم';
-            if (s >= 33) return '💎 أسطورة البكالوريا';
-            if (s >= 29) return '🦅 كايتو المذاكرة';
-            if (s >= 20) return '🥇 ملك البكالوريا';
-            if (s >= 15) return '⚡ إعصار المذاكرة';
-            if (s >= 10) return '🔥 دحيح';
-            if (s >= 5)  return '⭐ بيحاول ينجح';
-            return '🌱 مبتدئ';
         }
 
         function updateDreamsUI() {
@@ -889,13 +887,13 @@
         applyAdminInterface();
 
         const defaultSchedule = {
-            Sat: "درس تاريخ وعربي",
-            Sun: "درس إنجليزي ومذاكرة فيزياء",
-            Mon: "مراجعة وحل تدريبات عربي",
-            Tue: "درس تاريخ وفصول منهجية",
-            Wed: "إنجليزي وقواعد عامة",
-            Thu: "درس وتثبيت أحداث تاريخية",
-            Fri: "راحة 😴 + تعويض ما فاتك"
+            Sat: "درس تاريخ, حل واجب عربي",
+            Sun: "درس إنجليزي, مذاكرة فيزياء",
+            Mon: "مراجعة قواعد, حل تدريبات عربي",
+            Tue: "درس تاريخ, فصول منهجية",
+            Wed: "إنجليزي, قواعد عامة",
+            Thu: "درس فيزياء, تثبيت أحداث تاريخية",
+            Fri: "راحة 😴, تعويض ما فاتك"
         };
 
         function renderCustomSchedule() {
@@ -913,19 +911,28 @@
             daysOrder.forEach(d => {
                 const tr = document.createElement('tr');
                 if(d.key === currentDayKey) { tr.classList.add('today-row'); } else { tr.classList.add('past-row'); }
-                let savedDayTask = localStorage.getItem('custom_subj_' + d.key) || defaultSchedule[d.key];
                 
-                let taskStateKey = 'task_' + todayString + '_' + d.key;
-                let isChecked = localStorage.getItem(taskStateKey) === 'true';
+                let savedDayTaskStr = localStorage.getItem('custom_subj_' + d.key) || defaultSchedule[d.key];
+                let subTasks = savedDayTaskStr.split(',').map(item => item.trim()).filter(item => item.length > 0);
+
+                let tasksHtml = '<div class="tasks-container">';
+                subTasks.forEach((taskName, idx) => {
+                    let taskStateKey = `task_${todayString}_${d.key}_${idx}`;
+                    let isChecked = localStorage.getItem(taskStateKey) === 'true';
+                    tasksHtml += `
+                        <div class="task-item-row">
+                            <label class="${isChecked ? 'completed-task' : ''}">
+                                <input type="checkbox" class="task-checkbox" data-day="${d.key}" data-index="${idx}" ${isChecked ? 'checked' : ''} ${d.key !== currentDayKey ? 'disabled' : ''}> 
+                                ${taskName}
+                            </label>
+                        </div>
+                    `;
+                });
+                tasksHtml += '</div>';
 
                 tr.innerHTML = `
                     <td>${d.name}</td>
-                    <td>
-                        <label class="${isChecked ? 'completed-task' : ''}">
-                            <input type="checkbox" class="task-checkbox" data-day="${d.key}" ${isChecked ? 'checked' : ''} ${d.key !== currentDayKey ? 'disabled' : ''}> 
-                            ${savedDayTask}
-                        </label>
-                    </td>
+                    <td>${tasksHtml}</td>
                 `;
                 tbody.appendChild(tr);
             });
@@ -1123,9 +1130,10 @@
 
             checkboxes.forEach(chk => {
                 const taskDay = chk.getAttribute('data-day');
+                const taskIdx = chk.getAttribute('data-index');
                 chk.addEventListener('change', async () => {
                     if (taskDay !== currentDayKey) return;
-                    let taskStateKey = 'task_' + todayString + '_' + taskDay;
+                    let taskStateKey = `task_${todayString}_${taskDay}_${taskIdx}`;
 
                     if(chk.checked) {
                         playSuccessSound();
@@ -1140,14 +1148,19 @@
                         document.getElementById('streakBadge').innerHTML = `🔥 الالتزام: ${streak}`;
                         await syncToCloud();
                     } else {
-                        if (lastCompletedDate === todayString) {
+                        // لو شال الصح من كل مهام اليوم نقدر نعمل حساب الستريك بدقة، هنا بنشيك لو الكل اتحفظ كاذب
+                        localStorage.setItem(taskStateKey, 'false');
+                        chk.closest('label').classList.remove('completed-task');
+                        
+                        // فحص لو مفيش أي تاسك معلم عليه اليوم
+                        let allCheckboxesToday = document.querySelectorAll(`.task-checkbox[data-day="${taskDay}"]`);
+                        let anyChecked = Array.from(allCheckboxesToday).some(c => c.checked);
+                        if (!anyChecked && lastCompletedDate === todayString) {
                             streak = Math.max(0, streak - 1);
                             lastCompletedDate = '';
                             localStorage.setItem('zeyad_streak', streak);
                             localStorage.setItem('zeyad_last_date', '');
                         }
-                        localStorage.setItem(taskStateKey, 'false');
-                        chk.closest('label').classList.remove('completed-task');
                         document.getElementById('streakBadge').innerHTML = `🔥 الالتزام: ${streak}`;
                         await syncToCloud();
                     }
