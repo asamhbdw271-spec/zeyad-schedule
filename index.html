@@ -238,7 +238,7 @@
         .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
         .completed-task { text-decoration: line-through; opacity: 0.5; }
 
-        /* قسم المدرسين */
+        /* سكشن المدرسين المحدث بالروابط الصحيحة */
         .teachers-section {
             margin-top: 15px;
             background: rgba(30, 41, 59, 0.7);
@@ -378,7 +378,7 @@
         .modal-content h3 { color: #38bdf8; margin-bottom: 10px; font-size: 14px; text-align: center; }
 
         .profile-form label { display: block; font-size: 11px; margin-bottom: 3px; color: #38bdf8; text-align: right; }
-        .profile-form input, .profile-form select, .profile-form textarea { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
+        .profile-form input, .profile-form select { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 6px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 8px; }
 
         .close-modal {
             background: #f43f5e; color: white; border: none; padding: 5px 12px; border-radius: 6px;
@@ -389,6 +389,12 @@
         .global-table th, .global-table td { padding: 6px; font-size: 11px; text-align: center; border: 1px solid rgba(56, 189, 248, 0.2); }
         .global-table th { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
         .global-table td { background: rgba(30, 41, 59, 0.6); }
+
+        .edit-user-btn {
+            background: #f59e0b; color: #0f172a; border: none; padding: 2px 6px;
+            border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer; margin-right: 4px;
+        }
+        .edit-user-btn:hover { background: #d97706; }
 
         footer { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 4px; }
         .signature { font-size: 12px; font-weight: bold; background: linear-gradient(to right, #f43f5e, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -405,16 +411,15 @@
         <div class="utility-group">
             <button class="nav-btn" id="openProfileModalBtn" style="background: #0284c7; color: #fff;">⚙️ اسمي وتخصيص الملف</button>
             <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff;">🗓️ مواعيد دروسي</button>
-            <button class="nav-btn" id="openIndividualTaskBtn" style="background: #8b5cf6; color: #fff;">📌 التاسك الفردي</button>
             <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف أونلاين</button>
         </div>
         <div class="utility-group">
             <a href="https://www.youtube.com" target="_blank" class="nav-btn" style="background: #ef4444; color: #fff; text-decoration: none;">📺 يوتيوب</a>
+            <button class="nav-btn" id="quranToggle">📖 القرآن</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
         </div>
     </div>
 
-    <!-- نافذة تعديل الملف الشخصي -->
     <div class="modal" id="profileModal">
         <div class="modal-content profile-form">
             <h3>⚙️ تخصيص ملفك الشخصي وأحلامك</h3>
@@ -442,7 +447,6 @@
         </div>
     </div>
 
-    <!-- نافذة جدول الدروس المخصص -->
     <div class="modal" id="customScheduleModal">
         <div class="modal-content profile-form">
             <h3>🗓️ جدول دروسك الأسبوعي المخصص</h3>
@@ -458,19 +462,6 @@
         </div>
     </div>
 
-    <!-- نافذة التاسك الفردي (بقاعدة المنع في نفس اليوم) -->
-    <div class="modal" id="individualTaskModal">
-        <div class="modal-content profile-form">
-            <h3>📌 التاسك الفردي اليومي</h3>
-            <p id="taskStatusInfo" style="font-size: 11px; margin-bottom: 8px; color: #38bdf8; text-align: center;"></p>
-            <label>اكتب مهامك أو تاسك اليوم الشخصي:</label>
-            <textarea id="individualTaskInput" rows="4" placeholder="اكتب المهام الخاصة بك اليوم..."></textarea>
-            <button class="close-modal" id="saveIndividualTaskBtn" style="background: #8b5cf6;">حفظ التاسك (قفل التعديل لليوم)</button>
-            <button class="close-modal" id="closeIndividualTaskModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
-        </div>
-    </div>
-
-    <!-- نافذة لوحة الشرف أونلاين -->
     <div class="modal" id="leaderboardModal">
         <div class="modal-content">
             <h3>🏆 لوحة الشرف الجماعية (أونلاين 100%)</h3>
@@ -490,6 +481,23 @@
                 </table>
             </div>
             <button class="close-modal" id="closeLeaderboardBtn">إغلاق</button>
+        </div>
+    </div>
+
+    <div class="modal" id="adminEditUserModal">
+        <div class="modal-content profile-form">
+            <h3>🛠️ تعديل بيانات البطل (لوحة تحكم الأدمن)</h3>
+            <label>اسم البطل:</label>
+            <input type="text" id="editUserNameDisplay" disabled style="background: rgba(15,23,42,0.9); color: #94a3b8;">
+            
+            <label>عدد الساعات:</label>
+            <input type="number" step="0.1" id="editUserHours" placeholder="مثال: 5.5">
+
+            <label>عدد أيام الستريك (الالتزام):</label>
+            <input type="number" id="editUserStreak" placeholder="مثال: 10">
+
+            <button class="close-modal" id="saveAdminEditBtn" style="background: #059669;">حفظ التعديلات في السيرفر</button>
+            <button class="close-modal" id="closeAdminEditModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
     </div>
 
@@ -526,7 +534,7 @@
             <tbody id="scheduleTableBody"></tbody>
         </table>
 
-        <!-- قسم أفضل المدرسين -->
+        <!-- قسم أفضل المدرسين المحدث -->
         <div class="teachers-section">
             <h3>⭐ أفضل المدرسين (نخبة اليوتيوب للمواد)</h3>
             <div class="teachers-grid">
@@ -644,7 +652,6 @@
         document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
         document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
 
-        // الحضور والاتصال
         const presenceChannel = supabaseClient.channel('online-users-room');
         presenceChannel
             .on('presence', { event: 'sync' }, () => {
@@ -680,7 +687,6 @@
         }, 1000);
         syncToCloud();
 
-        // مواعيد الصلاة
         let prayerTimesList = [];
         async function fetchPrayerTimes() {
             try {
@@ -742,263 +748,44 @@
             let ss = diffSeconds % 60;
 
             document.getElementById('nextPrayerName').innerText = `🕌 الصلاة القادمة (${nextPrayer.name}):`;
-            document.getElementById('prayerCountdown').innerText = `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+            document.getElementById('prayerCountdown').innerText = `${hh.toString().padStart(2,'0')}:${mm.toString().padStart(2,'0')}:${ss.toString().padStart(2,'0')}`;
         }
         setInterval(updatePrayerCountdown, 1000);
 
-        // الوقت الحالي والساعة العلوية
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('liveClock').innerText = now.toLocaleTimeString('ar-EG');
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // جدول الدروس الأسبوعي الافتراضي والمخصص
-        const defaultSchedule = {
-            'السبت': 'لغة عربية (نحو + بلاغة) + فيزياء (صلب مرن)',
-            'الأحد': 'لغة إنجليزية (قواعد + كلمات) + تاريخ (الفصل الأول)',
-            'الاثنين': 'لغة عربية (قراءة ونصوص) + فيزياء (كهربية تيار مستمر)',
-            'الثلاثاء': 'تاريخ (توسع الدول العثمانية) + لغة إنجليزية (مقال)',
-            'الأربعاء': 'لغة عربية (تعبير وأدب) + فيزياء (كيرشوف)',
-            'الخميس': 'مراجعة شاملة لجميع مواد الأسبوع وحل امتحانات',
-            'الجمعة': 'راحة استشفائية ومراجعة خفيفة'
-        };
-
-        function getSchedule() {
-            let saved = localStorage.getItem('zeyad_custom_schedule');
-            if (saved) {
-                try { return JSON.parse(saved); } catch(e) { return defaultSchedule; }
-            }
-            return defaultSchedule;
-        }
-
-        function renderScheduleTable() {
-            const schedule = getSchedule();
-            const tbody = document.getElementById('scheduleTableBody');
-            tbody.innerHTML = '';
-
-            const days = ['السبت', 'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
-            const dayNamesEn = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-            
-            const jsDayIndex = new Date().getDay(); // 0=Sunday, 6=Saturday
-            // خريطة لأيام الأسبوع بالعربي مقارنة بـ getDay()
-            // السبت = 6, الأحد = 0, الاثنين = 1, الثلاثاء = 2, الأربعاء = 3, الخميس = 4, الجمعة = 5
-            const mapJsToAr = {6: 'السبت', 0: 'الأحد', 1: 'الاثنين', 2: 'الثلاثاء', 3: 'الأربعاء', 4: 'الخميس', 5: 'الجمعة'};
-            let todayAr = mapJsToAr[jsDayIndex];
-
-            days.forEach(day => {
-                let tr = document.createElement('tr');
-                if (day === todayAr) tr.classList.add('today-row');
-
-                let taskText = schedule[day] || 'مهام عامة';
-                let isChecked = localStorage.getItem(`zeyad_task_${day}_${todayString}`) === 'true';
-
-                tr.innerHTML = `
-                    <td>${day}</td>
-                    <td style="text-align: right;">
-                        <input type="checkbox" class="task-checkbox" data-day="${day}" ${isChecked ? 'checked' : ''}>
-                        <span class="${isChecked ? 'completed-task' : ''}">${taskText}</span>
-                    </td>
-                `;
-                tbody.appendChild(tr);
+        const badWords = ['شرموط', 'منيوك', 'كلب', 'وسخ', 'حمار', 'قحبة', 'متناك', 'كس', 'طيز', 'عاهرة', 'خول', 'عرص', 'حمضان', 'زفت', 'خرا', 'بضان'];
+        function filterBadWords(text) {
+            let cleanText = text;
+            badWords.forEach(word => {
+                let regex = new RegExp(word, 'gi');
+                cleanText = cleanText.replace(regex, '***');
             });
-
-            // ربط تشيك بوكس المهام اليومية مع الستريك
-            document.querySelectorAll('.task-checkbox').forEach(chk => {
-                chk.addEventListener('change', (e) => {
-                    let day = e.target.getAttribute('data-day');
-                    if (e.target.checked) {
-                        localStorage.setItem(`zeyad_task_${day}_${todayString}`, 'true');
-                        e.target.nextElementSibling.classList.add('completed-task');
-                        
-                        // تزويد الستريك لو أول مرة اليوم
-                        if (lastCompletedDate !== todayString) {
-                            if (lastCompletedDate === yesterdayString || lastCompletedDate === '') {
-                                streak++;
-                            }
-                            lastCompletedDate = todayString;
-                            localStorage.setItem('zeyad_streak', streak);
-                            localStorage.setItem('zeyad_last_date', todayString);
-                            document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
-                            syncToCloud();
-                        }
-                    } else {
-                        localStorage.setItem(`zeyad_task_${day}_${todayString}`, 'false');
-                        e.target.nextElementSibling.classList.remove('completed-task');
-                    }
-                });
-            });
+            return cleanText;
         }
-        renderScheduleTable();
 
-        // إدارة النوافذ المنعشة (Modals)
-        document.getElementById('openProfileModalBtn').addEventListener('click', () => {
-            document.getElementById('inputName').value = myName;
-            document.getElementById('inputTrack').value = userTrack;
-            document.getElementById('inputDream1').value = userDream1;
-            document.getElementById('inputDream2').value = userDream2;
-            document.getElementById('profileModal').style.display = 'flex';
-        });
-        document.getElementById('closeProfileModalBtn').addEventListener('click', () => {
-            document.getElementById('profileModal').style.display = 'none';
-        });
-
-        document.getElementById('saveProfileBtn').addEventListener('click', () => {
-            let n = document.getElementById('inputName').value.trim();
-            let pass = document.getElementById('inputAdminPass').value;
-            if (n) {
-                myName = n;
-                localStorage.setItem('zeyad_name', myName);
-            }
-            userTrack = document.getElementById('inputTrack').value;
-            userDream1 = document.getElementById('inputDream1').value || userDream1;
-            userDream2 = document.getElementById('inputDream2').value || userDream2;
-
-            localStorage.setItem('zeyad_track', userTrack);
-            localStorage.setItem('zeyad_dream1', userDream1);
-            localStorage.setItem('zeyad_dream2', userDream2);
-
-            if (pass === ADMIN_SECRET_PASSWORD) {
-                isUserAdmin = true;
-                localStorage.setItem('zeyad_is_admin', 'true');
-                alert('تم تفعيل صلاحيات الأدمن بنجاح يا زياد!');
-            }
-
-            updateDreamsUI();
-            applyAdminInterface();
-            document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
-            document.getElementById('profileModal').style.display = 'none';
-            syncToCloud();
-        });
-
-        // تخصيص الجدول
-        document.getElementById('openCustomScheduleBtn').addEventListener('click', () => {
-            let sch = getSchedule();
-            document.getElementById('subjSat').value = sch['السبت'] || '';
-            document.getElementById('subjSun').value = sch['الأحد'] || '';
-            document.getElementById('subjMon').value = sch['الاثنين'] || '';
-            document.getElementById('subjTue').value = sch['الثلاثاء'] || '';
-            document.getElementById('subjWed').value = sch['الأربعاء'] || '';
-            document.getElementById('subjThu').value = sch['الخميس'] || '';
-            document.getElementById('subjFri').value = sch['الجمعة'] || '';
-            document.getElementById('customScheduleModal').style.display = 'flex';
-        });
-        document.getElementById('closeCustomModalBtn').addEventListener('click', () => {
-            document.getElementById('customScheduleModal').style.display = 'none';
-        });
-        document.getElementById('saveCustomScheduleBtn').addEventListener('click', () => {
-            let newSch = {
-                'السبت': document.getElementById('subjSat').value,
-                'الأحد': document.getElementById('subjSun').value,
-                'الاثنين': document.getElementById('subjMon').value,
-                'الثلاثاء': document.getElementById('subjTue').value,
-                'الأربعاء': document.getElementById('subjWed').value,
-                'الخميس': document.getElementById('subjThu').value,
-                'الجمعة': document.getElementById('subjFri').value
-            };
-            localStorage.setItem('zeyad_custom_schedule', JSON.stringify(newSch));
-            renderScheduleTable();
-            document.getElementById('customScheduleModal').style.display = 'none';
-        });
-
-        // التاسك الفردي (بقاعدة المنع في نفس اليوم)
-        document.getElementById('openIndividualTaskBtn').addEventListener('click', () => {
-            let lastSavedDate = localStorage.getItem('zeyad_ind_task_date') || '';
-            let taskInput = document.getElementById('individualTaskInput');
-            let statusInfo = document.getElementById('taskStatusInfo');
-            let saveBtn = document.getElementById('saveIndividualTaskBtn');
-
-            let savedTaskContent = localStorage.getItem('zeyad_ind_task_content') || '';
-            taskInput.value = savedTaskContent;
-
-            if (lastSavedDate === todayString) {
-                statusInfo.innerHTML = "⚠️ لقد قمت بحفظ تاسك اليوم بالفعل. لا يمكنك التعديل عليه اليوم مجدداً التزاماً بالقاعدة!";
-                taskInput.disabled = true;
-                saveBtn.style.display = 'none';
-            } else {
-                statusInfo.innerHTML = "✨ يمكنك كتابة وتعديل تاسك اليوم لمرة واحدة فقط. بعد الحفظ سيتم قفله طوال اليوم.";
-                taskInput.disabled = false;
-                saveBtn.style.display = 'block';
-            }
-            document.getElementById('individualTaskModal').style.display = 'flex';
-        });
-        document.getElementById('closeIndividualTaskModalBtn').addEventListener('click', () => {
-            document.getElementById('individualTaskModal').style.display = 'none';
-        });
-
-        document.getElementById('saveIndividualTaskBtn').addEventListener('click', () => {
-            let content = document.getElementById('individualTaskInput').value.trim();
-            if (!content) {
-                alert('الرجاء كتابة محتوى التاسك أولاً!');
-                return;
-            }
-            localStorage.setItem('zeyad_ind_task_content', content);
-            localStorage.setItem('zeyad_ind_task_date', todayString);
-            alert('تم حفظ التاسك الفردي وقفل التعديل لهذا اليوم بنجاح!');
-            document.getElementById('individualTaskModal').style.display = 'none';
-        });
-
-        // لوحة الشرف أونلاين
-        document.getElementById('openLeaderboardBtn').addEventListener('click', async () => {
-            document.getElementById('leaderboardModal').style.display = 'flex';
-            const tbody = document.getElementById('globalLeaderboardBody');
-            tbody.innerHTML = `<tr><td colspan="4">جاري تحميل بيانات الأبطال من السيرفر...</td></tr>`;
-
+        async function fetchMessages() {
             try {
-                let { data, error } = await supabaseClient
-                    .from('students')
-                    .select('*')
-                    .order('hours', { ascending: false });
-
-                if (error || !data || data.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4">لا توجد بيانات مسجلة حالياً أو حدث خطأ في الاتصال.</td></tr>`;
-                    return;
-                }
-
-                tbody.innerHTML = '';
-                data.forEach((student, index) => {
-                    let rankBadge = index === 0 ? '👑 الأول' : (index === 1 ? '🥈 الثاني' : (index === 2 ? '🥉 الثالث' : `#${index + 1}`));
-                    let tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><b>${rankBadge}</b></td>
-                        <td>${student.name}</td>
-                        <td>${student.hours} ساعة</td>
-                        <td>🔥 ${student.streak || 0} يوم (${getRankTitle(student.streak || 0)})</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            } catch(e) {
-                tbody.innerHTML = `<tr><td colspan="4">تعذر الاتصال بقاعدة البيانات. تأكد من الإنترنت.</td></tr>`;
-            }
-        });
-        document.getElementById('closeLeaderboardBtn').addEventListener('click', () => {
-            document.getElementById('leaderboardModal').style.display = 'none';
-        });
-
-        // شات المذاكرة الجماعي
-        async function fetchChatMessages() {
-            try {
-                let { data, error } = await supabaseClient
-                    .from('chat_messages')
+                let { data: messages } = await supabaseClient
+                    .from('messages')
                     .select('*')
                     .order('created_at', { ascending: true })
                     .limit(50);
 
-                if (data && !error) {
+                if (messages) {
                     const chatBox = document.getElementById('chatBox');
                     chatBox.innerHTML = '';
-                    data.forEach(msg => {
-                        let div = document.createElement('div');
+                    const isAdminHere = verifyStrictAdmin();
+
+                    messages.forEach(msg => {
+                        const div = document.createElement('div');
                         div.className = 'chat-message';
-                        let isAdminMsg = msg.is_admin ? '<span class="admin-tag">Admin</span>' : '';
-                        let deleteBtnHtml = verifyStrictAdmin() ? `<button class="delete-msg-btn" onclick="deleteChatMessage('${msg.id}')">حذف</button>` : '';
-                        
+
+                        let authorDisplay = msg.name;
+                        let adminBadgeHtml = (msg.name.toLowerCase() === 'zeyad osama' && isAdminHere) ? '<span class="admin-tag">Admin</span>' : '';
+                        let deleteBtnHtml = isAdminHere ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display: inline-block;">حذف</button>` : '';
+
                         div.innerHTML = `
                             <div class="msg-content-wrapper">
-                                ${isAdminMsg}
-                                <span class="author">${msg.author}:</span> 
-                                <span>${msg.content}</span>
+                                <span class="author">${authorDisplay}:</span> ${adminBadgeHtml} ${msg.message}
                             </div>
                             ${deleteBtnHtml}
                         `;
@@ -1009,62 +796,311 @@
             } catch(e) {}
         }
 
-        async function sendChatMessage() {
-            let input = document.getElementById('chatInput');
-            let content = input.value.trim();
-            if (!content) return;
-
-            try {
-                await supabaseClient.from('chat_messages').insert([{
-                    author: myName,
-                    content: content,
-                    is_admin: verifyStrictAdmin(),
-                    created_at: new Date().toISOString()
-                }]);
-                input.value = '';
-                fetchChatMessages();
-            } catch(e) {
-                alert('فشل إرسال الرسالة، تأكد من اتصال الإنترنت.');
+        window.deleteMessage = async function(id) {
+            if(!verifyStrictAdmin()) return;
+            if(confirm("هل أنت متأكد من حذف هذه الرسالة نهائياً؟")) {
+                try {
+                    await supabaseClient.from('messages').delete().eq('id', id);
+                    fetchMessages();
+                } catch(e) {}
             }
-        }
-
-        window.deleteChatMessage = async function(id) {
-            if (!verifyStrictAdmin()) return;
-            try {
-                await supabaseClient.from('chat_messages').delete().eq('id', id);
-                fetchChatMessages();
-            } catch(e) {}
         };
+
+        document.getElementById('forceRefreshBtn').addEventListener('click', () => {
+            fetchMessages();
+            alert("تم تحديث الشات بنجاح!");
+        });
+
+        async function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            let rawText = input.value.trim();
+            if(!rawText) return;
+
+            let filteredText = filterBadWords(rawText);
+
+            try {
+                await supabaseClient.from('messages').insert([{ name: myName, message: filteredText }]);
+                input.value = '';
+                fetchMessages();
+            } catch(e) {}
+        }
 
         document.getElementById('sendChatBtn').addEventListener('click', sendChatMessage);
         document.getElementById('chatInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendChatMessage();
+            if(e.key === 'Enter') sendChatMessage();
         });
-        document.getElementById('forceRefreshBtn').addEventListener('click', fetchChatMessages);
 
-        // الاستماع الفوري لرسائل الشات الجديدة
-        supabaseClient
-            .channel('public:chat_messages')
-            .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'chat_messages' }, () => {
-                fetchChatMessages();
-            })
-            .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'chat_messages' }, () => {
-                fetchChatMessages();
-            })
-            .subscribe();
-
-        fetchChatMessages();
+        setInterval(fetchMessages, 3000);
+        fetchMessages();
         applyAdminInterface();
 
-        // تبديل الثيم
+        const defaultSchedule = {
+            Sat: "درس تاريخ وعربي",
+            Sun: "درس إنجليزي ومذاكرة فيزياء",
+            Mon: "مراجعة وحل تدريبات عربي",
+            Tue: "درس تاريخ وفصول منهجية",
+            Wed: "إنجليزي وقواعد عامة",
+            Thu: "درس وتثبيت أحداث تاريخية",
+            Fri: "راحة 😴 + تعويض ما فاتك"
+        };
+
+        function renderCustomSchedule() {
+            const tbody = document.getElementById('scheduleTableBody');
+            tbody.innerHTML = '';
+            const daysOrder = [
+                { key: 'Sat', name: 'السبت' }, { key: 'Sun', name: 'الأحد' },
+                { key: 'Mon', name: 'الاثنين' }, { key: 'Tue', name: 'الثلاثاء' },
+                { key: 'Wed', name: 'الأربعاء' }, { key: 'Thu', name: 'الخميس' }, { key: 'Fri', name: 'الجمعة' }
+            ];
+            const todayObj = new Date();
+            const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const currentDayKey = daysMap[todayObj.getDay()];
+
+            daysOrder.forEach(d => {
+                const tr = document.createElement('tr');
+                if(d.key === currentDayKey) { tr.classList.add('today-row'); } else { tr.classList.add('past-row'); }
+                let savedDayTask = localStorage.getItem('custom_subj_' + d.key) || defaultSchedule[d.key];
+                
+                let taskStateKey = 'task_' + todayString + '_' + d.key;
+                let isChecked = localStorage.getItem(taskStateKey) === 'true';
+
+                tr.innerHTML = `
+                    <td>${d.name}</td>
+                    <td>
+                        <label class="${isChecked ? 'completed-task' : ''}">
+                            <input type="checkbox" class="task-checkbox" data-day="${d.key}" ${isChecked ? 'checked' : ''} ${d.key !== currentDayKey ? 'disabled' : ''}> 
+                            ${savedDayTask}
+                        </label>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            attachCheckboxEvents();
+        }
+
+        const profileModal = document.getElementById('profileModal');
+        document.getElementById('openProfileModalBtn').addEventListener('click', () => {
+            profileModal.style.display = 'flex';
+            document.getElementById('inputName').value = myName;
+            document.getElementById('inputTrack').value = userTrack;
+            document.getElementById('inputDream1').value = userDream1;
+            document.getElementById('inputDream2').value = userDream2;
+            document.getElementById('inputAdminPass').value = '';
+        });
+        document.getElementById('closeProfileModalBtn').addEventListener('click', () => { profileModal.style.display = 'none'; });
+        
+        document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+            const val = document.getElementById('inputName').value.trim();
+            const passVal = document.getElementById('inputAdminPass').value.trim();
+            const trackVal = document.getElementById('inputTrack').value;
+            const dream1Val = document.getElementById('inputDream1').value.trim();
+            const dream2Val = document.getElementById('inputDream2').value.trim();
+
+            if(val) {
+                if (val !== myName) {
+                    isUserAdmin = false;
+                    localStorage.setItem('zeyad_is_admin', 'false');
+                }
+
+                myName = val;
+                localStorage.setItem('zeyad_name', myName);
+
+                if (trackVal) { userTrack = trackVal; localStorage.setItem('zeyad_track', userTrack); }
+                if (dream1Val) { userDream1 = dream1Val; localStorage.setItem('zeyad_dream1', userDream1); }
+                if (dream2Val) { userDream2 = dream2Val; localStorage.setItem('zeyad_dream2', userDream2); }
+                updateDreamsUI();
+                
+                if (passVal === ADMIN_SECRET_PASSWORD && myName.toLowerCase() === 'zeyad osama') {
+                    isUserAdmin = true;
+                    localStorage.setItem('zeyad_is_admin', 'true');
+                    alert("تم حفظ الملف وتفعيل صلاحيات الأدمن بنجاح يا زياد! 🔥");
+                } else if (passVal !== "") {
+                    alert("كلمة المرور السرية خاطئة!");
+                    isUserAdmin = false;
+                    localStorage.setItem('zeyad_is_admin', 'false');
+                } else {
+                    alert("تم حفظ التعديلات بنجاح! ✨");
+                }
+
+                document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
+                applyAdminInterface();
+                await syncToCloud();
+                profileModal.style.display = 'none';
+                fetchMessages();
+            }
+        });
+
+        const customModal = document.getElementById('customScheduleModal');
+        document.getElementById('openCustomScheduleBtn').addEventListener('click', () => {
+            customModal.style.display = 'flex';
+            ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'].forEach(k => {
+                document.getElementById('subj' + k).value = localStorage.getItem('custom_subj_' + k) || defaultSchedule[k];
+            });
+        });
+        document.getElementById('closeCustomModalBtn').addEventListener('click', () => { customModal.style.display = 'none'; });
+        document.getElementById('saveCustomScheduleBtn').addEventListener('click', () => {
+            ['Sat','Sun','Mon','Tue','Wed','Thu','Fri'].forEach(k => {
+                localStorage.setItem('custom_subj_' + k, document.getElementById('subj' + k).value);
+            });
+            customModal.style.display = 'none';
+            renderCustomSchedule();
+        });
+
+        const leaderboardModal = document.getElementById('leaderboardModal');
+        const adminEditUserModal = document.getElementById('adminEditUserModal');
+
+        document.getElementById('openLeaderboardBtn').addEventListener('click', async () => {
+            leaderboardModal.style.display = 'flex';
+            loadLeaderboardData();
+        });
+
+        async function loadLeaderboardData() {
+            const tbody = document.getElementById('globalLeaderboardBody');
+            tbody.innerHTML = `<tr><td colspan="4">جاري جلب المنافسين...</td></tr>`;
+            try {
+                let { data: students } = await supabaseClient.from('students').select('*').order('streak', { ascending: false });
+                if (!students || students.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4">لسه مفيش منافسين!</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = '';
+                const isAdminHere = verifyStrictAdmin();
+
+                students.forEach((user, index) => {
+                    const tr = document.createElement('tr');
+                    let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
+                    let userStreak = user.streak || 0;
+                    let title = getRankTitle(userStreak);
+                    
+                    let adminEditBtn = isAdminHere ? `<button class="edit-user-btn" onclick="openAdminEditModal('${user.name}', ${user.hours || 0}, ${userStreak})">🛠️ تعديل</button>` : '';
+
+                    tr.innerHTML = `
+                        <td><b>${medal}</b></td>
+                        <td>${adminEditBtn} ${user.name}</td>
+                        <td>${user.hours || 0} س</td>
+                        <td>🔥 ${userStreak} (${title})</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch(e) {
+                tbody.innerHTML = `<tr><td colspan="4">خطأ في الاتصال.</td></tr>`;
+            }
+        }
+
+        window.openAdminEditModal = function(name, hours, streakVal) {
+            if(!verifyStrictAdmin()) return;
+            document.getElementById('editUserNameDisplay').value = name;
+            document.getElementById('editUserHours').value = hours;
+            document.getElementById('editUserStreak').value = streakVal;
+            adminEditUserModal.style.display = 'flex';
+        };
+
+        document.getElementById('closeAdminEditModalBtn').addEventListener('click', () => {
+            adminEditUserModal.style.display = 'none';
+        });
+
+        document.getElementById('saveAdminEditBtn').addEventListener('click', async () => {
+            if(!verifyStrictAdmin()) return;
+            let name = document.getElementById('editUserNameDisplay').value;
+            let newHours = parseFloat(document.getElementById('editUserHours').value) || 0;
+            let newStreak = parseInt(document.getElementById('editUserStreak').value) || 0;
+
+            try {
+                let { error } = await supabaseClient
+                    .from('students')
+                    .upsert({ name: name, hours: newHours, streak: newStreak }, { onConflict: ['name'] });
+
+                if(error) {
+                    alert("حدث خطأ أثناء التحديث: " + error.message);
+                } else {
+                    if (name.toLowerCase() === myName.toLowerCase()) {
+                        streak = newStreak;
+                        totalSeconds = Math.round(newHours * 3600);
+                        localStorage.setItem('zeyad_streak', streak);
+                        localStorage.setItem('zeyad_total_seconds', totalSeconds);
+                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
+                    }
+
+                    alert("تم تعديل الساعات والسيتريك بنجاح وسُجلت في السيرفر فوراً! 🚀");
+                    adminEditUserModal.style.display = 'none';
+                    loadLeaderboardData();
+                }
+            } catch(e) {
+                alert("حدث خطأ في الاتصال بالسيرفر.");
+            }
+        });
+
+        document.getElementById('closeLeaderboardBtn').addEventListener('click', () => { leaderboardModal.style.display = 'none'; });
+
+        function updateClock() {
+            const now = new Date();
+            let h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+            let ampm = h >= 12 ? 'مساءً' : 'صباحاً';
+            h = h % 12 || 12;
+            document.getElementById('liveClock').innerText = `${h}:${m < 10 ? '0'+m : m}:${s < 10 ? '0'+s : s} ${ampm}`;
+        }
+        setInterval(updateClock, 1000);
+
         document.getElementById('themeToggle').addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
-            let isLight = document.body.classList.contains('light-theme');
-            localStorage.setItem('zeyad_light_theme', isLight);
+            localStorage.setItem('zeyad_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
         });
-        if (localStorage.getItem('zeyad_light_theme') === 'true') {
-            document.body.classList.add('light-theme');
+        if(localStorage.getItem('zeyad_theme') === 'light') document.body.classList.add('light-theme');
+
+        let quranAudio = null;
+        const quranButton = document.getElementById('quranToggle');
+        let isQuranPlaying = false;
+        quranButton.addEventListener('click', () => {
+            if (!isQuranPlaying) {
+                quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv');
+                quranAudio.play().then(() => { isQuranPlaying = true; quranButton.innerText = "🔇 إيقاف"; }).catch(()=>{});
+            } else {
+                if(quranAudio) quranAudio.pause();
+                isQuranPlaying = false;
+                quranButton.innerText = "📖 القرآن";
+            }
+        });
+
+        function attachCheckboxEvents() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const todayObj = new Date();
+            const currentDayKey = daysMap[todayObj.getDay()];
+
+            checkboxes.forEach(chk => {
+                const taskDay = chk.getAttribute('data-day');
+                chk.addEventListener('change', async () => {
+                    if (taskDay !== currentDayKey) return;
+                    let taskStateKey = 'task_' + todayString + '_' + taskDay;
+
+                    if(chk.checked) {
+                        if (lastCompletedDate !== todayString) {
+                            streak++;
+                            lastCompletedDate = todayString;
+                            localStorage.setItem('zeyad_streak', streak);
+                            localStorage.setItem('zeyad_last_date', lastCompletedDate);
+                        }
+                        localStorage.setItem(taskStateKey, 'true');
+                        chk.closest('label').classList.add('completed-task');
+                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
+                        await syncToCloud();
+                    } else {
+                        if (lastCompletedDate === todayString) {
+                            streak = Math.max(0, streak - 1);
+                            lastCompletedDate = '';
+                            localStorage.setItem('zeyad_streak', streak);
+                            localStorage.setItem('zeyad_last_date', '');
+                        }
+                        localStorage.setItem(taskStateKey, 'false');
+                        chk.closest('label').classList.remove('completed-task');
+                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
+                        await syncToCloud();
+                    }
+                });
+            });
         }
+
+        renderCustomSchedule();
     </script>
 </body>
 </html>
