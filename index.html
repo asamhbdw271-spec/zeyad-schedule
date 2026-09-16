@@ -23,17 +23,19 @@
             --border-color: rgba(56, 189, 248, 0.35);
             --row-bg: rgba(30, 41, 59, 0.5);
             --bg-image: url('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?q=80&w=1600&auto=format&fit=crop');
+            --neon-glow: 0 0 8px rgba(56, 189, 248, 0.5);
         }
 
-        body.medical-theme {
-            --bg-gradient: linear-gradient(rgba(241, 245, 249, 0.92), rgba(226, 232, 240, 0.96));
-            --container-bg: rgba(255, 255, 255, 0.95);
-            --text-color: #0f172a;
+        body.light-theme {
+            --bg-gradient: linear-gradient(rgba(248, 250, 252, 0.95), rgba(241, 245, 249, 0.98));
+            --container-bg: rgba(255, 255, 255, 0.96);
+            --text-color: #1e293b;
             --accent-blue: #0284c7;
             --accent-pink: #e11d48;
-            --border-color: rgba(2, 132, 199, 0.3);
-            --row-bg: rgba(248, 250, 252, 0.9);
-            --bg-image: url('https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=1600&auto=format&fit=crop');
+            --border-color: rgba(2, 132, 199, 0.25);
+            --row-bg: rgba(241, 245, 249, 0.8);
+            --bg-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop');
+            --neon-glow: 0 0 6px rgba(2, 132, 199, 0.4);
         }
 
         body {
@@ -48,19 +50,18 @@
             justify-content: flex-start;
             position: relative;
             padding-bottom: 30px;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .cursor-glow {
             position: fixed;
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
             z-index: 1;
-            filter: drop-shadow(0 0 15px #38bdf8);
         }
         @media (max-width: 768px) {
             .cursor-glow { display: none; }
@@ -79,8 +80,8 @@
             border-bottom: 1px solid var(--border-color);
             backdrop-filter: blur(8px);
         }
-        body.medical-theme .top-utilities {
-            background: rgba(255, 255, 255, 0.9);
+        body.light-theme .top-utilities {
+            background: rgba(255, 255, 255, 0.92);
         }
         @media (max-width: 768px) {
             .top-utilities { flex-direction: column; gap: 8px; }
@@ -101,14 +102,14 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
+            box-shadow: var(--neon-glow);
         }
-        body.medical-theme .nav-btn {
+        body.light-theme .nav-btn {
             background: #ffffff;
             color: #0284c7;
             border-color: #0284c7;
         }
-        .nav-btn:hover { background: var(--accent-blue); color: #fff; transform: scale(1.05); box-shadow: 0 0 15px var(--accent-blue); }
+        .nav-btn:hover { background: var(--accent-blue); color: #fff; transform: scale(1.05); }
         .nav-btn:active { transform: scale(0.95); }
 
         .container {
@@ -121,7 +122,7 @@
             border: 1px solid var(--border-color);
             padding: 12px;
             border-radius: 16px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             margin-top: 15px;
             backdrop-filter: blur(10px);
         }
@@ -143,7 +144,6 @@
             padding: 2px 8px;
             border-radius: 10px;
             border: 1px solid var(--border-color);
-            text-shadow: 0 0 5px rgba(56, 189, 248, 0.5);
         }
 
         .online-counter-badge {
@@ -172,7 +172,7 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 2px;
         }
-        body.medical-theme h1 {
+        body.light-theme h1 {
             background: linear-gradient(to right, #0284c7, #2563eb, #e11d48);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -202,7 +202,7 @@
         }
 
         .prayer-countdown-box {
-            background: rgba(30, 41, 59, 0.65);
+            background: var(--row-bg);
             padding: 6px 12px;
             border-radius: 8px;
             margin-bottom: 8px;
@@ -215,9 +215,6 @@
             gap: 8px;
             font-weight: bold;
             flex-wrap: wrap;
-        }
-        body.medical-theme .prayer-countdown-box {
-            background: rgba(241, 245, 249, 0.9);
         }
         .prayer-countdown-box span { color: var(--accent-blue); }
         .countdown-timer {
@@ -232,16 +229,12 @@
 
         table { width: 100%; border-collapse: separate; border-spacing: 0 3px; }
         th {
-            background: rgba(30, 41, 59, 0.95);
+            background: var(--row-bg);
             color: var(--accent-blue);
             padding: 6px;
             font-size: 10px;
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
-        }
-        body.medical-theme th {
-            background: rgba(226, 232, 240, 0.95);
-            color: #0284c7;
         }
         th:first-child { border-right: 1px solid var(--border-color); border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
         th:last-child { border-left: 1px solid var(--border-color); border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
@@ -255,9 +248,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-color);
         }
-        body.medical-theme td {
-            border-color: rgba(0, 0, 0, 0.05);
-        }
+        body.light-theme td { border-color: rgba(0, 0, 0, 0.05); }
         td:first-child { 
             border-right: 1px solid rgba(255, 255, 255, 0.05); 
             border-top-right-radius: 6px; 
@@ -265,12 +256,12 @@
             font-weight: bold;
             color: #fb7185;
         }
-        body.medical-theme td:first-child { border-color: rgba(0,0,0,0.05); }
+        body.light-theme td:first-child { border-color: rgba(0,0,0,0.05); }
         td:nth-child(2) { text-align: right; padding-right: 10px; }
         td:last-child { border-left: 1px solid rgba(255, 255, 255, 0.05); border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
-        body.medical-theme td:last-child { border-color: rgba(0,0,0,0.05); }
+        body.light-theme td:last-child { border-color: rgba(0,0,0,0.05); }
 
-        tr.today-row td { background: rgba(56, 189, 248, 0.15); border-color: var(--accent-blue); box-shadow: inset 0 0 10px rgba(56, 189, 248, 0.2); }
+        tr.today-row td { background: rgba(56, 189, 248, 0.15); border-color: var(--accent-blue); }
         tr.past-row { opacity: 0.65; }
 
         .tasks-container { display: flex; flex-direction: column; gap: 4px; }
@@ -294,18 +285,18 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            text-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
         }
 
         .teachers-section {
             margin-top: 10px;
-            background: rgba(30, 41, 59, 0.7);
+            background: var(--row-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 10px;
             text-align: right;
             backdrop-filter: blur(8px);
         }
-        body.medical-theme .teachers-section { background: rgba(241, 245, 249, 0.8); }
         .teachers-section h3 {
             color: var(--accent-blue);
             font-size: 12px;
@@ -313,6 +304,7 @@
             align-items: center;
             gap: 6px;
             margin-bottom: 6px;
+            text-shadow: var(--neon-glow);
         }
         .teachers-grid {
             display: grid;
@@ -328,8 +320,8 @@
             flex-direction: column;
             gap: 3px;
         }
-        body.medical-theme .teacher-card { background: #ffffff; border-color: #cbd5e1; }
-        .teacher-subject { font-size: 9px; color: #f59e0b; font-weight: bold; }
+        body.light-theme .teacher-card { background: #ffffff; border-color: #cbd5e1; }
+        .teacher-subject { font-size: 9px; color: #f59e0b; font-weight: bold; text-shadow: 0 0 5px rgba(245, 158, 11, 0.4); }
         .teacher-name { font-size: 10px; font-weight: bold; color: var(--text-color); }
         .teacher-link {
             margin-top: 3px;
@@ -352,16 +344,15 @@
 
         .chat-section {
             margin-top: 10px;
-            background: rgba(30, 41, 59, 0.7);
+            background: var(--row-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 10px;
             text-align: right;
             backdrop-filter: blur(8px);
         }
-        body.medical-theme .chat-section { background: rgba(241, 245, 249, 0.8); }
         .chat-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .chat-section h3 { color: var(--accent-blue); font-size: 12px; display: flex; align-items: center; gap: 6px; margin: 0; }
+        .chat-section h3 { color: var(--accent-blue); font-size: 12px; display: flex; align-items: center; gap: 6px; margin: 0; text-shadow: var(--neon-glow); }
         .admin-controls { display: none; gap: 6px; }
         .admin-btn {
             background: #f43f5e; color: #fff; border: none; padding: 2px 6px;
@@ -373,17 +364,17 @@
             border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 6px;
             margin-bottom: 6px; display: flex; flex-direction: column; gap: 5px;
         }
-        body.medical-theme .chat-box { background: #ffffff; border-color: #cbd5e1; }
+        body.light-theme .chat-box { background: #ffffff; border-color: #cbd5e1; }
         .chat-message {
             background: rgba(56, 189, 248, 0.1); border-right: 3px solid var(--accent-blue);
             padding: 4px 6px; border-radius: 4px; font-size: 11px; display: flex;
             justify-content: space-between; align-items: center; color: var(--text-color);
         }
-        body.medical-theme .chat-message { background: rgba(2, 132, 199, 0.08); }
+        body.light-theme .chat-message { background: rgba(2, 132, 199, 0.08); }
         .msg-content-wrapper { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
         .chat-message .author { font-weight: bold; color: #f472b6; }
-        body.medical-theme .chat-message .author { color: #e11d48; }
-        .admin-tag { background: #f59e0b; color: #0f172a; font-size: 9px; padding: 1px 4px; border-radius: 4px; font-weight: bold; }
+        body.light-theme .chat-message .author { color: #e11d48; }
+        .admin-tag { background: #f59e0b; color: #0f172a; font-size: 9px; padding: 1px 4px; border-radius: 4px; font-weight: bold; text-shadow: none; box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
         .delete-msg-btn {
             background: rgba(244, 63, 94, 0.2); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.4);
             padding: 1px 5px; border-radius: 4px; font-size: 9px; cursor: pointer; display: none;
@@ -394,7 +385,7 @@
             flex: 1; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border-color);
             padding: 5px 8px; border-radius: 6px; color: var(--text-color); font-size: 11px;
         }
-        body.medical-theme .chat-input-area input { background: #ffffff; }
+        body.light-theme .chat-input-area input { background: #ffffff; color: #1e293b; }
         .chat-input-area button {
             background: var(--accent-blue); color: #fff; border: none; padding: 5px 12px;
             font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px;
@@ -414,14 +405,14 @@
             color: #f1f5f9;
             box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
         }
-        body.medical-theme .modal-content { background: #ffffff; color: #0f172a; border-color: #0284c7; }
-        .modal-content h3 { color: #38bdf8; margin-bottom: 8px; font-size: 13px; text-align: center; }
-        body.medical-theme .modal-content h3 { color: #0284c7; }
+        body.light-theme .modal-content { background: #ffffff; color: #0f172a; border-color: #0284c7; }
+        .modal-content h3 { color: #38bdf8; margin-bottom: 8px; font-size: 13px; text-align: center; text-shadow: var(--neon-glow); }
+        body.light-theme .modal-content h3 { color: #0284c7; }
 
         .profile-form label { display: block; font-size: 10px; margin-bottom: 2px; color: #38bdf8; }
-        body.medical-theme .profile-form label { color: #0284c7; }
+        body.light-theme .profile-form label { color: #0284c7; }
         .profile-form input, .profile-form select { width: 100%; background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-color); padding: 5px; color: white; border-radius: 6px; font-size: 11px; margin-bottom: 6px; }
-        body.medical-theme .profile-form input, body.medical-theme .profile-form select { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+        body.light-theme .profile-form input, body.light-theme .profile-form select { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
 
         .close-modal {
             background: #f43f5e; color: white; border: none; padding: 5px; border-radius: 6px;
@@ -432,10 +423,10 @@
 
         .global-table { width: 100%; margin-top: 6px; border-collapse: collapse; }
         .global-table th, .global-table td { padding: 5px; font-size: 10px; text-align: center; border: 1px solid rgba(56, 189, 248, 0.2); }
-        .global-table th { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
-        body.medical-theme .global-table th { background: rgba(2, 132, 199, 0.1); color: #0284c7; }
+        .global-table th { background: rgba(56, 189, 248, 0.15); color: #38bdf8; text-shadow: var(--neon-glow); }
+        body.light-theme .global-table th { background: rgba(2, 132, 199, 0.1); color: #0284c7; }
         .global-table td { background: rgba(30, 41, 59, 0.6); color: var(--text-color); }
-        body.medical-theme .global-table td { background: #ffffff; }
+        body.light-theme .global-table td { background: #ffffff; }
 
         .edit-user-btn {
             background: #f59e0b; color: #0f172a; border: none; padding: 2px 5px;
@@ -446,12 +437,11 @@
         .signature { font-size: 11px; font-weight: bold; background: linear-gradient(to right, #f43f5e, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         .hadith-box {
-            margin-top: 6px; width: 100%; background: rgba(30, 41, 59, 0.75); border-radius: 6px; padding: 5px 10px;
+            margin-top: 6px; width: 100%; background: var(--row-bg); border-radius: 6px; padding: 5px 10px;
             border: 1px solid var(--border-color); min-height: 28px; display: flex; align-items: center; justify-content: center; text-align: center;
         }
-        body.medical-theme .hadith-box { background: rgba(241, 245, 249, 0.9); }
-        .hadith-text { font-size: 10px; color: #38bdf8; font-weight: bold; animation: fadeInOut 5s infinite; }
-        body.medical-theme .hadith-text { color: #0284c7; }
+        .hadith-text { font-size: 10px; color: #38bdf8; font-weight: bold; text-shadow: var(--neon-glow); animation: fadeInOut 5s infinite; }
+        body.light-theme .hadith-text { color: #0284c7; }
         @keyframes fadeInOut {
             0% { opacity: 0; }
             15% { opacity: 1; }
@@ -467,12 +457,12 @@
             <button class="nav-btn" id="openProfileModalBtn" style="background: #0284c7; color: #fff;">⚙️ اسمي وتخصيص الملف</button>
             <button class="nav-btn" id="openCustomScheduleBtn" style="background: #059669; color: #fff;">📋 جدول المذاكرة</button>
             <button class="nav-btn" id="openPersonalTaskBtn" style="background: #7c3aed; color: #fff;">📌 تاسك فردي يومي</button>
-            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b;">🏆 لوحة الشرف أونلاين</button>
+            <button class="nav-btn" id="openLeaderboardBtn" style="border-color: #f59e0b; color: #f59e0b; text-shadow: 0 0 5px rgba(245,158,11,0.5);">🏆 لوحة الشرف أونلاين</button>
         </div>
         <div class="utility-group">
             <a href="https://www.youtube.com" target="_blank" class="nav-btn" style="background: #ef4444; color: #fff; text-decoration: none;">📺 يوتيوب</a>
             <button class="nav-btn" id="quranModalBtn">📖 مشغل القرآن</button>
-            <button class="nav-btn" id="themeToggle">🩺 ثيم الطبيب</button>
+            <button class="nav-btn" id="themeToggle">🌓 ثيم</button>
         </div>
     </div>
 
@@ -524,9 +514,9 @@
     <div class="modal" id="personalTaskModal">
         <div class="modal-content profile-form">
             <h3>📌 التاسك الفردي اليومي الخاص بك</h3>
-            <label>اكتب تاسك اليوم (مهمة خاصة):</label>
+            <label>اكتب تاسك اليوم (مرة واحدة فقط):</label>
             <input type="text" id="inputPersonalTask" placeholder="مثال: حل 100 سؤال فيزياء النهارده">
-            <button class="close-modal" id="savePersonalTaskBtn" style="background: #7c3aed;">حفظ التاسك اليومي</button>
+            <button class="close-modal" id="savePersonalTaskBtn" style="background: #7c3aed;">حفظ التاسك (لا يمكن تعديله لاحقاً)</button>
             <button class="close-modal" id="closePersonalModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
         </div>
     </div>
@@ -627,7 +617,7 @@
 
         <!-- صندوق التاسك الفردي اليومي -->
         <div class="personal-task-box" id="personalTaskDisplayBox">
-            <h4>📌 تاسك اليوم الفردي: <span id="personalTaskTextTitle" style="color:var(--text-color); font-weight:normal;">لم تكتوب تاسك لليوم بعد. اضغط فوق "تاسك فردي يومي"</span></h4>
+            <h4>📌 تاسك اليوم الفردي: <span id="personalTaskTextTitle" style="color:var(--text-color); font-weight:normal;">لم تكتب تاسك لليوم بعد. اضغط فوق "تاسك فردي يومي"</span></h4>
             <div id="personalTaskCheckboxArea" style="margin-top: 4px;"></div>
         </div>
 
@@ -694,6 +684,30 @@
     </div>
 
     <script>
+        // دالة صوت التكة للأزرار والنقرات
+        function playClickSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.05);
+            } catch(e) {}
+        }
+
+        document.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.closest('button')) {
+                playClickSound();
+            }
+        });
+
         const SUPABASE_URL = "https://qqbnwmbaumyplzbkowxv.supabase.co";
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxYm53bWJhdW15cGx6Ymtvd3h2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMzgxNjMsImV4cCI6MjEwNDkxNDE2M30.ngkwTXa_doBAu7FhAZb0Nc37HANKpQ5PaeYakuTZ_6c";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -721,13 +735,20 @@
             localStorage.setItem('zeyad_streak', 0);
         }
 
-        let personalMedalCount = parseInt(localStorage.getItem('zeyad_personal_medals') || '0');
-        let todayPersonalTaskDone = localStorage.getItem('personal_task_done_' + todayString) === 'true';
+        // التحقق من تدوير الميدالية الفضية اليومية تلقائياً لو اليوم اتغير
+        let savedMedalDate = localStorage.getItem('zeyad_medal_date') || '';
+        if (savedMedalDate !== todayString) {
+            localStorage.setItem('zeyad_personal_task_done_' + todayString, 'false');
+            localStorage.setItem('zeyad_medal_date', todayString);
+        }
+        let todayPersonalTaskDone = localStorage.getItem('zeyad_personal_task_done_' + todayString) === 'true';
+        // الميدالية تظهر فقط إذا أُنجزت مهمة اليوم
+        let activeMedalsCount = todayPersonalTaskDone ? 1 : 0;
 
-        function getRankWithStyle(s, nameStr, medals = 0) {
+        function getRankWithStyle(s, nameStr, hasMedal = 0) {
             let isAdminUser = (nameStr.toLowerCase() === 'zeyad osama' && isUserAdmin);
-            let adminLabel = isAdminUser ? ' <span style="color:#f59e0b; font-size:9px;">[Admin]</span>' : '';
-            let medalBadge = medals > 0 ? ` <span title="ميدالية التاسك الفردي الفضية">🥈x${medals}</span>` : '';
+            let adminLabel = isAdminUser ? ' <span class="admin-tag">Admin</span>' : '';
+            let medalBadge = hasMedal > 0 ? ` <span title="ميدالية التاسك الفردي الفضية ليوم واحد">🥈</span>` : '';
             
             let titleRank = `<span style="color: #94a3b8; font-weight: bold;">🌱 مبتدئ</span>`;
             if (s >= 35) titleRank = `<span style="color: #fb923c; font-weight: bold;">👑 الوزير هيتعشي عندهم</span>`;
@@ -789,9 +810,9 @@
             try {
                 let { data: existing } = await supabaseClient.from('students').select('*').eq('name', myName);
                 if (existing && existing.length > 0) {
-                    await supabaseClient.from('students').update({ streak: streak, hours: hours, medals: personalMedalCount }).eq('name', myName);
+                    await supabaseClient.from('students').update({ streak: streak, hours: hours, medals: activeMedalsCount }).eq('name', myName);
                 } else {
-                    await supabaseClient.from('students').insert([{ name: myName, streak: streak, hours: hours, medals: personalMedalCount }]);
+                    await supabaseClient.from('students').insert([{ name: myName, streak: streak, hours: hours, medals: activeMedalsCount }]);
                 }
             } catch (err) {}
         }
@@ -981,20 +1002,20 @@
             attachCheckboxEvents();
         }
 
-        // عرض التاسك الفردي اليومي في الواجهة
+        // عرض التاسك الفردي اليومي (مرة واحدة فقط بدون تعديل خلال اليوم)
         function renderPersonalTaskUI() {
             let userPersonalTask = localStorage.getItem('personal_task_content_' + todayString) || '';
             const titleSpan = document.getElementById('personalTaskTextTitle');
             const checkboxArea = document.getElementById('personalTaskCheckboxArea');
 
             if (!userPersonalTask) {
-                titleSpan.innerText = "لم تكتب تاسك فردي لليوم بعد. اضغط فوق 'تاسك فردي يومي' لإضافته.";
+                titleSpan.innerText = "لم تكتب تاسك فردي لليوم بعد. اضغط فوق 'تاسك فردي يومي' لإضافته (يكتب مرة واحدة فقط).";
                 checkboxArea.innerHTML = '';
             } else {
-                titleSpan.innerText = userPersonalTask;
+                titleSpan.innerText = userPersonalTask + " (تم تثبيته لليوم)";
                 checkboxArea.innerHTML = `
                     <label style="cursor:pointer; display:inline-flex; align-items:center; gap:5px; font-weight:bold;">
-                        <input type="checkbox" id="personalTaskCheck" class="task-checkbox" ${todayPersonalTaskDone ? 'checked' : ''}> تم إنجاز تاسك اليوم بنجاح 🏅
+                        <input type="checkbox" id="personalTaskCheck" class="task-checkbox" ${todayPersonalTaskDone ? 'checked' : ''}> تم إنجاز تاسك اليوم بنجاح للحصول على الميدالية الفضية 🥈
                     </label>
                 `;
 
@@ -1004,18 +1025,16 @@
                         if (chk.checked) {
                             if (!todayPersonalTaskDone) {
                                 todayPersonalTaskDone = true;
-                                personalMedalCount++;
-                                localStorage.setItem('personal_task_done_' + todayString, 'true');
-                                localStorage.setItem('zeyad_personal_medals', personalMedalCount);
-                                alert("عاش يا بطل! مبروك عليك ميدالية التاسك الفردي الفضية 🥈✨");
+                                activeMedalsCount = 1;
+                                localStorage.setItem('zeyad_personal_task_done_' + todayString, 'true');
+                                alert("عاش يا بطل! تم إضافة ميدالية اليوم الفضية بنجاح 🥈✨");
                                 await syncToCloud();
                             }
                         } else {
                             if (todayPersonalTaskDone) {
                                 todayPersonalTaskDone = false;
-                                personalMedalCount = Math.max(0, personalMedalCount - 1);
-                                localStorage.setItem('personal_task_done_' + todayString, 'false');
-                                localStorage.setItem('zeyad_personal_medals', personalMedalCount);
+                                activeMedalsCount = 0;
+                                localStorage.setItem('zeyad_personal_task_done_' + todayString, 'false');
                                 await syncToCloud();
                             }
                         }
@@ -1084,20 +1103,31 @@
             renderCustomSchedule();
         });
 
-        // زرار التاسك الفردي اليومي المستقل
+        // زرار التاسك الفردي اليومي (يُكتب مرة واحدة فقط ولا يُعدل خلال اليوم)
         const personalModal = document.getElementById('personalTaskModal');
         document.getElementById('openPersonalTaskBtn').addEventListener('click', () => {
+            let existingTask = localStorage.getItem('personal_task_content_' + todayString) || '';
+            if (existingTask) {
+                alert("لقد قمت بكتابة تاسك اليوم مسبقاً ولا يمكن تعديله خلال اليوم! التزم به يا بطل 💪");
+                return;
+            }
             personalModal.style.display = 'flex';
-            document.getElementById('inputPersonalTask').value = localStorage.getItem('personal_task_content_' + todayString) || '';
+            document.getElementById('inputPersonalTask').value = '';
         });
         document.getElementById('closePersonalModalBtn').addEventListener('click', () => { personalModal.style.display = 'none'; });
         document.getElementById('savePersonalTaskBtn').addEventListener('click', () => {
             let taskContent = document.getElementById('inputPersonalTask').value.trim();
+            let existingTask = localStorage.getItem('personal_task_content_' + todayString) || '';
+            if (existingTask) {
+                alert("تم كتابة التاسك بالفعل اليوم ولا يمكن تعديله!");
+                personalModal.style.display = 'none';
+                return;
+            }
             if (taskContent) {
                 localStorage.setItem('personal_task_content_' + todayString, taskContent);
                 personalModal.style.display = 'none';
                 renderPersonalTaskUI();
-                alert("تم حفظ تاسك اليوم بنجاح!");
+                alert("تم حفظ تاسك اليوم نهائياً ولن يمكنك تعديله اليوم! بالتوفيق.");
             }
         });
 
@@ -1254,12 +1284,12 @@
         }
         setInterval(updateClock, 1000);
 
-        // ثيم الطبيب الاحترافي
+        // تبديل الثيم الهادئ والخفيف
         document.getElementById('themeToggle').addEventListener('click', () => {
-            document.body.classList.toggle('medical-theme');
-            localStorage.setItem('zeyad_theme', document.body.classList.contains('medical-theme') ? 'medical' : 'dark');
+            document.body.classList.toggle('light-theme');
+            localStorage.setItem('zeyad_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
         });
-        if(localStorage.getItem('zeyad_theme') === 'medical') document.body.classList.add('medical-theme');
+        if(localStorage.getItem('zeyad_theme') === 'light') document.body.classList.add('light-theme');
 
         function attachCheckboxEvents() {
             const checkboxes = document.querySelectorAll('.tasks-container .task-checkbox');
