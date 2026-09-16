@@ -591,52 +591,6 @@
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxYm53bWJhdW15cGx6Ymtvd3h2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkzMzgxNjMsImV4cCI6MjEwNDkxNDE2M30.ngkwTXa_doBAu7FhAZb0Nc37HANKpQ5PaeYakuTZ_6c";
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const glow = document.getElementById('cursorGlow');
-        window.addEventListener('mousemove', (e) => {
-            if(glow) {
-                glow.style.left = e.clientX + 'px';
-                glow.style.top = e.clientY + 'px';
-            }
-        });
-
-        function playSuccessSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.3);
-            } catch(e) {}
-        }
-
-        const quranVerses = [
-            "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
-            "﴿ وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ ﴾",
-            "﴿ وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ﴾",
-            "﴿ إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ ﴾",
-            "﴿ وَأَن لَّيْسَ لِلإِنسَانِ إِلاَّ مَا سَعَىٰ وَأَنَّ سَعْيَهُ سَوْفَ يُرَىٰ ﴾",
-            "﴿ رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي ﴾",
-            "﴿ فَصَبْرٌ جَمِيلٌ وَاللَّهُ الْمُسْتَعَانُ ﴾"
-        ];
-        let currentVerseIndex = 0;
-        setInterval(() => {
-            currentVerseIndex = (currentVerseIndex + 1) % quranVerses.length;
-            const verseElement = document.getElementById('quranVerseText');
-            if(verseElement) {
-                verseElement.style.animation = 'none';
-                verseElement.offsetHeight;
-                verseElement.style.animation = 'fadeInOut 5s infinite';
-                verseElement.innerText = quranVerses[currentVerseIndex];
-            }
-        }, 5000);
-
         const ADMIN_SECRET_PASSWORD = "01228980015a";
 
         let myName = localStorage.getItem('zeyad_name') || 'Zeyad Osama';
@@ -660,7 +614,16 @@
             localStorage.setItem('zeyad_streak', 0);
         }
 
-        function getRankWithStyle(s, isAdminUser) {
+        // الحماية المطلقة: الأدمن الحقيقي مرتبط بكلمة المرور السرية فقط
+        function checkIfAdminByNameOrPass(nameStr) {
+            if (isUserAdmin) {
+                return true;
+            }
+            return false;
+        }
+
+        function getRankWithStyle(s, nameStr) {
+            let isAdminUser = (nameStr.toLowerCase() === 'zeyad osama' && isUserAdmin);
             let adminLabel = isAdminUser ? ' <span style="color:#f59e0b; font-size:9px; text-shadow:0 0 5px #f59e0b;">[Admin]</span>' : '';
             if (s >= 35) return `<span style="color: #fb923c; font-weight: bold; text-shadow: 0 0 8px #fb923c;">👑 الوزير هيتعشي عندهم</span> 🔥 ${s}${adminLabel}`;
             if (s >= 33) return `<span style="color: #34d399; font-weight: bold; text-shadow: 0 0 8px #34d399;">💎 أسطورة البكالوريا</span> 🔥 ${s}${adminLabel}`;
@@ -691,6 +654,14 @@
         document.getElementById('streakBadge').innerHTML = `🔥 الالتزام: ${streak}`;
         document.getElementById('footerSignature').innerText = myName + (isUserAdmin ? " [ Admin ]" : "");
 
+        const glow = document.getElementById('cursorGlow');
+        window.addEventListener('mousemove', (e) => {
+            if(glow) {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            }
+        });
+
         const presenceChannel = supabaseClient.channel('online-users-room');
         presenceChannel
             .on('presence', { event: 'sync' }, () => {
@@ -712,9 +683,9 @@
             try {
                 let { data: existing } = await supabaseClient.from('students').select('*').eq('name', myName);
                 if (existing && existing.length > 0) {
-                    await supabaseClient.from('students').update({ streak: streak, hours: hours, is_admin: isUserAdmin }).eq('name', myName);
+                    await supabaseClient.from('students').update({ streak: streak, hours: hours }).eq('name', myName);
                 } else {
-                    await supabaseClient.from('students').insert([{ name: myName, streak: streak, hours: hours, is_admin: isUserAdmin }]);
+                    await supabaseClient.from('students').insert([{ name: myName, streak: streak, hours: hours }]);
                 }
             } catch (err) {}
         }
@@ -742,16 +713,7 @@
                         { name: 'العشاء', time: timings.Isha }
                     ];
                 }
-            } catch(e) {
-                prayerTimesList = [
-                    { name: 'الفجر', time: '04:30' },
-                    { name: 'الشروق', time: '06:00' },
-                    { name: 'الظهر', time: '12:00' },
-                    { name: 'العصر', time: '15:30' },
-                    { name: 'المغرب', time: '18:00' },
-                    { name: 'العشاء', time: '19:30' }
-                ];
-            }
+            } catch(e) {}
         }
         fetchPrayerTimes();
 
@@ -791,16 +753,6 @@
         }
         setInterval(updatePrayerCountdown, 1000);
 
-        const badWords = ['شرموط', 'منيوك', 'كلب', 'وسخ', 'حمار', 'قحبة', 'متناك', 'كس', 'طيز', 'عاهرة', 'خول', 'عرص', 'حمضان', 'زفت', 'خرا', 'بضان'];
-        function filterBadWords(text) {
-            let cleanText = text;
-            badWords.forEach(word => {
-                let regex = new RegExp(word, 'gi');
-                cleanText = cleanText.replace(regex, '***');
-            });
-            return cleanText;
-        }
-
         async function fetchMessages() {
             try {
                 let { data: messages } = await supabaseClient
@@ -817,7 +769,7 @@
                         const div = document.createElement('div');
                         div.className = 'chat-message';
 
-                        let isAdminMsg = msg.is_admin === true;
+                        let isAdminMsg = (msg.name.toLowerCase() === 'zeyad osama' && isUserAdmin);
                         let adminBadgeHtml = isAdminMsg ? '<span class="admin-tag">Admin</span>' : '';
                         let deleteBtnHtml = isUserAdmin ? `<button class="delete-msg-btn" onclick="deleteMessage(${msg.id})" style="display: inline-block;">حذف</button>` : '';
 
@@ -854,10 +806,8 @@
             let rawText = input.value.trim();
             if(!rawText) return;
 
-            let filteredText = filterBadWords(rawText);
-
             try {
-                await supabaseClient.from('messages').insert([{ name: myName, message: filteredText, is_admin: isUserAdmin }]);
+                await supabaseClient.from('messages').insert([{ name: myName, message: rawText }]);
                 input.value = '';
                 fetchMessages();
             } catch(e) {}
@@ -952,16 +902,13 @@
                 if (dream2Val) { userDream2 = dream2Val; localStorage.setItem('zeyad_dream2', userDream2); }
                 updateDreamsUI();
                 
+                // الحماية المطلقة: الباسورد هو الشرط الوحيد لتفعيل الأدمستريتور
                 if (passVal === ADMIN_SECRET_PASSWORD) {
                     isUserAdmin = true;
                     localStorage.setItem('zeyad_is_admin', 'true');
-                    alert("تم حفظ الملف وتفعيل صلاحيات الأدمن لـ (" + myName + ") بنجاح! 🔥");
+                    alert("تم تفعيل صلاحيات الأدمن بنجاح يا بطل! 🔥");
                 } else if (passVal !== "") {
-                    alert("كلمة المرور السرية خاطئة!");
-                    isUserAdmin = false;
-                    localStorage.setItem('zeyad_is_admin', 'false');
-                } else {
-                    alert("تم حفظ التعديلات بنجاح! ✨");
+                    alert("كلمة المرور غير صحيحة!");
                 }
 
                 document.getElementById('footerSignature').innerText = myName + (isUserAdmin ? " [ Admin ]" : "");
@@ -1011,8 +958,7 @@
                     const tr = document.createElement('tr');
                     let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
                     let userStreak = user.streak || 0;
-                    let isAdminUser = user.is_admin === true;
-                    let rankHtml = getRankWithStyle(userStreak, isAdminUser);
+                    let rankHtml = getRankWithStyle(userStreak, user.name);
                     
                     let adminEditBtn = isUserAdmin ? `<button class="edit-user-btn" onclick="openAdminEditModal('${user.name}', ${user.hours || 0}, ${userStreak})">🛠️</button>` : '';
 
@@ -1085,7 +1031,7 @@
             document.body.classList.toggle('light-theme');
             localStorage.setItem('zeyad_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
         });
-        if(localStorage.getItem('zeyad_theme') === 'light') document.body.classList.add('light-theme');
+        if(localStorage.getItem('zeyad_theme') === 'light') document.body.classList.0('light-theme');
 
         let quranAudio = null;
         const quranButton = document.getElementById('quranToggle');
@@ -1115,7 +1061,6 @@
                     let taskStateKey = `task_${todayString}_${taskDay}_${taskIdx}`;
 
                     if(chk.checked) {
-                        playSuccessSound();
                         if (lastCompletedDate !== todayString) {
                             streak++;
                             lastCompletedDate = todayString;
