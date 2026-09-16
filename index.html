@@ -232,13 +232,17 @@
         td:nth-child(2) { text-align: right; padding-right: 10px; }
         td:last-child { border-left: 1px solid rgba(255, 255, 255, 0.05); border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
 
-        tr.today-row td { background: rgba(56, 189, 248, 0.15); border-color: var(--accent-blue); }
+        tr.today-row td { background: rgba(56, 189, 248, 0.15); border-color: var(--accent-blue); animation: pulseGlow 2s infinite; }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px rgba(56, 189, 248, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(56, 189, 248, 0.6); }
+            100% { box-shadow: 0 0 5px rgba(56, 189, 248, 0.2); }
+        }
         tr.past-row { opacity: 0.6; }
 
         .task-checkbox { cursor: pointer; accent-color: var(--accent-blue); width: 13px; height: 13px; margin-left: 6px; vertical-align: middle; }
         .completed-task { text-decoration: line-through; opacity: 0.5; }
 
-        /* سكشن المدرسين المحدث بالروابط الصحيحة */
         .teachers-section {
             margin-top: 15px;
             background: rgba(30, 41, 59, 0.7);
@@ -398,10 +402,13 @@
 
         footer { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 4px; }
         .signature { font-size: 12px; font-weight: bold; background: linear-gradient(to right, #f43f5e, #fb7185); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
         .hadith-box {
             margin-top: 8px; width: 100%; background: rgba(30, 41, 59, 0.75); border-radius: 6px; padding: 6px 12px;
             border: 1px solid var(--border-color); min-height: 32px; display: flex; align-items: center; justify-content: center; text-align: center;
+            cursor: pointer; transition: 0.3s;
         }
+        .hadith-box:hover { border-color: var(--accent-blue); background: rgba(30, 41, 59, 0.95); }
         .hadith-text { font-size: 11px; color: #38bdf8; font-weight: bold; }
     </style>
 </head>
@@ -472,7 +479,7 @@
                             <th>المرتبة</th>
                             <th>الاسم</th>
                             <th>الساعات</th>
-                            <th>🔥 الستريك واللقب</th>
+                            <th>🔥 الستريك واللقب المضيء</th>
                         </tr>
                     </thead>
                     <tbody id="globalLeaderboardBody">
@@ -534,7 +541,6 @@
             <tbody id="scheduleTableBody"></tbody>
         </table>
 
-        <!-- قسم أفضل المدرسين المحدث -->
         <div class="teachers-section">
             <h3>⭐ أفضل المدرسين (نخبة اليوتيوب للمواد)</h3>
             <div class="teachers-grid">
@@ -577,8 +583,9 @@
             </div>
         </div>
 
-        <div class="hadith-box">
-            <div class="hadith-text">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
+        <!-- شريط الآيات القرآنية التحفيزية (تتغير تلقائياً أو بالضغط) -->
+        <div class="hadith-box" id="quranVerseBox" title="اضغط لتغيير الآية">
+            <div class="hadith-text" id="quranVerseText">﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾</div>
         </div>
 
         <footer>
@@ -596,6 +603,40 @@
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
+        });
+
+        // صوت الإنجاز (Success Sound Effect باستخدام الـ Web Audio API لتجنب مشاكل الروابط الخارجية)
+        function playSuccessSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // نغمة D5 مبهجة
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // انتقال لـ A5
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {}
+        }
+
+        // قائمة الآيات القرآنية التحفيزية
+        const quranVerses = [
+            "﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",
+            "﴿ وَفَوْقَ كُلِّ ذِي عِلْمٍ عَلِيمٌ ﴾",
+            "﴿ وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ﴾",
+            "﴿ إِنَّ اللَّهَ لَا يُضِيعُ أَجْرَ الْمُحْسِنِينَ ﴾",
+            "﴿ وَأَن لَّيْسَ لِلإِنسَانِ إِلاَّ مَا سَعَىٰ وَأَنَّ سَعْيَهُ سَوْفَ يُرَىٰ ﴾",
+            "﴿ رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي ﴾",
+            "﴿ فَصَبْرٌ جَمِيلٌ وَاللَّهُ الْمُسْتَعَانُ ﴾"
+        ];
+        let currentVerseIndex = 0;
+        document.getElementById('quranVerseBox').addEventListener('click', () => {
+            currentVerseIndex = (currentVerseIndex + 1) % quranVerses.length;
+            document.getElementById('quranVerseText').innerText = quranVerses[currentVerseIndex];
         });
 
         const ADMIN_SECRET_PASSWORD = "01228980015a";
@@ -621,11 +662,26 @@
             localStorage.setItem('zeyad_streak', 0);
         }
 
-        function getRankTitle(s) {
-            if (s >= 20) return '👑 الوزير هيتعشي عندهم';
-            if (s >= 15) return '🥇 ملك البكالوريا';
+        // ألقاب ليدر بورد مع الألوان النيون المميزة
+        function getRankWithStyle(s) {
+            if (s >= 35) return `<span style="color: #fb923c; text-shadow: 0 0 8px #fb923c; font-weight: bold;">👑 الوزير هيتعشي عندهم</span>`;
+            if (s >= 33) return `<span style="color: #34d399; text-shadow: 0 0 8px #34d399; font-weight: bold;">💎 أسطورة البكالوريا</span>`;
+            if (s >= 29) return `<span style="color: #f472b6; text-shadow: 0 0 8px #f472b6; font-weight: bold;">🦅 كايتو المذاكرة</span>`;
+            if (s >= 20) return `<span style="color: #38bdf8; text-shadow: 0 0 8px #38bdf8; font-weight: bold;">🥇 ملك البكالوريا</span>`;
+            if (s >= 15) return `<span style="color: #facc15; text-shadow: 0 0 8px #facc15; font-weight: bold;">⚡ إعصار المذاكرة</span>`;
+            if (s >= 10) return `<span style="color: #f43f5e; text-shadow: 0 0 8px #f43f5e; font-weight: bold;">🔥 دحيح</span>`;
+            if (s >= 5)  return `<span style="color: #ffffff; text-shadow: 0 0 8px #ffffff; font-weight: bold;">⭐ بيحاول ينجح</span>`;
+            return `<span style="color: #94a3b8; font-weight: bold;">🌱 مبتدئ</span>`;
+        }
+
+        function getRankTitlePlain(s) {
+            if (s >= 35) return '👑 الوزير هيتعشي عندهم';
+            if (s >= 33) return '💎 أسطورة البكالوريا';
+            if (s >= 29) return '🦅 كايتو المذاكرة';
+            if (s >= 20) return '🥇 ملك البكالوريا';
+            if (s >= 15) return '⚡ إعصار المذاكرة';
             if (s >= 10) return '🔥 دحيح';
-            if (s >= 5) return '⭐ بيحاول ينجح';
+            if (s >= 5)  return '⭐ بيحاول ينجح';
             return '🌱 مبتدئ';
         }
 
@@ -649,7 +705,7 @@
             }
         }
 
-        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
+        document.getElementById('streakBadge').innerHTML = `🔥 الالتزام: ${streak} يوم (${getRankTitlePlain(streak)})`;
         document.getElementById('footerSignature').innerText = myName + (verifyStrictAdmin() ? " [ Admin ]" : "");
 
         const presenceChannel = supabaseClient.channel('online-users-room');
@@ -970,7 +1026,7 @@
                     const tr = document.createElement('tr');
                     let medal = index === 0 ? '🥇' : (index === 1 ? '🥈' : (index === 2 ? '🥉' : (index + 1)));
                     let userStreak = user.streak || 0;
-                    let title = getRankTitle(userStreak);
+                    let rankHtml = getRankWithStyle(userStreak);
                     
                     let adminEditBtn = isAdminHere ? `<button class="edit-user-btn" onclick="openAdminEditModal('${user.name}', ${user.hours || 0}, ${userStreak})">🛠️ تعديل</button>` : '';
 
@@ -978,7 +1034,7 @@
                         <td><b>${medal}</b></td>
                         <td>${adminEditBtn} ${user.name}</td>
                         <td>${user.hours || 0} س</td>
-                        <td>🔥 ${userStreak} (${title})</td>
+                        <td>${rankHtml} (${userStreak} يوم)</td>
                     `;
                     tbody.appendChild(tr);
                 });
@@ -1018,10 +1074,10 @@
                         totalSeconds = Math.round(newHours * 3600);
                         localStorage.setItem('zeyad_streak', streak);
                         localStorage.setItem('zeyad_total_seconds', totalSeconds);
-                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
+                        document.getElementById('streakBadge').innerHTML = `🔥 الالتزام: ${streak} يوم (${getRankTitlePlain(streak)})`;
                     }
 
-                    alert("تم تعديل الساعات والسيتريك بنجاح وسُجلت في السيرفر فوراً! 🚀");
+                    alert("تم تعديل الساعات والستريك بنجاح وسُجلت في السيرفر فوراً! 🚀");
                     adminEditUserModal.style.display = 'none';
                     loadLeaderboardData();
                 }
@@ -1074,6 +1130,7 @@
                     let taskStateKey = 'task_' + todayString + '_' + taskDay;
 
                     if(chk.checked) {
+                        playSuccessSound(); // تشغيل صوت الإنجاز المبهج
                         if (lastCompletedDate !== todayString) {
                             streak++;
                             lastCompletedDate = todayString;
@@ -1082,7 +1139,7 @@
                         }
                         localStorage.setItem(taskStateKey, 'true');
                         chk.closest('label').classList.add('completed-task');
-                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
+                        document.getElementById('streakBadge').innerHTML = `🔥 الالتزام: ${streak} يوم (${getRankTitlePlain(streak)})`;
                         await syncToCloud();
                     } else {
                         if (lastCompletedDate === todayString) {
@@ -1093,7 +1150,7 @@
                         }
                         localStorage.setItem(taskStateKey, 'false');
                         chk.closest('label').classList.remove('completed-task');
-                        document.getElementById('streakBadge').innerText = `🔥 الالتزام: ${streak} يوم (${getRankTitle(streak)})`;
+                        document.getElementById('streakBadge').innerHTML = `🔥 الالتزام: ${streak} يوم (${getRankTitlePlain(streak)})`;
                         await syncToCloud();
                     }
                 });
