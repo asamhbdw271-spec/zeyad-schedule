@@ -91,14 +91,15 @@
             border-radius: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             font-size: 11px;
             display: inline-flex;
             align-items: center;
             gap: 4px;
             box-shadow: 0 0 8px rgba(56, 189, 248, 0.2);
         }
-        .nav-btn:hover { background: var(--accent-blue); color: #fff; transform: scale(1.03); box-shadow: 0 0 15px var(--accent-blue); }
+        .nav-btn:hover { background: var(--accent-blue); color: #fff; transform: scale(1.05); box-shadow: 0 0 15px var(--accent-blue); }
+        .nav-btn:active { transform: scale(0.95); }
 
         .container {
             position: relative;
@@ -306,8 +307,9 @@
             align-items: center;
             justify-content: center;
             gap: 4px;
+            transition: 0.2s;
         }
-        .teacher-link:hover { background: #ef4444; color: white; box-shadow: 0 0 8px #ef4444; }
+        .teacher-link:hover { background: #ef4444; color: white; box-shadow: 0 0 8px #ef4444; transform: scale(1.02); }
 
         .chat-section {
             margin-top: 12px;
@@ -325,7 +327,9 @@
             background: #f43f5e; color: #fff; border: none; padding: 2px 6px;
             border-radius: 4px; font-size: 9px; font-weight: bold; cursor: pointer;
             box-shadow: 0 0 8px rgba(244, 63, 94, 0.4);
+            transition: 0.2s;
         }
+        .admin-btn:hover { transform: scale(1.05); }
 
         .chat-box {
             height: 140px; overflow-y: auto; background: rgba(15, 23, 42, 0.6);
@@ -354,7 +358,9 @@
             background: var(--accent-blue); color: #0f172a; border: none; padding: 5px 12px;
             font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px;
             box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+            transition: 0.2s;
         }
+        .chat-input-area button:hover { transform: scale(1.05); }
 
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -376,7 +382,9 @@
         .close-modal {
             background: #f43f5e; color: white; border: none; padding: 5px; border-radius: 6px;
             cursor: pointer; margin-top: 6px; font-weight: bold; display: block; width: 100%; font-size: 11px;
+            transition: 0.2s;
         }
+        .close-modal:hover { transform: scale(1.02); }
 
         .global-table { width: 100%; margin-top: 6px; border-collapse: collapse; }
         .global-table th, .global-table td { padding: 5px; font-size: 10px; text-align: center; border: 1px solid rgba(56, 189, 248, 0.2); }
@@ -415,7 +423,7 @@
         </div>
         <div class="utility-group">
             <a href="https://www.youtube.com" target="_blank" class="nav-btn" style="background: #ef4444; color: #fff; text-decoration: none;">📺 يوتيوب</a>
-            <button class="nav-btn" id="quranToggle">📖 القرآن</button>
+            <button class="nav-btn" id="quranModalBtn">📖 مشغل القرآن</button>
             <button class="nav-btn" id="themeToggle">🌓 الثيم</button>
         </div>
     </div>
@@ -448,7 +456,7 @@
         </div>
     </div>
 
-    <!-- مودال نظام التاسك الفردي المستقل -->
+    <!-- مودال نظام التاسك الفردي المستقل تماماً -->
     <div class="modal" id="customScheduleModal">
         <div class="modal-content profile-form">
             <h3>📋 نظام التاسك الفردي (اكتب مهامك مفصولة بفاصلة ،)</h3>
@@ -461,6 +469,36 @@
             <label>الجمعة:</label><input type="text" id="subjFri">
             <button class="close-modal" id="saveCustomScheduleBtn" style="background: #059669;">حفظ الجدول الفردي</button>
             <button class="close-modal" id="closeCustomModalBtn" style="background:#334155; margin-top:4px;">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- مودال مشغل القرآن الكريم والشيوخ -->
+    <div class="modal" id="quranPlayerModal">
+        <div class="modal-content profile-form">
+            <h3>📖 مشغل القرآن الكريم (اختر الشيخ والسورة)</h3>
+            
+            <label>اختر الشيخ:</label>
+            <select id="quranSheikhSelect">
+                <option value="yasser">الشيخ ياسر الدوسري</option>
+                <option value="abdelrahman">الشيخ عبد الرحمن مسعد</option>
+                <option value="husary">الشيخ محمود خليل الحصري (مرتل)</option>
+                <option value="minshawi">الشيخ محمد صديق المنشاوي (معلم)</option>
+            </select>
+
+            <label>اختر السورة أو التلاوة:</label>
+            <select id="quranSurahSelect">
+                <option value="surah_kahf">سورة الكهف</option>
+                <option value="surah_baqarah">سورة البقرة</option>
+                <option value="surah_mulk">سورة الملك</option>
+                <option value="surah_yasin">سورة يس</option>
+                <option value="surah_rahman">سورة الرحمن</option>
+            </select>
+
+            <div style="display: flex; gap: 6px; margin-top: 10px;">
+                <button class="close-modal" id="playQuranAudioBtn" style="background: #10b981; margin-top:0;">▶ تشغيل التلاوة</button>
+                <button class="close-modal" id="stopQuranAudioBtn" style="background: #ef4444; margin-top:0;">⏹ إيقاف</button>
+            </div>
+            <button class="close-modal" id="closeQuranModalBtn" style="background:#334155; margin-top:8px;">إغلاق المشغل</button>
         </div>
     </div>
 
@@ -930,6 +968,72 @@
             renderCustomSchedule();
         });
 
+        // نظام القرآن والشيوخ المحسن بالروابط المباشرة
+        const quranModal = document.getElementById('quranPlayerModal');
+        let currentQuranAudio = null;
+
+        document.getElementById('quranModalBtn').addEventListener('click', () => {
+            quranModal.style.display = 'flex';
+        });
+        document.getElementById('closeQuranModalBtn').addEventListener('click', () => {
+            quranModal.style.display = 'none';
+        });
+
+        const quranLinks = {
+            yasser: {
+                surah_kahf: "https://server11.mp3quran.net/yasser/018.mp3",
+                surah_baqarah: "https://server11.mp3quran.net/yasser/002.mp3",
+                surah_mulk: "https://server11.mp3quran.net/yasser/067.mp3",
+                surah_yasin: "https://server11.mp3quran.net/yasser/036.mp3",
+                surah_rahman: "https://server11.mp3quran.net/yasser/055.mp3"
+            },
+            abdelrahman: {
+                surah_kahf: "https://server14.mp3quran.net/s3d/018.mp3",
+                surah_baqarah: "https://server14.mp3quran.net/s3d/002.mp3",
+                surah_mulk: "https://server14.mp3quran.net/s3d/067.mp3",
+                surah_yasin: "https://server14.mp3quran.net/s3d/036.mp3",
+                surah_rahman: "https://server14.mp3quran.net/s3d/055.mp3"
+            },
+            husary: {
+                surah_kahf: "https://server13.mp3quran.net/husr/018.mp3",
+                surah_baqarah: "https://server13.mp3quran.net/husr/002.mp3",
+                surah_mulk: "https://server13.mp3quran.net/husr/067.mp3",
+                surah_yasin: "https://server13.mp3quran.net/husr/036.mp3",
+                surah_rahman: "https://server13.mp3quran.net/husr/055.mp3"
+            },
+            minshawi: {
+                surah_kahf: "https://server10.mp3quran.net/minsh/018.mp3",
+                surah_baqarah: "https://server10.mp3quran.net/minsh/002.mp3",
+                surah_mulk: "https://server10.mp3quran.net/minsh/067.mp3",
+                surah_yasin: "https://server10.mp3quran.net/minsh/036.mp3",
+                surah_rahman: "https://server10.mp3quran.net/minsh/055.mp3"
+            }
+        };
+
+        document.getElementById('playQuranAudioBtn').addEventListener('click', () => {
+            const sheikh = document.getElementById('quranSheikhSelect').value;
+            const surah = document.getElementById('quranSurahSelect').value;
+            const audioUrl = quranLinks[sheikh][surah];
+
+            if (currentQuranAudio) {
+                currentQuranAudio.pause();
+            }
+            currentQuranAudio = new Audio(audioUrl);
+            currentQuranAudio.play().then(() => {
+                alert("جاري تشغيل التلاوة العطرة... استمع بقلبك يا بطل 🎧");
+            }).catch(() => {
+                alert("تعذر تشغيل الصوت، تأكد من اتصال الإنترنت.");
+            });
+        });
+
+        document.getElementById('stopQuranAudioBtn').addEventListener('click', () => {
+            if (currentQuranAudio) {
+                currentQuranAudio.pause();
+                currentQuranAudio = null;
+                alert("تم إيقاف تشغيل القرآن.");
+            }
+        });
+
         const leaderboardModal = document.getElementById('leaderboardModal');
         const adminEditUserModal = document.getElementById('adminEditUserModal');
 
@@ -1027,20 +1131,6 @@
             localStorage.setItem('zeyad_theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
         });
         if(localStorage.getItem('zeyad_theme') === 'light') document.body.classList.add('light-theme');
-
-        let quranAudio = null;
-        const quranButton = document.getElementById('quranToggle');
-        let isQuranPlaying = false;
-        quranButton.addEventListener('click', () => {
-            if (!isQuranPlaying) {
-                quranAudio = new Audio('https://stream.radiojar.com/8s5u5tpdtwzuv');
-                quranAudio.play().then(() => { isQuranPlaying = true; quranButton.innerText = "🔇 إيقاف"; }).catch(()=>{});
-            } else {
-                if(quranAudio) quranAudio.pause();
-                isQuranPlaying = false;
-                quranButton.innerText = "📖 القرآن";
-            }
-        });
 
         function attachCheckboxEvents() {
             const checkboxes = document.querySelectorAll('.task-checkbox');
